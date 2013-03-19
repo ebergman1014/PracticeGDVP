@@ -4,15 +4,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardShop.Models;
 
 namespace CardShopTest.TestHelper
 {
     /// <summary>
     /// Has a Method of GetListOfUsers
     /// </summary>
-    class ListOfUsers
+    public class ListOfUsers
     {
-        public static List<UserTest> listOfUsers;
+        public static List<User> listOfUsers;
         /// <summary>
         /// Creates a list of Users with:
         /// UserID of n
@@ -23,17 +24,17 @@ namespace CardShopTest.TestHelper
         /// </summary>
         /// <param name="UsersWanted">Number of Users you want to create</param>
         /// <returns></returns>
-        public static List<UserTest> GetListOfUsers(int UsersWanted)
+        public static List<User> GetListOfUsers(int UsersWanted)
         {
-            listOfUsers = new List<UserTest>();
+            listOfUsers = new List<User>();
             for (int index = 0; index < UsersWanted; index++)
             {
-                UserTest user = new UserTest();
-                user.UserID = index;
+                User user = new User();
+                user.UserId = index;
                 user.Username = "Tank" + index;
                 user.Name = "Frank" + index;
                 user.Password = "pass";
-                user.UserRole = Role.User;
+                user.Role = "User";
                 listOfUsers.Add(user);
             }
             return listOfUsers;

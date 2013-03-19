@@ -9,32 +9,48 @@ using System.Diagnostics;
 
 namespace CardShopTest.ControllerTests
 {
+    /// <summary>
+    /// Test Class for DiscountController
+    /// </summary>
     [TestClass]
     public class DiscountControllerTest
     {
+        // objects needed for tests
         DiscountController discountTest;
         UserDiscount coupon;
+
+        /// <summary>
+        /// Setup for each test
+        /// </summary>
         [TestInitialize]
         public void Setup() {
             discountTest = new DiscountController();
             coupon = new UserDiscount();
         }
+
+        /// <summary>
+        /// Test the IssueDiscount [HttpPost]
+        /// </summary>
         [TestMethod]
         public void IssueDiscountPostTest()
         {
         var mock = new Mock<IDiscountService>();
+        // set the mock object to the object of discountTest
         discountTest.discountService = mock.Object;
+        // pass in the coupon
         discountTest.IssueDiscount(coupon);
-        mock.Verify(m => m.CreateCoupon(coupon));
+        // verifies!
+        mock.Verify(mockedObject => mockedObject.CreateCoupon(coupon));
         }
 
         [TestMethod]
         public void IssueDiscountGetTest()
         {
+
             var mock = new Mock<IDiscountService>();
             discountTest.discountService = mock.Object;
             discountTest.IssueDiscount();
-            mock.Verify(m => m.GetAllUsers());
+            mock.Verify(mockedObject => mockedObject.GetAllUsers());
         }
         [TestMethod]
         public void IndexGetTest()

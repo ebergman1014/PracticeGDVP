@@ -19,7 +19,6 @@ namespace CardShop.Models
         public int TransactionId { get; set; }
         public int Quantity { get; set; }
         public decimal Cost { get; set; }
-    
         public virtual BaseballCard BaseballCard { get; set; }
         public virtual Transaction Transaction { get; set; }
     }

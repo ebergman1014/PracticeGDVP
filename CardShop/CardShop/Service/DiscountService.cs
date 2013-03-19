@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CardShop.Models;
 using CardShop.Utilities;
+using CardShop.Daos;
 
 namespace CardShop.Service
 {
@@ -16,7 +17,8 @@ namespace CardShop.Service
         /// <summary>
         /// CouponUtility
         /// </summary>
-        CouponUtility couponUtility;
+        public IUserDiscountUtility couponUtility { get; set; }
+        public IPracticeGDVPDao dbContext { get; set; }
 
         /// <summary>
         /// GetAllUsers gets a list of all the Users
@@ -24,10 +26,9 @@ namespace CardShop.Service
         /// <returns> a list of all the users in the DB</returns>
         public List<User> GetAllUsers() { 
             List<User> users;
-            using(var ctx = new PracticeGDVPEntities()){
-                // get all users to a list
-                var allUsers = ctx.Users.ToList();
-                users = allUsers;
+            using(var ctx = dbContext){
+                //get all users to a list
+                users = ctx.Users().ToList();
             }
             return users;
         }
@@ -52,7 +53,8 @@ namespace CardShop.Service
         /// </summary>
         public DiscountService() 
         {
-            couponUtility = new CouponUtility();
+            couponUtility = new UserDiscountUtility();
+            dbContext  = PracticeGDVPDao.GetInstance();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CardShopTest.TestHelper;
 using CardShop.Utilities;
+using CardShop.Models;
 
 namespace CardShopTest
 {
@@ -10,9 +11,9 @@ namespace CardShopTest
     public class CouponDiscountTests
     {
 
-        List<UserTest> testListOfUsers;
+        List<User> testListOfUsers;
         int UsersWanted = 10;
-        private CouponUtility couponUtility;
+        private UserDiscountUtility couponUtility;
         /// <summary>
         /// Setup for tests contained in CouponDiscountTest
         /// </summary>
@@ -20,7 +21,7 @@ namespace CardShopTest
         public void Setup()
         {
             testListOfUsers = ListOfUsers.GetListOfUsers(UsersWanted);
-            couponUtility = new CouponUtility();
+            couponUtility = new UserDiscountUtility();
         }
 
         /// <summary>
@@ -39,13 +40,13 @@ namespace CardShopTest
         public void UserFieldsNotNull()
         {
             // Loop through all Users retrieved, check for null on field
-            foreach (UserTest user in testListOfUsers)
+            foreach (User user in testListOfUsers)
             {
                 Assert.IsNotNull(user.Name);
                 Assert.IsNotNull(user.Password);
                 Assert.IsNotNull(user.Username);
-                Assert.IsNotNull(user.UserID);
-                Assert.IsNotNull(user.UserRole);
+                Assert.IsNotNull(user.UserId);
+                Assert.IsNotNull(user.Role);
             }
 
         }
@@ -73,7 +74,7 @@ namespace CardShopTest
         {
             for (int index = 0; index < 1000; index++)
             {
-                couponUtility = new CouponUtility();
+                couponUtility = new UserDiscountUtility();
                 string CouponCode = couponUtility.GenerateCoupon();
                 Assert.IsTrue(CouponCode.Length == 5);
                 foreach (char letter in CouponCode)
