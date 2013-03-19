@@ -1,5 +1,0 @@
-﻿@{
-    ViewBag.Title = "Issue A Discount";
-}
-
-<h2>Issue A Discount</h2>
