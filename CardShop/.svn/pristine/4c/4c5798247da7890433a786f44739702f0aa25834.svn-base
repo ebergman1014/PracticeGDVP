@@ -1,0 +1,97 @@
+﻿@model List<CardShop.Models.User>
+
+@{
+    ViewBag.Title = "Issue A Discount";
+}
+<script>
+    $(document).ready(function () {
+        
+    
+    
+        // Class to represent a row in the seat reservations grid
+        function SeatReservation(name, initialMeal) {
+            var self = this;
+            self.name = name;
+            self.meal = ko.observable(initialMeal);
+
+            self.formattedPrice = ko.computed(function () {
+                var price = self.meal().price;
+                return price ? "$" + price.toFixed(2) : "None";
+            });
+        }
+
+        // Class to represent a Coupon
+        function Coupon (startDate, endDate, discountPercent, cardCount){
+            var self = this;
+            self.startDate = startDate;
+            self.endDate = endDate;
+            self.discountPercent = discountPercent;
+            self.cardCount = cardCount;
+            //  any methods?
+            //  any observables?
+        }
+
+
+
+        // Overall viewmodel for this screen, along with initial state
+        function ReservationsViewModel() {
+            var self = this;
+
+            // Non-editable catalog data - would come from the server
+
+            self.UserList = [
+
+                @foreach (var user in Model){
+                    // Visual Studio gives a syntax error for below, but it is correct
+                  @:{username:  "@user.Username",  userId: @user.UserId  },
+                }   
+            ];
+
+
+            // Editable data
+            self.seats = ko.observableArray([
+                new SeatReservation("Steve", self.availableMeals[0]),
+                new SeatReservation("Bert", self.availableMeals[0])
+            ]);
+
+            // Operations
+            self.addSeat = function () {
+                self.seats.push(new SeatReservation("", self.availableMeals[0]));
+            }
+        }
+
+        ko.applyBindings(new ReservationsViewModel());
+
+
+    });
+</script>
+
+
+<h2>Issue A Discount</h2>
+
+
+
+    <!-- drop down list for users -->
+    Users
+    <select data-bind="options: $root.UserList, value: 'username', optionsText: 'username'"></select>
+    <br />
+
+<p>
+    Start Date:
+    <input data-bind="value: startDate" />
+</p>
+<p>
+    End Date:
+    <input data-bind="value: endDate" />
+</p>
+<p>
+    Discount Percent:
+    <input data-bind="value: discount" />
+</p>
+<p>
+    Number Of Cards:
+    <input data-bind="value: cardCount" />
+</p>
+
+
+

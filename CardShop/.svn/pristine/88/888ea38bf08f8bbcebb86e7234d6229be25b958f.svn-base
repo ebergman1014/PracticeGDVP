@@ -1,0 +1,677 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PracticeGDVPModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PracticeGDVPModelStoreContainer">
+          <EntitySet Name="BaseballCard" EntityType="PracticeGDVPModel.Store.BaseballCard" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BaseballCardTransaction" EntityType="PracticeGDVPModel.Store.BaseballCardTransaction" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RuleSet" EntityType="PracticeGDVPModel.Store.RuleSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Store" EntityType="PracticeGDVPModel.Store.Store" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StoreInventory" EntityType="PracticeGDVPModel.Store.StoreInventory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Transaction" EntityType="PracticeGDVPModel.Store.Transaction" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserDiscount" EntityType="PracticeGDVPModel.Store.UserDiscount" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserDiscountJoin" EntityType="PracticeGDVPModel.Store.UserDiscountJoin" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserTable" EntityType="PracticeGDVPModel.Store.UserTable" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_BaseballCardTransaction_BaseballCard" Association="PracticeGDVPModel.Store.FK_BaseballCardTransaction_BaseballCard">
+            <End Role="BaseballCard" EntitySet="BaseballCard" />
+            <End Role="BaseballCardTransaction" EntitySet="BaseballCardTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaseballCardTransaction_Transaction" Association="PracticeGDVPModel.Store.FK_BaseballCardTransaction_Transaction">
+            <End Role="Transaction" EntitySet="Transaction" />
+            <End Role="BaseballCardTransaction" EntitySet="BaseballCardTransaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_UserTable" Association="PracticeGDVPModel.Store.FK_Store_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreInventory_BaseballCard" Association="PracticeGDVPModel.Store.FK_StoreInventory_BaseballCard">
+            <End Role="BaseballCard" EntitySet="BaseballCard" />
+            <End Role="StoreInventory" EntitySet="StoreInventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreInventory_Store" Association="PracticeGDVPModel.Store.FK_StoreInventory_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="StoreInventory" EntitySet="StoreInventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Store" Association="PracticeGDVPModel.Store.FK_Transaction_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_UserDiscountJoin" Association="PracticeGDVPModel.Store.FK_Transaction_UserDiscountJoin">
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoin" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDiscountJoin_UserDiscount" Association="PracticeGDVPModel.Store.FK_UserDiscountJoin_UserDiscount">
+            <End Role="UserDiscount" EntitySet="UserDiscount" />
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDiscountJoin_UserTable" Association="PracticeGDVPModel.Store.FK_UserDiscountJoin_UserTable">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoin" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BaseballCard">
+          <Key>
+            <PropertyRef Name="BaseballCardId" />
+          </Key>
+          <Property Name="BaseballCardId" Type="int" Nullable="false" />
+          <Property Name="Player" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Team" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="2" />
+        </EntityType>
+        <EntityType Name="BaseballCardTransaction">
+          <Key>
+            <PropertyRef Name="BaseballCardTransactionId" />
+          </Key>
+          <Property Name="BaseballCardTransactionId" Type="int" Nullable="false" />
+          <Property Name="BaseballCardId" Type="int" Nullable="false" />
+          <Property Name="TransactionId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="2" />
+        </EntityType>
+        <EntityType Name="RuleSet">
+          <Key>
+            <PropertyRef Name="RuleSetId" />
+          </Key>
+          <Property Name="RuleSetId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="MajorVersion" Type="int" Nullable="false" />
+          <Property Name="MinorVersion" Type="int" Nullable="false" />
+          <Property Name="RuleSet" Type="ntext" Nullable="false" />
+          <Property Name="Status" Type="smallint" />
+          <Property Name="AssemblyPath" Type="nvarchar" MaxLength="256" />
+          <Property Name="ActivityName" Type="nvarchar" MaxLength="128" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="StoreId" />
+          </Key>
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="2" />
+        </EntityType>
+        <EntityType Name="StoreInventory">
+          <Key>
+            <PropertyRef Name="StoreInventoryId" />
+          </Key>
+          <Property Name="StoreInventoryId" Type="int" Nullable="false" />
+          <Property Name="BaseballCardId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="UserDiscountJoinId" Type="int" />
+          <Property Name="TotalCost" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserDiscount">
+          <Key>
+            <PropertyRef Name="UserDiscountId" />
+          </Key>
+          <Property Name="UserDiscountId" Type="int" Nullable="false" />
+          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="DiscountCode" Type="nvarchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="UserDiscountJoin">
+          <Key>
+            <PropertyRef Name="UserDiscountJoinId" />
+          </Key>
+          <Property Name="UserDiscountJoinId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserDiscountId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="Role" Type="nvarchar" Nullable="false" MaxLength="15" />
+        </EntityType>
+        <Association Name="FK_BaseballCardTransaction_BaseballCard">
+          <End Role="BaseballCard" Type="PracticeGDVPModel.Store.BaseballCard" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseballCardTransaction" Type="PracticeGDVPModel.Store.BaseballCardTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseballCard">
+              <PropertyRef Name="BaseballCardId" />
+            </Principal>
+            <Dependent Role="BaseballCardTransaction">
+              <PropertyRef Name="BaseballCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaseballCardTransaction_Transaction">
+          <End Role="Transaction" Type="PracticeGDVPModel.Store.Transaction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseballCardTransaction" Type="PracticeGDVPModel.Store.BaseballCardTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="TransactionId" />
+            </Principal>
+            <Dependent Role="BaseballCardTransaction">
+              <PropertyRef Name="TransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_UserTable">
+          <End Role="UserTable" Type="PracticeGDVPModel.Store.UserTable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Store" Type="PracticeGDVPModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreInventory_BaseballCard">
+          <End Role="BaseballCard" Type="PracticeGDVPModel.Store.BaseballCard" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreInventory" Type="PracticeGDVPModel.Store.StoreInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseballCard">
+              <PropertyRef Name="BaseballCardId" />
+            </Principal>
+            <Dependent Role="StoreInventory">
+              <PropertyRef Name="BaseballCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreInventory_Store">
+          <End Role="Store" Type="PracticeGDVPModel.Store.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreInventory" Type="PracticeGDVPModel.Store.StoreInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="StoreId" />
+            </Principal>
+            <Dependent Role="StoreInventory">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Store">
+          <End Role="Store" Type="PracticeGDVPModel.Store.Store" Multiplicity="1" />
+          <End Role="Transaction" Type="PracticeGDVPModel.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="StoreId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_UserDiscountJoin">
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.Store.UserDiscountJoin" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transaction" Type="PracticeGDVPModel.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDiscountJoin">
+              <PropertyRef Name="UserDiscountJoinId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="UserDiscountJoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDiscountJoin_UserDiscount">
+          <End Role="UserDiscount" Type="PracticeGDVPModel.Store.UserDiscount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.Store.UserDiscountJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDiscount">
+              <PropertyRef Name="UserDiscountId" />
+            </Principal>
+            <Dependent Role="UserDiscountJoin">
+              <PropertyRef Name="UserDiscountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDiscountJoin_UserTable">
+          <End Role="UserTable" Type="PracticeGDVPModel.Store.UserTable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.Store.UserDiscountJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDiscountJoin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PracticeGDVPModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PracticeGDVPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BaseballCards" EntityType="PracticeGDVPModel.BaseballCard" />
+          <EntitySet Name="BaseballCardTransactions" EntityType="PracticeGDVPModel.BaseballCardTransaction" />
+          <EntitySet Name="RuleSets" EntityType="PracticeGDVPModel.RuleSet" />
+          <EntitySet Name="Stores" EntityType="PracticeGDVPModel.Store" />
+          <EntitySet Name="StoreInventories" EntityType="PracticeGDVPModel.StoreInventory" />
+          <EntitySet Name="Transactions" EntityType="PracticeGDVPModel.Transaction" />
+          <EntitySet Name="UserDiscounts" EntityType="PracticeGDVPModel.UserDiscount" />
+          <EntitySet Name="UserDiscountJoins" EntityType="PracticeGDVPModel.UserDiscountJoin" />
+          <EntitySet Name="UserTables" EntityType="PracticeGDVPModel.UserTable" />
+          <AssociationSet Name="FK_BaseballCardTransaction_BaseballCard" Association="PracticeGDVPModel.FK_BaseballCardTransaction_BaseballCard">
+            <End Role="BaseballCard" EntitySet="BaseballCards" />
+            <End Role="BaseballCardTransaction" EntitySet="BaseballCardTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreInventory_BaseballCard" Association="PracticeGDVPModel.FK_StoreInventory_BaseballCard">
+            <End Role="BaseballCard" EntitySet="BaseballCards" />
+            <End Role="StoreInventory" EntitySet="StoreInventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BaseballCardTransaction_Transaction" Association="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="BaseballCardTransaction" EntitySet="BaseballCardTransactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Store_UserTable" Association="PracticeGDVPModel.FK_Store_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreInventory_Store" Association="PracticeGDVPModel.FK_StoreInventory_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="StoreInventory" EntitySet="StoreInventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Store" Association="PracticeGDVPModel.FK_Transaction_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_UserDiscountJoin" Association="PracticeGDVPModel.FK_Transaction_UserDiscountJoin">
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoins" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDiscountJoin_UserDiscount" Association="PracticeGDVPModel.FK_UserDiscountJoin_UserDiscount">
+            <End Role="UserDiscount" EntitySet="UserDiscounts" />
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserDiscountJoin_UserTable" Association="PracticeGDVPModel.FK_UserDiscountJoin_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="UserDiscountJoin" EntitySet="UserDiscountJoins" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BaseballCard">
+          <Key>
+            <PropertyRef Name="BaseballCardId" />
+          </Key>
+          <Property Name="BaseballCardId" Type="Int32" Nullable="false" />
+          <Property Name="Player" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Team" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <NavigationProperty Name="BaseballCardTransactions" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_BaseballCard" FromRole="BaseballCard" ToRole="BaseballCardTransaction" />
+          <NavigationProperty Name="StoreInventories" Relationship="PracticeGDVPModel.FK_StoreInventory_BaseballCard" FromRole="BaseballCard" ToRole="StoreInventory" />
+        </EntityType>
+        <EntityType Name="BaseballCardTransaction">
+          <Key>
+            <PropertyRef Name="BaseballCardTransactionId" />
+          </Key>
+          <Property Name="BaseballCardTransactionId" Type="Int32" Nullable="false" />
+          <Property Name="BaseballCardId" Type="Int32" Nullable="false" />
+          <Property Name="TransactionId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <NavigationProperty Name="BaseballCard" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_BaseballCard" FromRole="BaseballCardTransaction" ToRole="BaseballCard" />
+          <NavigationProperty Name="Transaction" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction" FromRole="BaseballCardTransaction" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="RuleSet">
+          <Key>
+            <PropertyRef Name="RuleSetId" />
+          </Key>
+          <Property Name="RuleSetId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="MajorVersion" Type="Int32" Nullable="false" />
+          <Property Name="MinorVersion" Type="Int32" Nullable="false" />
+          <Property Name="RuleSet1" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Status" Type="Int16" />
+          <Property Name="AssemblyPath" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="ActivityName" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="StoreId" />
+          </Key>
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <NavigationProperty Name="UserTable" Relationship="PracticeGDVPModel.FK_Store_UserTable" FromRole="Store" ToRole="UserTable" />
+          <NavigationProperty Name="StoreInventories" Relationship="PracticeGDVPModel.FK_StoreInventory_Store" FromRole="Store" ToRole="StoreInventory" />
+          <NavigationProperty Name="Transactions" Relationship="PracticeGDVPModel.FK_Transaction_Store" FromRole="Store" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="StoreInventory">
+          <Key>
+            <PropertyRef Name="StoreInventoryId" />
+          </Key>
+          <Property Name="StoreInventoryId" Type="Int32" Nullable="false" />
+          <Property Name="BaseballCardId" Type="Int32" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BaseballCard" Relationship="PracticeGDVPModel.FK_StoreInventory_BaseballCard" FromRole="StoreInventory" ToRole="BaseballCard" />
+          <NavigationProperty Name="Store" Relationship="PracticeGDVPModel.FK_StoreInventory_Store" FromRole="StoreInventory" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" />
+          <Property Name="StoreId" Type="Int32" Nullable="false" />
+          <Property Name="UserDiscountJoinId" Type="Int32" />
+          <Property Name="TotalCost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="BaseballCardTransactions" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction" FromRole="Transaction" ToRole="BaseballCardTransaction" />
+          <NavigationProperty Name="Store" Relationship="PracticeGDVPModel.FK_Transaction_Store" FromRole="Transaction" ToRole="Store" />
+          <NavigationProperty Name="UserDiscountJoin" Relationship="PracticeGDVPModel.FK_Transaction_UserDiscountJoin" FromRole="Transaction" ToRole="UserDiscountJoin" />
+        </EntityType>
+        <EntityType Name="UserDiscount">
+          <Key>
+            <PropertyRef Name="UserDiscountId" />
+          </Key>
+          <Property Name="UserDiscountId" Type="Int32" Nullable="false" />
+          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DiscountCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="UserDiscountJoins" Relationship="PracticeGDVPModel.FK_UserDiscountJoin_UserDiscount" FromRole="UserDiscount" ToRole="UserDiscountJoin" />
+        </EntityType>
+        <EntityType Name="UserDiscountJoin">
+          <Key>
+            <PropertyRef Name="UserDiscountJoinId" />
+          </Key>
+          <Property Name="UserDiscountJoinId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserDiscountId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transactions" Relationship="PracticeGDVPModel.FK_Transaction_UserDiscountJoin" FromRole="UserDiscountJoin" ToRole="Transaction" />
+          <NavigationProperty Name="UserDiscount" Relationship="PracticeGDVPModel.FK_UserDiscountJoin_UserDiscount" FromRole="UserDiscountJoin" ToRole="UserDiscount" />
+          <NavigationProperty Name="UserTable" Relationship="PracticeGDVPModel.FK_UserDiscountJoin_UserTable" FromRole="UserDiscountJoin" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Stores" Relationship="PracticeGDVPModel.FK_Store_UserTable" FromRole="UserTable" ToRole="Store" />
+          <NavigationProperty Name="UserDiscountJoins" Relationship="PracticeGDVPModel.FK_UserDiscountJoin_UserTable" FromRole="UserTable" ToRole="UserDiscountJoin" />
+        </EntityType>
+        <Association Name="FK_BaseballCardTransaction_BaseballCard">
+          <End Role="BaseballCard" Type="PracticeGDVPModel.BaseballCard" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseballCardTransaction" Type="PracticeGDVPModel.BaseballCardTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseballCard">
+              <PropertyRef Name="BaseballCardId" />
+            </Principal>
+            <Dependent Role="BaseballCardTransaction">
+              <PropertyRef Name="BaseballCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreInventory_BaseballCard">
+          <End Role="BaseballCard" Type="PracticeGDVPModel.BaseballCard" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreInventory" Type="PracticeGDVPModel.StoreInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BaseballCard">
+              <PropertyRef Name="BaseballCardId" />
+            </Principal>
+            <Dependent Role="StoreInventory">
+              <PropertyRef Name="BaseballCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BaseballCardTransaction_Transaction">
+          <End Role="Transaction" Type="PracticeGDVPModel.Transaction" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BaseballCardTransaction" Type="PracticeGDVPModel.BaseballCardTransaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction">
+              <PropertyRef Name="TransactionId" />
+            </Principal>
+            <Dependent Role="BaseballCardTransaction">
+              <PropertyRef Name="TransactionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Store_UserTable">
+          <End Role="UserTable" Type="PracticeGDVPModel.UserTable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Store" Type="PracticeGDVPModel.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreInventory_Store">
+          <End Role="Store" Type="PracticeGDVPModel.Store" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StoreInventory" Type="PracticeGDVPModel.StoreInventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="StoreId" />
+            </Principal>
+            <Dependent Role="StoreInventory">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Store">
+          <End Role="Store" Type="PracticeGDVPModel.Store" Multiplicity="1" />
+          <End Role="Transaction" Type="PracticeGDVPModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="StoreId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_UserDiscountJoin">
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.UserDiscountJoin" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transaction" Type="PracticeGDVPModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDiscountJoin">
+              <PropertyRef Name="UserDiscountJoinId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="UserDiscountJoinId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDiscountJoin_UserDiscount">
+          <End Role="UserDiscount" Type="PracticeGDVPModel.UserDiscount" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.UserDiscountJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserDiscount">
+              <PropertyRef Name="UserDiscountId" />
+            </Principal>
+            <Dependent Role="UserDiscountJoin">
+              <PropertyRef Name="UserDiscountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserDiscountJoin_UserTable">
+          <End Role="UserTable" Type="PracticeGDVPModel.UserTable" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserDiscountJoin" Type="PracticeGDVPModel.UserDiscountJoin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserDiscountJoin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PracticeGDVPModelStoreContainer" CdmEntityContainer="PracticeGDVPEntities">
+          <EntitySetMapping Name="BaseballCards">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.BaseballCard">
+              <MappingFragment StoreEntitySet="BaseballCard">
+                <ScalarProperty Name="BaseballCardId" ColumnName="BaseballCardId" />
+                <ScalarProperty Name="Player" ColumnName="Player" />
+                <ScalarProperty Name="Team" ColumnName="Team" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BaseballCardTransactions">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.BaseballCardTransaction">
+              <MappingFragment StoreEntitySet="BaseballCardTransaction">
+                <ScalarProperty Name="BaseballCardTransactionId" ColumnName="BaseballCardTransactionId" />
+                <ScalarProperty Name="BaseballCardId" ColumnName="BaseballCardId" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RuleSets">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.RuleSet">
+              <MappingFragment StoreEntitySet="RuleSet">
+                <ScalarProperty Name="RuleSetId" ColumnName="RuleSetId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MajorVersion" ColumnName="MajorVersion" />
+                <ScalarProperty Name="MinorVersion" ColumnName="MinorVersion" />
+                <ScalarProperty Name="RuleSet1" ColumnName="RuleSet" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AssemblyPath" ColumnName="AssemblyPath" />
+                <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreInventories">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.StoreInventory">
+              <MappingFragment StoreEntitySet="StoreInventory">
+                <ScalarProperty Name="StoreInventoryId" ColumnName="StoreInventoryId" />
+                <ScalarProperty Name="BaseballCardId" ColumnName="BaseballCardId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
+                <ScalarProperty Name="UserDiscountJoinId" ColumnName="UserDiscountJoinId" />
+                <ScalarProperty Name="TotalCost" ColumnName="TotalCost" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDiscounts">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.UserDiscount">
+              <MappingFragment StoreEntitySet="UserDiscount">
+                <ScalarProperty Name="UserDiscountId" ColumnName="UserDiscountId" />
+                <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="DiscountCode" ColumnName="DiscountCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDiscountJoins">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.UserDiscountJoin">
+              <MappingFragment StoreEntitySet="UserDiscountJoin">
+                <ScalarProperty Name="UserDiscountJoinId" ColumnName="UserDiscountJoinId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserDiscountId" ColumnName="UserDiscountId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTables">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
