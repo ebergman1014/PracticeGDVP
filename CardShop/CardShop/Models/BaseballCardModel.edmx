@@ -51,26 +51,26 @@
           <Key>
             <PropertyRef Name="BaseballCardId" />
           </Key>
-          <Property Name="BaseballCardId" Type="int" Nullable="false" />
+          <Property Name="BaseballCardId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Player" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Team" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Cost" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="BaseballCardTransaction">
           <Key>
             <PropertyRef Name="BaseballCardTransactionId" />
           </Key>
-          <Property Name="BaseballCardTransactionId" Type="int" Nullable="false" />
+          <Property Name="BaseballCardTransactionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BaseballCardId" Type="int" Nullable="false" />
           <Property Name="TransactionId" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="Cost" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="Cost" Type="decimal" Nullable="false" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="RuleSet">
           <Key>
             <PropertyRef Name="RuleSetId" />
           </Key>
-          <Property Name="RuleSetId" Type="int" Nullable="false" />
+          <Property Name="RuleSetId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="128" />
           <Property Name="MajorVersion" Type="int" Nullable="false" />
           <Property Name="MinorVersion" Type="int" Nullable="false" />
@@ -84,16 +84,16 @@
           <Key>
             <PropertyRef Name="StoreId" />
           </Key>
-          <Property Name="StoreId" Type="int" Nullable="false" />
+          <Property Name="StoreId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="StoreInventory">
           <Key>
             <PropertyRef Name="StoreInventoryId" />
           </Key>
-          <Property Name="StoreInventoryId" Type="int" Nullable="false" />
+          <Property Name="StoreInventoryId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BaseballCardId" Type="int" Nullable="false" />
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
@@ -102,29 +102,30 @@
           <Key>
             <PropertyRef Name="TransactionId" />
           </Key>
-          <Property Name="TransactionId" Type="int" Nullable="false" />
+          <Property Name="TransactionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="StoreId" Type="int" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="TotalCost" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="TotalCost" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="UserDiscount">
           <Key>
             <PropertyRef Name="UserDiscountId" />
           </Key>
-          <Property Name="UserDiscountId" Type="int" Nullable="false" />
-          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="2" />
+          <Property Name="UserDiscountId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DiscountRate" Type="decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="DiscountCode" Type="nvarchar" Nullable="false" MaxLength="10" />
           <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Reedemed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserTable">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="15" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="15" />
@@ -289,7 +290,7 @@
           <Property Name="BaseballCardId" Type="Int32" Nullable="false" />
           <Property Name="Player" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="Team" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <NavigationProperty Name="BaseballCardTransactions" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_BaseballCard" FromRole="BaseballCard" ToRole="BaseballCardTransaction" />
           <NavigationProperty Name="StoreInventories" Relationship="PracticeGDVPModel.FK_StoreInventory_BaseballCard" FromRole="BaseballCard" ToRole="StoreInventory" />
         </EntityType>
@@ -301,7 +302,7 @@
           <Property Name="BaseballCardId" Type="Int32" Nullable="false" />
           <Property Name="TransactionId" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <NavigationProperty Name="BaseballCard" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_BaseballCard" FromRole="BaseballCardTransaction" ToRole="BaseballCard" />
           <NavigationProperty Name="Transaction" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction" FromRole="BaseballCardTransaction" ToRole="Transaction" />
         </EntityType>
@@ -326,7 +327,7 @@
           <Property Name="StoreId" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <NavigationProperty Name="UserTable" Relationship="PracticeGDVPModel.FK_Store_UserTable" FromRole="Store" ToRole="UserTable" />
           <NavigationProperty Name="StoreInventories" Relationship="PracticeGDVPModel.FK_StoreInventory_Store" FromRole="Store" ToRole="StoreInventory" />
           <NavigationProperty Name="Transactions" Relationship="PracticeGDVPModel.FK_Transaction_Store" FromRole="Store" ToRole="Transaction" />
@@ -348,12 +349,12 @@
           </Key>
           <Property Name="TransactionId" Type="Int32" Nullable="false" />
           <Property Name="StoreId" Type="Int32" Nullable="false" />
-          <Property Name="TotalCost" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="TotalCost" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="BaseballCardTransactions" Relationship="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction" FromRole="Transaction" ToRole="BaseballCardTransaction" />
           <NavigationProperty Name="Store" Relationship="PracticeGDVPModel.FK_Transaction_Store" FromRole="Transaction" ToRole="Store" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
-          <Property Type="Decimal" Name="DiscountRate" Nullable="false" Precision="2" Scale="0" />
+          <Property Type="Decimal" Name="DiscountRate" Nullable="false" Precision="10" Scale="2" />
           <NavigationProperty Name="UserTable" Relationship="PracticeGDVPModel.FK_Transaction_UserTable" FromRole="Transaction" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="UserDiscount">
@@ -361,12 +362,13 @@
             <PropertyRef Name="UserDiscountId" />
           </Key>
           <Property Name="UserDiscountId" Type="Int32" Nullable="false" />
-          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="2" Scale="0" />
+          <Property Name="DiscountRate" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
           <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DiscountCode" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
           <NavigationProperty Name="UserTable" Relationship="PracticeGDVPModel.FK_UserDiscount_UserTable" FromRole="UserDiscount" ToRole="UserTable" />
+          <Property Type="Boolean" Name="Reedemed" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -566,6 +568,7 @@
           <EntitySetMapping Name="UserDiscounts">
             <EntityTypeMapping TypeName="PracticeGDVPModel.UserDiscount">
               <MappingFragment StoreEntitySet="UserDiscount">
+                <ScalarProperty Name="Reedemed" ColumnName="Reedemed" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserDiscountId" ColumnName="UserDiscountId" />
                 <ScalarProperty Name="DiscountRate" ColumnName="DiscountRate" />

@@ -20,6 +20,7 @@ namespace CardShop.Models
         public System.DateTime EndDate { get; set; }
         public string DiscountCode { get; set; }
         public int UserId { get; set; }
+        public bool Reedemed { get; set; }
     
         public virtual User UserTable { get; set; }
     }
