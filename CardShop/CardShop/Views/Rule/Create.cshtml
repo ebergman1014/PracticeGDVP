@@ -1,0 +1,91 @@
+﻿@model CardShop.Models.RuleSet
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>RuleSet</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MajorVersion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MajorVersion)
+            @Html.ValidationMessageFor(model => model.MajorVersion)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MinorVersion)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MinorVersion)
+            @Html.ValidationMessageFor(model => model.MinorVersion)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RuleSet1)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RuleSet1)
+            @Html.ValidationMessageFor(model => model.RuleSet1)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Status)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Status)
+            @Html.ValidationMessageFor(model => model.Status)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.AssemblyPath)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.AssemblyPath)
+            @Html.ValidationMessageFor(model => model.AssemblyPath)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActivityName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ActivityName)
+            @Html.ValidationMessageFor(model => model.ActivityName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ModifiedDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ModifiedDate)
+            @Html.ValidationMessageFor(model => model.ModifiedDate)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

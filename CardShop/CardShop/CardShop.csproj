@@ -55,6 +55,9 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -171,9 +174,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IDiscountController.cs" />
+    <Compile Include="DAL\RulesContext.cs" />
     <Compile Include="Daos\DbSetWrapper.cs" />
     <Compile Include="Daos\IDbSet.cs" />
     <Compile Include="Daos\IPracticeGDVPDao.cs" />
@@ -227,6 +232,7 @@
     <Compile Include="Service\IDiscountService.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
+    <Compile Include="ViewModels\RulesetDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -338,6 +344,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Discount\Index.cshtml" />
     <Content Include="Views\Discount\IssueDiscount.cshtml" />
+    <Content Include="Views\Rule\Index.cshtml" />
+    <Content Include="Views\Rule\Details.cshtml" />
+    <Content Include="Views\Rule\Create.cshtml" />
+    <Content Include="Views\Rule\Edit.cshtml" />
+    <Content Include="Views\Rule\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -385,7 +396,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51659</DevelopmentServerPort>
+          <DevelopmentServerPort>54856</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

@@ -1,0 +1,68 @@
+﻿@using System.Workflow.Activities
+@model CardShop.ViewModels.RulesetDetails
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h2>
+        @Model.ruleset.Name
+    </h2>
+    Version @Model.ruleset.MajorVersion.@Model.ruleset.MinorVersion
+</div>
+
+<div>
+    <h2>Rules</h2>
+
+    @foreach (var rule in Model.rules)
+    {
+        <div>
+            <h3><b>@rule.Name</b></h3>
+
+            <h5>Priority</h5>
+            @rule.Priority
+
+            <h5>Conditions</h5>
+            @rule.Condition.ToString()
+        
+            <h5>Then Actions</h5>
+            @foreach (var action in rule.ThenActions)
+            {
+                action.ToString();
+            }
+        
+            <h5>Else Actions</h5>
+            @foreach (var action in rule.ElseActions)
+            {
+                action.ToString();
+            }
+        </div>
+    }
+</div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ruleset.AssemblyPath)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ruleset.AssemblyPath)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ruleset.ActivityName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ruleset.ActivityName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ruleset.ModifiedDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ruleset.ModifiedDate)
+    </div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ruleset.RuleSetId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
