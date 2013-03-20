@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CardShop.Models;
+using CardShop.Utilities;
 
 namespace CardShopTest.TestHelper
 {
@@ -71,7 +72,7 @@ namespace CardShopTest.TestHelper
     }
 
     // will be renamed to coupon
-    class User_DiscountTest {
+    public class User_DiscountTest {
         public int User_DiscountID { get; set; }
         public int UserID { get; set; }
         public int Discount_Rate { get; set; }
@@ -97,16 +98,17 @@ namespace CardShopTest.TestHelper
         /// Set fields on all coupon objects
         /// </summary>
         /// <returns></returns>
-        public static User_DiscountTest CreateCoupon()
+        public static UserDiscount CreateCoupon()
         {
-            User_DiscountTest coupon = new User_DiscountTest();
-            coupon.Discount_Rate = 20;
-            coupon.End_Date = DateTime.Now;
-            coupon.Start_Date = DateTime.Now;
-            coupon.User_DiscountID = 0;
-            coupon.UserID = 10;
-            coupon.Number_Of_Cards = 24;
-            coupon.Discount_Code = User_DiscountTest.CreateCouponCode();
+            UserDiscount coupon = new UserDiscount();
+            UserDiscountUtility udc = new UserDiscountUtility();
+            coupon.DiscountRate = 20;
+            coupon.EndDate = DateTime.Now;
+            coupon.StartDate = DateTime.Now;
+            coupon.UserDiscountId = 0;
+            coupon.UserId = 10;
+            coupon.Reedemed = false;
+            coupon.DiscountCode = udc.GenerateCoupon();
             return coupon;
         }
 
