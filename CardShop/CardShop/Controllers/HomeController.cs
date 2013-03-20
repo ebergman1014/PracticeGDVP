@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace CardShop.Controllers
 {
@@ -12,11 +13,19 @@ namespace CardShop.Controllers
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
+
             return View();
         }
 
+        [Authorize]
         public ActionResult About()
         {
+            System.Diagnostics.Debug.WriteLine("Authenticated: " + User.Identity.IsAuthenticated);
+            if (User.Identity.IsAuthenticated)
+            {
+                System.Diagnostics.Debug.WriteLine(User.Identity.Name);
+                System.Diagnostics.Debug.WriteLine(Membership.GetUser().ProviderUserKey);
+            }
             ViewBag.Message = "Your app description page.";
 
             return View();

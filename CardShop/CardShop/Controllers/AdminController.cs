@@ -6,15 +6,21 @@ using System.Web.Mvc;
 using CardShop.Service;
 using CardShop.Models;
 using System.Web.Security;
-
+using CardShop.Auth;
 namespace CardShop.Controllers
 {
     public class AdminController : Controller, IAdminController
     {
         public IAdminService adminService { get; set; }
+        public IMembership membership { get; set; }
+
+        public AdminController(){
+                adminService = new AdminService();
+                membership = MembershipWrapper.getInstance();
+        }
+        
         //
         // GET: /Admin/
-
         public ActionResult Index()
         {
             return View();
@@ -31,7 +37,7 @@ namespace CardShop.Controllers
         [Authorize]
         public ActionResult ManageStore()
         {
-            if (Membership.GetUser().ProviderUserKey == null) {
+            if (membership.GetUser().ProviderUserKey == null) {
                 return Redirect("~/Account/Login");
             }
             return View(adminService.OwnedStore(Convert.ToInt32(
