@@ -26,7 +26,7 @@ namespace CardShop
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/ui-theme/css").Include(
-                        "~/Content/themes/themes/jquery-ui-1.10.2.custom.css"));
+                        "~/Content/themes/ui-theme/jquery-ui-1.10.2.custom.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                         "~/Scripts/knockout-{version}.js"));
