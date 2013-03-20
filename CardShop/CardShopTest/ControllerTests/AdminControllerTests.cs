@@ -28,8 +28,7 @@ namespace CardShopTest.ControllerTests
         public void ManageStoreTest() {
             var mock = new Mock<IAdminService>();
             adminController.adminService = mock.Object;
-            Assert.IsInstanceOfType(adminController.
-                ManageStore(new Store()), typeof(JsonResult));
+            Assert.IsInstanceOfType(adminController.ManageStore(new Store()), typeof(JsonResult));
         }
     }
 }
