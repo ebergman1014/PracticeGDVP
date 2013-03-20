@@ -186,6 +186,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Auth\IMembership.cs" />
+    <Compile Include="Auth\MembershipWrapper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BaseballCard.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>

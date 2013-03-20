@@ -6,7 +6,7 @@ using System.Web.Security;
 
 namespace CardShop.Auth
 {
-    interface IMembership
+    public interface IMembership
     {
 
         // Summary:
@@ -140,7 +140,6 @@ namespace CardShop.Auth
         //   System.Web.Security.MembershipCreateUserException:
         //     The user was not created. Check the System.Web.Security.MembershipCreateUserException.StatusCode
         //     property for a System.Web.Security.MembershipCreateStatus value.
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
          MembershipUser CreateUser(string username, string password);
         //
         // Summary:
@@ -196,7 +195,6 @@ namespace CardShop.Auth
         // Returns:
         //     A System.Web.Security.MembershipUser object for the newly created user. If
         //     no user was created, this method returns null.
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
          MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, out MembershipCreateStatus status);
         //
         // Summary:
@@ -563,7 +561,7 @@ namespace CardShop.Auth
         // Exceptions:
         //   System.ArgumentNullException:
         //     user is null.
-        static void UpdateUser(MembershipUser user);
+        void UpdateUser(MembershipUser user);
         //
         // Summary:
         //     Verifies that the supplied user name and password are valid.
@@ -577,6 +575,6 @@ namespace CardShop.Auth
         //
         // Returns:
         //     true if the supplied user name and password are valid; otherwise, false.
-        static bool ValidateUser(string username, string password);
+        bool ValidateUser(string username, string password);
     }
 }
