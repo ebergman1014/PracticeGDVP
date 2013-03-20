@@ -6,7 +6,14 @@
 }
 <style>
 
-input {width:100px;}
+input
+    {
+    width:100px;
+    }
+.errorClass
+    {
+    display:none;
+    }
 
 </style>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
@@ -21,6 +28,10 @@ input {width:100px;}
         //  returned coupon code
         $("#submitButton").click(function () {
 
+            
+            //  clear errors before checking for errors
+            $(".errorClass").hide();
+            
 
             //  parse input date and return milliseconds
             function parseDate(inputDate) {
@@ -30,16 +41,23 @@ input {width:100px;}
                 return msTime;
             }
             
+            errorFree = true;
+
             //  Check Discount Rate
-            if ($("#DiscountRate").val() < 0 || $("#DiscountRate").val() > 1) {
+            if ($("#DiscountRate").val() > 100 || $("#DiscountRate").val() < 0) {
 
-                alert($("#DiscountRate").val() +" is not a valid amount");
-            
-            } else if (parseDate($("#StartDate").val()) > parseDate($("#EndDate").val())) {    // Check Dates
-
-                alert("Start date is after end date, please try again");
+                $("#discountError").css('color', 'red');
+                $("#discountError").show();
+                errorFree = false;
             }
-            else {    //  submit
+
+            if (parseDate($("#StartDate").val()) > parseDate($("#EndDate").val())) {    // Check Dates
+
+                $("#dateError").css('color', 'red');
+                $("#dateError").show();
+                errorFree = false;
+            }
+            if (errorFree) {    //  submit if error free
 
                 //  parameterize the form data
                 var jsonForm = $("#theForm").serialize();
@@ -56,8 +74,8 @@ input {width:100px;}
                         $("#couponCode").html("Coupon Code " + data.DiscountCode
                             + " has been issued to " + displayName);
 
-                        // make text red
-                        $("#couponCode").css('color', 'red');
+                        // make text green per Nate
+                        $("#couponCode").css('color', 'green');
 
                         },
                     "json")
@@ -95,8 +113,10 @@ input {width:100px;}
     Start Date: <input type="text" name="StartDate" id ="StartDate"/>
     <br/>
     End Date: <input type="text" name="EndDate" id ="EndDate"/>
+    <span id ="dateError" class ="errorClass">End Date is before Start Date</span>
     <br/>
-    Discount Percent As Decimal: <input type="text" name="DiscountRate" id ="DiscountRate"/>
+    Discount Percent As Whole Number: <input type="text" name="DiscountRate" id ="DiscountRate"/>%
+    <span id ="discountError" class ="errorClass">Discount is out of range</span>
     <br/>
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
