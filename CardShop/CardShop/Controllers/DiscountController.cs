@@ -55,6 +55,7 @@ namespace CardShop.Controllers
             }
             return Json(returnedDiscount);
         }
+
         /// <summary>
         /// No-Args constructor, sets discountService
         /// </summary>

@@ -52,5 +52,7 @@ namespace CardShop.Daos
         /// </summary>
         /// <returns></returns>
         IDbSet<UserDiscount> UserDiscounts();
+
+        int SaveChanges();
     }
 }
