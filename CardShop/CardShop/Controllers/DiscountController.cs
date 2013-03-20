@@ -6,12 +6,16 @@ using System.Web.Mvc;
 using CardShop.Service;
 using CardShop.Models;
 using System.Web.Services;
+
 namespace CardShop.Controllers
 {
     public class DiscountController : Controller, IDiscountController
     {
         public IDiscountService discountService{get;set;}
-
+        /// <summary>
+        /// Default page for Discount.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Index() {
             return View();
@@ -38,7 +42,15 @@ namespace CardShop.Controllers
         [HttpPost]
         public UserDiscount IssueDiscount(UserDiscount coupon) {
             // returns a coupon, hopefully with created date!
-            return discountService.CreateCoupon(coupon);
+            UserDiscount returnedDiscount;
+            if (this.ModelState.IsValid)
+            {
+                returnedDiscount = discountService.CreateCoupon(coupon);
+            }
+            else {
+                returnedDiscount = coupon;
+            }
+            return returnedDiscount;
         }
         /// <summary>
         /// No-Args constructor, sets discountService
