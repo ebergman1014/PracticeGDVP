@@ -1,7 +1,64 @@
 ﻿@model List<CardShop.Models.User>
 
+
 @{
     ViewBag.Title = "Issue A Discount";
 }
 
+<script>
+    $(document).ready(function () {
+
+        // on button click, submit form
+        //  as ajax request and display 
+        //  returned coupon code
+        $("#submitButton").click(function () {
+
+            //  parameterize the form data
+            var jsonForm = $("#theForm").serialize();
+            
+           //jQuery.post( url, [data], [callback], [type] )
+           $.post("IssueDiscount",
+                jsonForm,
+                function (data) {
+
+                    //  displayed name
+                    var displayName = $("#UserId").text();
+
+                    //  display coupon code and message here
+                    $("#couponCode").html("Coupon Code " + data.DiscountCode
+                        + " has been issued to " + displayName);
+
+                    // make text red
+                    $("#couponCode").css('color', 'red');
+
+                    },
+                "json")
+        });
+
+    });
+</script>
+
+
 <h2>Issue A Discount</h2>
+
+
+<form id ="theForm">
+    <!-- drop down list -->
+    <select style="font-size:12pt" name="UserId" id ="UserId">
+        @{foreach (var user in Model)
+            {
+                <option value="@user.UserId ">@user.Username</option>
+            }
+        }
+    </select>
+
+    <br/>
+    Start Date: <input type="text" name="StartDate"/>
+    <br/>
+    End Date: <input type="text" name="EndDate"/>
+    <br/>
+    Discount Percent: <input type="text" name="DiscountRate"/>
+    <br/>
+    <button type="button" id ="submitButton">Submit</button> 
+    <p id ="couponCode">Coupon Code Not Issued</p>
+</form>
