@@ -37,11 +37,11 @@ namespace CardShop.Controllers
         [Authorize]
         public ActionResult ManageStore()
         {
-            if (membership.GetUser().ProviderUserKey == null) {
+            if (membership.GetUser() == null) {
                 return Redirect("~/Account/Login");
             }
             return View(adminService.OwnedStore(Convert.ToInt32(
-            Membership.GetUser().ProviderUserKey)));
+            membership.GetUser().ProviderUserKey)));
         }
 
     }
