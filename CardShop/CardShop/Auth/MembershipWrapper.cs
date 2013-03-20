@@ -59,7 +59,7 @@ namespace CardShop.Auth
 
         public int MinRequiredPasswordLength
         {
-            get { return Membership.MinRequiredPasswordLength }
+            get { return Membership.MinRequiredPasswordLength; }
         }
 
         public int PasswordAttemptWindow
@@ -197,6 +197,16 @@ namespace CardShop.Auth
         public string GetUserNameByEmail(string emailToMatch)
         {
             return Membership.GetUserNameByEmail(emailToMatch);
+        }
+
+        public void UpdateUser(MembershipUser user)
+        {
+            Membership.UpdateUser(user);
+        }
+
+        public bool ValidateUser(string username, string password)
+        {
+            return Membership.ValidateUser(username, password);
         }
     }
 
