@@ -29,10 +29,23 @@ namespace CardShop.Service
             // return store with new discountRate
             return store;
         }
-
+        /// <summary>
+        /// Find a Store which is owned by the ownerId
+        /// </summary>
+        /// <param name="ownerId"> Presumed store owner</param>
+        /// <returns></returns>
         public Store OwnedStore(int ownerId)
         {
-            return null;
+            // Create a bare store
+            Store store = new Store();
+            store.UserId = ownerId;
+            // createList of stores
+            var storeOwned = context.Stores().Where(s => s.UserId == ownerId).ToList();
+            if (storeOwned.Count > 0)
+            {
+                store = storeOwned[0];
+            }
+            return store;
         }
 
         /// <summary>
