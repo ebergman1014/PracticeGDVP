@@ -16,7 +16,7 @@ namespace CardShop.Service
         /// </summary>
         /// <returns> returns List<CardShop.Models.User> </returns>
         List<User> GetAllUsers();
-
+        
         /// <summary>
         /// Create and save Coupon to DB
         /// </summary>

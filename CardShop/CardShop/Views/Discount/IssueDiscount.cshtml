@@ -4,6 +4,14 @@
 @{
     ViewBag.Title = "Issue A Discount";
 }
+<style>
+
+input {width:100px;}
+
+</style>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
 
 <script>
     $(document).ready(function () {
@@ -13,29 +21,60 @@
         //  returned coupon code
         $("#submitButton").click(function () {
 
-            //  parameterize the form data
-            var jsonForm = $("#theForm").serialize();
+
+            //  parse input date and return milliseconds
+            function parseDate(inputDate) {
+                var pieces = inputDate.split("/");
+                formattedDate = new Date(pieces[2], pieces[0], pieces[1], 00, 00, 00, 00);
+                var msTime = formattedDate.getTime();
+                return msTime;
+            }
             
-           //jQuery.post( url, [data], [callback], [type] )
-           $.post("IssueDiscount",
-                jsonForm,
-                function (data) {
+            //  Check Discount Rate
+            if ($("#DiscountRate").val() < 0 || $("#DiscountRate").val() > 1) {
 
-                    //  displayed name
-                    var displayName = $("#UserId").text();
+                alert($("#DiscountRate").val() +" is not a valid amount");
+            
+            } else if (parseDate($("#StartDate").val()) > parseDate($("#EndDate").val())) {    // Check Dates
 
-                    //  display coupon code and message here
-                    $("#couponCode").html("Coupon Code " + data.DiscountCode
-                        + " has been issued to " + displayName);
+                alert("Start date is after end date, please try again");
+            }
+            else {    //  submit
 
-                    // make text red
-                    $("#couponCode").css('color', 'red');
+                //  parameterize the form data
+                var jsonForm = $("#theForm").serialize();
+            
+               //jQuery.post( url, [data], [callback], [type] )
+               $.post("IssueDiscount",
+                    jsonForm,
+                    function (data) {
 
-                    },
-                "json")
+                        //  displayed name
+                        var displayName = $("#UserId").text();
+
+                        //  display coupon code and message here
+                        $("#couponCode").html("Coupon Code " + data.DiscountCode
+                            + " has been issued to " + displayName);
+
+                        // make text red
+                        $("#couponCode").css('color', 'red');
+
+                        },
+                    "json")
+            }
+
+        });
+
+        $(function () {
+            $("#StartDate").datepicker();
+            $("#EndDate").datepicker();
         });
 
     });
+
+
+
+
 </script>
 
 
@@ -53,11 +92,11 @@
     </select>
 
     <br/>
-    Start Date: <input type="text" name="StartDate"/>
+    Start Date: <input type="text" name="StartDate" id ="StartDate"/>
     <br/>
-    End Date: <input type="text" name="EndDate"/>
+    End Date: <input type="text" name="EndDate" id ="EndDate"/>
     <br/>
-    Discount Percent: <input type="text" name="DiscountRate"/>
+    Discount Percent As Decimal: <input type="text" name="DiscountRate" id ="DiscountRate"/>
     <br/>
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
