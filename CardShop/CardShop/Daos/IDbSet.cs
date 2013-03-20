@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.Entity.Infrastructure;
+using System.Collections;
 
 namespace CardShop.Daos
 {
-    public interface IDbSet<TEntity> where TEntity : class
+    public interface IDbSet<TEntity> :  IQueryable<TEntity>, IEnumerable<TEntity>, IQueryable, IEnumerable where TEntity : class
     {
 
         // Summary:

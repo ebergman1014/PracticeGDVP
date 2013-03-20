@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Collections;
+using System.Linq.Expressions;
 
 namespace CardShop.Daos
 {
@@ -14,6 +16,7 @@ namespace CardShop.Daos
     public class DbSetWrapper<TEntity> : IDbSet<TEntity> where TEntity : class
     {
         private DbSet<TEntity> db {get;set;}
+
         /// <summary>
         /// Constructor, takes in Entity. Sets entity for wrapper class
         /// </summary>
@@ -22,6 +25,9 @@ namespace CardShop.Daos
         public DbSetWrapper(DbSet<TEntity> db)
         {
             this.db = db;
+            this.ElementType = ((IQueryable)db).ElementType;
+            this.Expression = ((IQueryable)db).Expression;
+            this.Provider = ((IQueryable)db).Provider;
         }
         /// <summary>
         /// Wrapper for Add in DbSet
@@ -101,6 +107,31 @@ namespace CardShop.Daos
         public DbSqlQuery<TEntity> SqlQuery(string sql, params object[] parameters)
         {
             return db.SqlQuery(sql, parameters);
+        }
+        /// <summary>
+        /// Returns enumerator that enumarates through collection
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<TEntity> GetEnumerator()
+        {
+            return ((IEnumerable<TEntity>)db).GetEnumerator();
+        }
+        /// <summary>
+        /// Gets the element Type from the execution of the tree
+        /// </summary>
+        public Type ElementType { get; set; }
+        /// <summary>
+        /// Get expression
+        /// </summary>
+        public Expression Expression { get; set; }
+        /// <summary>
+        /// get provider
+        /// </summary>
+        public IQueryProvider Provider{get;set;}
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable)db).GetEnumerator();
         }
     }
 }
