@@ -206,6 +206,14 @@
     <Compile Include="Models\BaseballCardTransaction.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MetaData\BaseballCard.Metadata.cs" />
+    <Compile Include="Models\MetaData\BaseballCardTransaction.Metadata.cs" />
+    <Compile Include="Models\MetaData\RuleSet.Metadata.cs" />
+    <Compile Include="Models\MetaData\Store.Metadata.cs" />
+    <Compile Include="Models\MetaData\StoreInventory.Metadata.cs" />
+    <Compile Include="Models\MetaData\Transaction.Metadata.cs" />
+    <Compile Include="Models\MetaData\User.Metadata.cs" />
+    <Compile Include="Models\MetaData\UserDiscount.Metadata.cs" />
     <Compile Include="Models\RuleSet.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
