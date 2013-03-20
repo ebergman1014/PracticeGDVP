@@ -31,7 +31,7 @@ namespace CardShopTest.ControllerTests
             coupon = new UserDiscount();
             badCoupon = User_DiscountTest.CreateCoupon();
             badCoupon.DiscountCode = null;
-            //badCoupon.EndDate = null;
+            badCoupon = new UserDiscount();
         }
 
         /// <summary>
@@ -71,9 +71,14 @@ namespace CardShopTest.ControllerTests
         {
             var mock = new Mock<IDiscountService>();
             discountTest.discountService = mock.Object;
+            // sets IsValid in the controller to false
+            discountTest.ModelState.AddModelError("don't work", "alrights.");
+
             UserDiscount returnedDiscount = (UserDiscount)
                 ((JsonResult)discountTest.IssueDiscount(badCoupon)).Data;
-        //    Assert.IsTrue(returnedDiscount.Equals(badCoupon));
+            // verify the returned object matches object sent in 
+            // (if test IsValid was true, returnedDiscount would be null)
+            Assert.AreSame(returnedDiscount, badCoupon);
         }
 
         [TestMethod]

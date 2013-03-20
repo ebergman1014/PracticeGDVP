@@ -25,47 +25,6 @@ namespace CardShopTest
         }
 
         /// <summary>
-        /// 
-        /// Tests that GetAllUsers has a Count greater than 0;
-        /// </summary>
-        [TestMethod]
-        public void GetAllUsersTest()
-        {
-            Assert.IsTrue(testListOfUsers.Count > 0);
-        }
-        /// <summary>
-        /// Tests that no User is not null
-        /// </summary>
-        [TestMethod]
-        public void UserFieldsNotNull()
-        {
-            // Loop through all Users retrieved, check for null on field
-            foreach (User user in testListOfUsers)
-            {
-                Assert.IsNotNull(user.Name);
-                Assert.IsNotNull(user.Password);
-                Assert.IsNotNull(user.Username);
-                Assert.IsNotNull(user.UserId);
-                Assert.IsNotNull(user.Role);
-            }
-
-        }
-        /// <summary>
-        /// Tests that a coupon created has no null values
-        /// </summary>
-        [TestMethod]
-        public void CouponCreationTest()
-        {
-            UserDiscount coupon = User_DiscountTest.CreateCoupon();
-            Assert.IsNotNull(coupon.StartDate);
-            Assert.IsNotNull(coupon.EndDate);
-            Assert.IsNotNull(coupon.UserDiscountId);
-            Assert.IsNotNull(coupon.UserId);
-            Assert.IsNotNull(coupon.Reedemed);
-            Assert.IsNotNull(coupon.DiscountCode);
-            Assert.IsNotNull(coupon.DiscountRate);
-        }
-        /// <summary>
         /// Check that code generated is of length 5
         /// and each char is a capital letter
         /// </summary>
