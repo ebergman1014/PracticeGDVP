@@ -6,6 +6,7 @@ using CardShop.Controllers;
 using CardShop.Models;
 using System.Web.Mvc;
 using System.Diagnostics;
+using CardShopTest.TestHelper;
 
 namespace CardShopTest.ControllerTests
 {
@@ -18,29 +19,61 @@ namespace CardShopTest.ControllerTests
         // objects needed for tests
         DiscountController discountTest;
         UserDiscount coupon;
+        UserDiscount badCoupon;
 
         /// <summary>
         /// Setup for each test
         /// </summary>
         [TestInitialize]
-        public void Setup() {
+        public void Setup()
+        {
             discountTest = new DiscountController();
             coupon = new UserDiscount();
+            badCoupon = User_DiscountTest.CreateCoupon();
+            badCoupon.DiscountCode = null;
+            //badCoupon.EndDate = null;
         }
 
         /// <summary>
         /// Test the IssueDiscount [HttpPost]
         /// </summary>
         [TestMethod]
-        public void IssueDiscountPostTest()
+        public void IssueDiscountGoodPostTest()
         {
-        var mock = new Mock<IDiscountService>();
-        // set the mock object to the object of discountTest
-        discountTest.discountService = mock.Object;
-        // pass in the coupon
-        discountTest.IssueDiscount(coupon);
-        // verifies!
-        mock.Verify(mockedObject => mockedObject.CreateCoupon(coupon));
+            var mock = new Mock<IDiscountService>();
+            // set the mock object to the object of discountTest
+            discountTest.discountService = mock.Object;
+            // pass in the coupon
+            discountTest.IssueDiscount(coupon);
+            // verifies!
+            mock.Verify(mockedObject => mockedObject.CreateCoupon(coupon));
+
+        }
+        [TestMethod]
+        public void IssueDiscountBadPostTest()
+        {
+            var mock = new Mock<IDiscountService>();
+            discountTest.discountService = mock.Object;
+            // create coupon
+            coupon = User_DiscountTest.CreateCoupon();
+            // set DiscountCode to null
+            coupon.DiscountCode = null;
+            mock.Setup(mockObject => mockObject.CreateCoupon(coupon)).Returns(badCoupon);
+            // cast ActionResult to JsonResult, pull data, cast to UserDiscount
+            UserDiscount returnedCoupon = (UserDiscount)
+                ((JsonResult)discountTest.IssueDiscount(coupon)).Data;
+            // 
+            Assert.IsTrue(returnedCoupon.DiscountCode == null);
+        }
+
+        [TestMethod]
+        public void IssueDiscountBadInputsTest()
+        {
+            var mock = new Mock<IDiscountService>();
+            discountTest.discountService = mock.Object;
+            UserDiscount returnedDiscount = (UserDiscount)
+                ((JsonResult)discountTest.IssueDiscount(badCoupon)).Data;
+        //    Assert.IsTrue(returnedDiscount.Equals(badCoupon));
         }
 
         [TestMethod]

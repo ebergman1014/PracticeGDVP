@@ -40,7 +40,7 @@ namespace CardShop.Controllers
         /// <returns> full coupon </returns>
         /// <author>CommanderPaul and masterchief117</author>
         [HttpPost]
-        public UserDiscount IssueDiscount(UserDiscount coupon) {
+        public ActionResult IssueDiscount(UserDiscount coupon) {
             // returns a coupon, hopefully with created date!
             UserDiscount returnedDiscount;
             if (this.ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace CardShop.Controllers
             else {
                 returnedDiscount = coupon;
             }
-            return returnedDiscount;
+            return Json(returnedDiscount);
         }
         /// <summary>
         /// No-Args constructor, sets discountService

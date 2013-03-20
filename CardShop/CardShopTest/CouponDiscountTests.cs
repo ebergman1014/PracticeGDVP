@@ -56,14 +56,14 @@ namespace CardShopTest
         [TestMethod]
         public void CouponCreationTest()
         {
-            User_DiscountTest coupon = User_DiscountTest.CreateCoupon();
-            Assert.IsNotNull(coupon.Start_Date);
-            Assert.IsNotNull(coupon.End_Date);
-            Assert.IsNotNull(coupon.User_DiscountID);
-            Assert.IsNotNull(coupon.UserID);
-            Assert.IsNotNull(coupon.Number_Of_Cards);
-            Assert.IsNotNull(coupon.Discount_Code);
-            Assert.IsNotNull(coupon.Discount_Rate);
+            UserDiscount coupon = User_DiscountTest.CreateCoupon();
+            Assert.IsNotNull(coupon.StartDate);
+            Assert.IsNotNull(coupon.EndDate);
+            Assert.IsNotNull(coupon.UserDiscountId);
+            Assert.IsNotNull(coupon.UserId);
+            Assert.IsNotNull(coupon.Reedemed);
+            Assert.IsNotNull(coupon.DiscountCode);
+            Assert.IsNotNull(coupon.DiscountRate);
         }
         /// <summary>
         /// Check that code generated is of length 5
