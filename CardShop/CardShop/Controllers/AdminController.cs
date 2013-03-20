@@ -30,18 +30,17 @@ namespace CardShop.Controllers
         [HttpPost]
         public ActionResult ManageStore(Store storeToChange)
         {
-            return Json(adminService.EditDiscount(storeToChange));
+            return Json(adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange));
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult ManageStore()
         {
-            if (membership.GetUser().ProviderUserKey == null) {
+            if (membership.GetUser() == null) {
                 return Redirect("~/Account/Login");
             }
-            return View(adminService.OwnedStore(Convert.ToInt32(
-            Membership.GetUser().ProviderUserKey)));
+            return View(adminService.OwnedStore(membership.GetUserId()));
         }
 
     }

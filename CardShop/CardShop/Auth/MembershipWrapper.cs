@@ -208,6 +208,11 @@ namespace CardShop.Auth
         {
             return Membership.ValidateUser(username, password);
         }
+
+        public int GetUserId()
+        {
+            return Convert.ToInt32(GetUser().ProviderUserKey);
+        }
     }
 
 }
