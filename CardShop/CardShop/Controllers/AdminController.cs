@@ -11,7 +11,7 @@ namespace CardShop.Controllers
 {
     public class AdminController : Controller, IAdminController
     {
-        public IAdminService adminService {get; set;}
+        public IAdminService adminService { get; set; }
         //
         // GET: /Admin/
 
@@ -28,9 +28,14 @@ namespace CardShop.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult ManageStore()
         {
-            return View(adminService.OwnedStore(Membership.GetUser().ProviderUserKey));
+            if (Membership.GetUser().ProviderUserKey == null) {
+                return Redirect("~/Account/Login");
+            }
+            return View(adminService.OwnedStore(Convert.ToInt32(
+            Membership.GetUser().ProviderUserKey)));
         }
 
     }
