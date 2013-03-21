@@ -10,12 +10,17 @@ namespace CardShop.Controllers
     {
         //
         // GET: /Redemption/
-
+        [HttpGet]
         public ActionResult Index()
+        {
+            return RedirectToAction("Redeem");
+        }
+
+        [HttpGet]
+        public ActionResult Redeem()
         {
             return View();
         }
-
        
     }
 }
