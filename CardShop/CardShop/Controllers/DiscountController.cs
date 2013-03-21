@@ -55,7 +55,11 @@ namespace CardShop.Controllers
             {
                 returnedDiscount = coupon;
             }
-            return Json(returnedDiscount);
+            return Json(new {   UserDiscountId = coupon.UserDiscountId,
+                                DiscountCode = coupon.DiscountCode,
+                                DiscountRate = coupon.DiscountRate,
+                                StartDate = coupon.StartDate,
+                                EndDate = coupon.EndDate});
         }
 
         /// <summary>
