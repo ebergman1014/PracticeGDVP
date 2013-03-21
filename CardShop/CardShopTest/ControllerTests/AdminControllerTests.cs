@@ -41,8 +41,13 @@ namespace CardShopTest.ControllerTests
         public void ManageStorePostTest() 
         {
             var mock = new Mock<IAdminService>();
+            var mockMember = new Mock<IMembership>();
+            adminController.membership = mockMember.Object;
+
+            mockMember.Setup(m => m.GetUserId()).Returns(2);
             //mock.Setup(m => m.OwnedStore(2)).Returns(null);
             //set field in adminController
+            
             adminController.adminService = mock.Object;
 
             Assert.IsInstanceOfType(adminController.

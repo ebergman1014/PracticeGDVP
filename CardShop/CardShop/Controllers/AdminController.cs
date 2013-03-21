@@ -30,7 +30,7 @@ namespace CardShop.Controllers
         [HttpPost]
         public ActionResult ManageStore(Store storeToChange)
         {
-            return Json(adminService.EditDiscount(storeToChange));
+            return Json(adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange));
         }
 
         [HttpGet]
