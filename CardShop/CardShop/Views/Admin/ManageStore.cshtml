@@ -3,12 +3,20 @@
     ViewBag.Title = "ManageStore";
 }
 
-<h2>ManageStore</h2>
-<form id="discountForm">
-    Store Name: @Model.Name<br />
-    <br />
-    Store Discount: <input type="text" name="DiscountRate" id ="DiscountRate" value="@Model.DiscountRate" /><br />
-    <input type="button" id="submitDiscount" value="Edit Store" />
-</form>
- 
-<script src="@Url.Content("~/Scripts/Admin/admin.js")"></script>
+<h2>Managing Store: @Model.Name</h2>
+
+@using (Html.BeginForm("Manage", "Account")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Change Password Form</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(m => m.DiscountRate)
+                @Html.TextBoxFor(m => m.DiscountRate)
+            </li>
+        </ol>
+        <input type="submit" value="Update Store" />
+    </fieldset>
+}
