@@ -78,3 +78,22 @@ input
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
 </form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+
+    
+<script type ="text/javascript">
+    jQuery.validator.addMethod("datevalidator", function (value, element, param) {
+        var startdate = (new Date( $('#StartDate').val())).getTime();
+        var enddate = (new Date($('#EndDate').val())).getTime();
+        if (startdate == '' || enddate == '' || startdate >= enddate)
+            return false;
+        else
+            return true;
+    });
+
+    jQuery.validator.unobtrusive.adapters.addBool("supervalidation");
+
+</script>
+}

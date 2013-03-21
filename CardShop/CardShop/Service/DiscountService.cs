@@ -46,10 +46,10 @@ namespace CardShop.Service
                 (coupon.DiscountRate > 0 && coupon.DiscountRate < 100))
             {
                 coupon.DiscountCode = couponUtility.GenerateCoupon();
-                using (var ctx = new PracticeGDVPEntities())
+                using (var ctx = dbContext)
                 {
                     // add coupon to context
-                    var userCoupons = ctx.UserDiscounts.Add(coupon);
+                    var userCoupons = ctx.UserDiscounts().Add(coupon);
                     // save changes to context (saves to DB!)
                     ctx.SaveChanges();
                 }
