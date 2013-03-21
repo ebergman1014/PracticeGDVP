@@ -28,6 +28,7 @@ namespace CardShop.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageStore(Store storeToChange)
         {
             return Json(adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange));
