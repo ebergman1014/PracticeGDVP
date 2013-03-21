@@ -15,7 +15,7 @@ namespace CardShop.Models.Validator
         }
  
         // for implementation on 
-        private const string jQueryValidatorName = "comparator";
+        private const string jQueryValidatorName = "supervalidation";
         private const string defaultErrorMessage = "Value of {1} must be greater than value of {0}.";
         private readonly string otherProperty;
         private readonly string errorMessage;

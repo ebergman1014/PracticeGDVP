@@ -1,4 +1,4 @@
-﻿@model CardShop.Models.UserDiscount
+﻿@model CardShop.Models.UserDiscountMetaData
 
 @{
     ViewBag.Title = "Issue A Discount";
@@ -14,15 +14,75 @@
         }
 </style>
 
+<h2>Issue A Discount</h2>
+@using (@Html.BeginForm("", "", FormMethod.Post, new { id = "discountForm" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    <!-- drop down list -->
+    <fieldset>
+        <select style="font-size:12pt" name="UserId" id ="UserId">
+            @{foreach (var user in ViewBag.listOfUsers)
+              {
+                    <option value="@user.UserId ">@user.Username</option>
+              }
+            }
+        </select>
+
+        <br/>
+
+            @Html.LabelFor(m => m.StartDate)
+            @Html.TextBoxFor(m => m.StartDate)
+ 
+            @Html.LabelFor(m => m.EndDate)
+            @Html.TextBoxFor(m => m.EndDate)
+
+            @Html.LabelFor(m => m.DiscountRate)
+            @Html.TextBoxFor(m => m.DiscountRate)%
+        <br />
+        <input type="submit" id ="submitButton" value="Submit" />
+    </fieldset>
+    <p id ="couponCode">Coupon Code Not Issued</p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+
+    
+<script type ="text/javascript">
+    (function($){
+        $.validator.addMethod("supervalidation", function (value, element, param) {
+            console.log("ssss");
+            var result = false;
+            var startdate = (new Date($('#StartDate').val()));
+            var enddate = (new Date($('#EndDate').val()));
+            if (startdate != new Date("") && enddate != new Date("")) {
+                if (enddate.getTime() > startdate.getTime()) {
+                    result = true;
+                }
+            }
+            return result;
+        });
+
+        $.validator.unobtrusive.adapters.addBool("supervalidation");
+    })(jQuery);
+    $.validator.unobtrusive.adapters.add("supervalidation", [], function (options) {
+        options.rules['supervalidation'] = true;
+        options.messages["wrongvalue"] = options.message;
+    });
+    console.log("asdsdsdd");
+//    $.validator.unobtrusive.parse();
+</script>
 <script>
     $(document).ready(function () {
 
         // on button click, submit form
         //  as ajax request and display 
+
         //  returned coupon code
-        $("#submitButton").click(function () {
+        /*$("#submitButton").click(function () {
      
-            if ($("#theForm").validate()) {
+            if ($("#discountForm").validate()) {
 
                 $.post("IssueDiscount",
                      jsonForm,
@@ -42,60 +102,13 @@
                      "json");
             }
        
-        });
+        });*/
 
-        $(function () {
-            $("#StartDate").datepicker();
-            $("#EndDate").datepicker();
-        });
-
+        $("#StartDate").datepicker();
+        $("#EndDate").datepicker();
     });
 
 </script>
 
-<h2>Issue A Discount</h2>
-@Html.ValidationSummary()
-<form id ="theForm">
-@Html.AntiForgeryToken()
-    <!-- drop down list -->
-    <select style="font-size:12pt" name="UserId" id ="UserId">
-        @{foreach (var user in ViewBag.listOfUsers)
-            {
-                <option value="@user.UserId ">@user.Username</option>
-            }
-        }
-    </select>
 
-    <br/>
-
-        @Html.LabelFor(m => m.StartDate)
-        @Html.TextBoxFor(m => m.StartDate)
- 
-        @Html.LabelFor(m => m.EndDate)
-        @Html.TextBoxFor(m => m.EndDate)
-
-        @Html.LabelFor(m => m.DiscountRate)
-        @Html.TextBoxFor(m => m.DiscountRate)%
-    <br />
-    <button type="button" id ="submitButton">Submit</button> 
-    <p id ="couponCode">Coupon Code Not Issued</p>
-</form>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jquery-validate")
-
-    
-<script type ="text/javascript">
-    jQuery.validator.addMethod("comparator", function (value, element, param) {
-        var startdate = (new Date( $('#StartDate').val())).getTime();
-        var enddate = (new Date($('#EndDate').val())).getTime();
-        if (startdate == '' || enddate == '' || startdate >= enddate)
-            return false;
-        else
-            return true;
-    });
-
-    jQuery.validator.unobtrusive.adapters.addBool("comparator");
-
-</script>
 }

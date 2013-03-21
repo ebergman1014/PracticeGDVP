@@ -15,8 +15,10 @@ namespace CardShop
                         "~/Scripts/Global/jquery-ui-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-validate").Include(
-                        "~/Scripts/Global/jquery.unobtrusive*",
-                        "~/Scripts/Global/jquery.validate*"));
+                        "~/Scripts/Global/jquery.validate*",
+                        "~/Scripts/Global/jquery.unobtrusive*"
+                        //"~/Scripts/Global/jquery.validate.unobtrusive*"
+                        ));
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                         "~/Scripts/Global/knockout-{version}.js"));
