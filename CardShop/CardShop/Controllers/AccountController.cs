@@ -64,7 +64,28 @@ namespace CardShop.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterModel model = new RegisterModel();
+
+            List<SelectListItem> roleList = new List<SelectListItem>();
+
+            roleList.Add(new SelectListItem()
+            {
+                Value = "1",
+                Text = "User"
+            });
+            roleList.Add(new SelectListItem()
+            {
+                Value = "2",
+                Text = "Store Owner"
+            });
+            roleList.Add(new SelectListItem()
+            {
+                Value = "3",
+                Text = "Admin"
+            });
+
+            model.RoleList = new SelectList(roleList, "Value", "Text");
+            return View(model);
         }
 
         //
@@ -84,7 +105,8 @@ namespace CardShop.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        Email = model.Email
+                        Email = model.Email,
+                        RoleId = Int32.Parse(model.RoleId)
                     });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
