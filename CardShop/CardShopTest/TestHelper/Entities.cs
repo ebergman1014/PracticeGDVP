@@ -103,7 +103,7 @@ namespace CardShopTest.TestHelper
             UserDiscount coupon = new UserDiscount();
             UserDiscountUtility udc = new UserDiscountUtility();
             coupon.DiscountRate = 20;
-            coupon.EndDate = DateTime.Now;
+            coupon.EndDate = DateTime.Now.AddDays(1);
             coupon.StartDate = DateTime.Now;
             coupon.UserDiscountId = 0;
             coupon.UserId = 10;
