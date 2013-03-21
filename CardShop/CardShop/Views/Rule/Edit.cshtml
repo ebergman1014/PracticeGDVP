@@ -1,83 +1,128 @@
-﻿@model CardShop.Models.RuleSet
+﻿@using System.Workflow.Activities.Rules
+@model CardShop.ViewModels.RulesetDetails
 
 @{
     ViewBag.Title = "Edit";
 }
 
+
 <h2>Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm("CompileRules", "Rule", FormMethod.Post, new { id = "form" })) {
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>RuleSet</legend>
 
-        @Html.HiddenFor(model => model.RuleSetId)
+        @Html.HiddenFor(model => model.rulesetWrapper.RuleSetId)
+
+        @Html.HiddenFor(model => model.rulesetWrapper.RuleSet1)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.LabelFor(model => model.rulesetWrapper.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MajorVersion)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MajorVersion)
-            @Html.ValidationMessageFor(model => model.MajorVersion)
+            @Html.EditorFor(model => model.rulesetWrapper.Name)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.Name)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.MinorVersion)
+            @Html.LabelFor(model => model.rulesetWrapper.MajorVersion)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.MinorVersion)
-            @Html.ValidationMessageFor(model => model.MinorVersion)
+            @Html.EditorFor(model => model.rulesetWrapper.MajorVersion)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.MajorVersion)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.RuleSet1)
+            @Html.LabelFor(model => model.rulesetWrapper.MinorVersion)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.RuleSet1)
-            @Html.ValidationMessageFor(model => model.RuleSet1)
+            @Html.EditorFor(model => model.rulesetWrapper.MinorVersion)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.MinorVersion)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Status)
+            @Html.LabelFor(model => model.rulesetWrapper.Status)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Status)
-            @Html.ValidationMessageFor(model => model.Status)
+            @Html.EditorFor(model => model.rulesetWrapper.Status)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.Status)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AssemblyPath)
+            @Html.LabelFor(model => model.rulesetWrapper.AssemblyPath)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.AssemblyPath)
-            @Html.ValidationMessageFor(model => model.AssemblyPath)
+            @Html.EditorFor(model => model.rulesetWrapper.AssemblyPath)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.AssemblyPath)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ActivityName)
+            @Html.LabelFor(model => model.rulesetWrapper.ActivityName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ActivityName)
-            @Html.ValidationMessageFor(model => model.ActivityName)
+            @Html.EditorFor(model => model.rulesetWrapper.ActivityName)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.ActivityName)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.ModifiedDate)
+            @Html.LabelFor(model => model.rulesetWrapper.ModifiedDate)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.ModifiedDate)
-            @Html.ValidationMessageFor(model => model.ModifiedDate)
+            @Html.EditorFor(model => model.rulesetWrapper.ModifiedDate)
+            @Html.ValidationMessageFor(model => model.rulesetWrapper.ModifiedDate)
         </div>
 
+        <div>
+            <h4>Rules</h4>
+            <input type="button" id="click" value="Click"/>
+
+            @for (int i = 0; i < Model.rules.Count; i++)
+            {
+                var rule = Model.rules.ElementAt(i);
+                <div class="rule">
+                    <h5>@rule.Name</h5>
+
+                    <p>If Condition</p>
+                    <input type="hidden" id="Condition" />
+                    <input type="text" value="@rule.Condition" class="ifCondition" />
+
+                    <p>Then Actions</p>
+                    <div class="thenActions">
+                        <input type="hidden" id="ThenActions" />
+                        @if (rule.ThenActions != null)
+                        {
+                            for (int j = 0; j < rule.ThenActions.Count; j++)
+                            {
+                                <div>
+                                    <input type="text" value="@rule.ThenActions.ElementAt(j)"/>
+                                    <input type="button" value="Remove" class="remove"/>
+                                </div>
+                            }
+                        }
+                        <input type='button' value='Add Action' class='add'>
+                    </div>
+
+                    <p>Else Actions</p>
+                    <div class="elseActions">
+                        <input type="hidden" id="ElseActions" />
+                        @if (rule.ElseActions != null)
+                        {
+                            for (int j = 0; j < rule.ElseActions.Count; j++)
+                            {
+                                <div>
+                                    <input type="text" value="@rule.ElseActions.ElementAt(j)"/>
+                                    <input type="button" value="Remove" class="remove"/>
+                                </div>
+                            }
+                        }
+                        <input type='button' value='Add Action' class='add'>
+                    </div>
+                </div>
+            }
+        </div>
+        <input type="hidden" id="rulesObject" name="rulesObject"/>
         <p>
             <input type="submit" value="Save" />
         </p>
@@ -90,4 +135,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.edit-rules.js")
 }

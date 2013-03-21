@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\IAdminController.cs" />
+    <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -318,9 +319,6 @@
     <Content Include="Content\themes\ui-theme\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\themes\ui-theme\jquery-ui-1.10.2.custom.css" />
     <Content Include="Scripts\Admin\admin.js" />
-    <None Include="Scripts\Global\jquery-1.7.1.intellisense.js" />
-    <Content Include="Scripts\Global\jquery-1.7.1.js" />
-    <Content Include="Scripts\Global\jquery-1.7.1.min.js" />
     <Content Include="Scripts\Global\jquery.validate.js" />
     <Content Include="Scripts\Global\jquery-ui-1.10.2.js" />
     <Content Include="Scripts\Global\jquery-ui-1.10.2.min.js" />
@@ -329,6 +327,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.edit-rules.js" />
+
     <Content Include="Views\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\Global\jquery.unobtrusive-ajax.js" />
