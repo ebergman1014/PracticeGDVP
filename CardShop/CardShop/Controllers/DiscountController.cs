@@ -11,13 +11,14 @@ namespace CardShop.Controllers
 {
     public class DiscountController : Controller, IDiscountController
     {
-        public IDiscountService discountService{get;set;}
+        public IDiscountService discountService { get; set; }
         /// <summary>
         /// Default page for Discount.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index() {
+        public ActionResult Index()
+        {
             return View();
         }
 
@@ -29,8 +30,9 @@ namespace CardShop.Controllers
         [HttpGet]
         public ActionResult IssueDiscount()
         {
-            // gets a list of all the users in DB, returns it!
-            return View(discountService.GetAllUsers());
+            // gets a list of all the users in DB and place it into viewbag
+            ViewBag.listOfUsers = discountService.GetAllUsers();
+            return View();
         }
 
         /// <summary>
@@ -40,23 +42,27 @@ namespace CardShop.Controllers
         /// <returns> full coupon </returns>
         /// <author>CommanderPaul and masterchief117</author>
         [HttpPost]
-        public UserDiscount IssueDiscount(UserDiscount coupon) {
+        public ActionResult IssueDiscount(UserDiscount coupon)
+        {
             // returns a coupon, hopefully with created date!
             UserDiscount returnedDiscount;
             if (this.ModelState.IsValid)
             {
                 returnedDiscount = discountService.CreateCoupon(coupon);
             }
-            else {
+            else
+            {
                 returnedDiscount = coupon;
             }
-            return returnedDiscount;
+            return Json(returnedDiscount);
         }
+
         /// <summary>
         /// No-Args constructor, sets discountService
         /// </summary>
         /// <author>CommanderPaul and masterchief117</author>
-        public DiscountController(){
+        public DiscountController()
+        {
             discountService = new DiscountService();
         }
     }

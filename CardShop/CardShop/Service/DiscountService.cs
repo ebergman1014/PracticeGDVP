@@ -24,9 +24,11 @@ namespace CardShop.Service
         /// GetAllUsers gets a list of all the Users
         /// </summary>
         /// <returns> a list of all the users in the DB</returns>
-        public List<User> GetAllUsers() { 
+        public List<User> GetAllUsers()
+        {
             List<User> users;
-            using(var ctx = dbContext){
+            using (var ctx = dbContext)
+            {
                 //get all users to a list
                 users = ctx.Users().ToList();
             }
@@ -37,24 +39,30 @@ namespace CardShop.Service
         /// </summary>
         /// <param name="coupon">Coupon without code</param>
         /// <returns>Coupon with code</returns>
-        public UserDiscount CreateCoupon(UserDiscount coupon) {
+        public UserDiscount CreateCoupon(UserDiscount coupon)
+        {
             // generate five digit coupon code
-            coupon.DiscountCode = couponUtility.GenerateCoupon();
-            using (var ctx = new PracticeGDVPEntities()) {
-                // add coupon to context
-                var userCoupons = ctx.UserDiscounts.Add(coupon);
-                // save changes to context (saves to DB!)
-                ctx.SaveChanges();
+            if (coupon.StartDate < coupon.EndDate &&
+                (coupon.DiscountRate > 0 && coupon.DiscountRate < 100))
+            {
+                coupon.DiscountCode = couponUtility.GenerateCoupon();
+                using (var ctx = dbContext)
+                {
+                    // add coupon to context
+                    var userCoupons = ctx.UserDiscounts().Add(coupon);
+                    // save changes to context (saves to DB!)
+                    ctx.SaveChanges();
+                }
             }
             return coupon;
         }
         /// <summary>
         /// No-Args constructor, creates new CouponUtility();
         /// </summary>
-        public DiscountService() 
+        public DiscountService()
         {
             couponUtility = new UserDiscountUtility();
-            dbContext  = PracticeGDVPDao.GetInstance();
+            dbContext = PracticeGDVPDao.GetInstance();
         }
     }
 }

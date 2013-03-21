@@ -14,10 +14,13 @@ namespace CardShopTest.ServiceTests
     public class DiscountServiceTest
     {
         private DiscountService discountService;
-        
+        private UserDiscount userDiscount;
+
         [TestInitialize]
-        public void Setup() {
+        public void Setup()
+        {
             discountService = new DiscountService();
+            userDiscount = User_DiscountTest.CreateCoupon();
         }
 
         [TestMethod]
@@ -28,9 +31,28 @@ namespace CardShopTest.ServiceTests
             List<User> list = ListOfUsers.GetListOfUsers(4);
             mockContext.Setup(m => m.Users()).Returns(mockDbSet.Object);
             mockDbSet.Setup(m => m.ToList()).Returns(list);
-            discountService.dbContext = mockContext.Object;            
+            discountService.dbContext = mockContext.Object;
 
             Assert.AreSame(list, discountService.GetAllUsers());
+        }
+
+        [TestMethod]
+        public void CreateCouponSuccessTest()
+        {
+            var mockUserDiscountUtility = new Mock<IUserDiscountUtility>();
+            var mockDbSet = new Mock<IPracticeGDVPDao>();
+            discountService.couponUtility = mockUserDiscountUtility.Object;
+            discountService.dbContext = mockDbSet.Object;
+            
+
+            mockUserDiscountUtility.Setup(mock => mock.GenerateCoupon()).
+                Returns(userDiscount.DiscountCode);
+            mockDbSet.Setup(mock => mock.UserDiscounts().
+                Add(userDiscount)).Returns(userDiscount);
+
+            Assert.AreSame(discountService.CreateCoupon(userDiscount), userDiscount);
+
+            mockDbSet.Verify(mock => mock.SaveChanges());
         }
     }
 }

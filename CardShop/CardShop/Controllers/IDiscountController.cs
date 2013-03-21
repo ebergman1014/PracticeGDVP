@@ -14,6 +14,6 @@ namespace CardShop.Controllers
     {
         ActionResult Index();
         ActionResult IssueDiscount();
-        UserDiscount IssueDiscount(UserDiscount coupon);
+        ActionResult IssueDiscount(UserDiscount coupon);
     }
 }

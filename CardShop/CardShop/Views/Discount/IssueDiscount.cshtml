@@ -1,9 +1,18 @@
-﻿@model List<CardShop.Models.User>
-
+﻿@model CardShop.Models.UserDiscount
 
 @{
     ViewBag.Title = "Issue A Discount";
 }
+
+
+
+
+<style>
+    input
+        {
+        width:100px;
+        }
+</style>
 
 <script>
     $(document).ready(function () {
@@ -12,40 +21,45 @@
         //  as ajax request and display 
         //  returned coupon code
         $("#submitButton").click(function () {
+     
+            if ($("#theForm").validate()) {
 
-            //  parameterize the form data
-            var jsonForm = $("#theForm").serialize();
-            
-           //jQuery.post( url, [data], [callback], [type] )
-           $.post("IssueDiscount",
-                jsonForm,
-                function (data) {
+                $.post("IssueDiscount",
+                     jsonForm,
+                     function (data) {
 
-                    //  displayed name
-                    var displayName = $("#UserId").text();
+                         //  displayed name
+                         var displayName = $("#UserId").text();
 
-                    //  display coupon code and message here
-                    $("#couponCode").html("Coupon Code " + data.DiscountCode
-                        + " has been issued to " + displayName);
+                         //  display coupon code and message here
+                         $("#couponCode").html("Coupon Code " + data.DiscountCode
+                             + " has been issued to " + displayName);
 
-                    // make text red
-                    $("#couponCode").css('color', 'red');
+                         // make text green per Nate
+                         $("#couponCode").css('color', 'green');
 
-                    },
-                "json")
+                     },
+                     "json");
+            }
+       
+        });
+
+        $(function () {
+            $("#StartDate").datepicker();
+            $("#EndDate").datepicker();
         });
 
     });
+
 </script>
 
-
 <h2>Issue A Discount</h2>
-
-
+@Html.ValidationSummary()
 <form id ="theForm">
+@Html.AntiForgeryToken()
     <!-- drop down list -->
     <select style="font-size:12pt" name="UserId" id ="UserId">
-        @{foreach (var user in Model)
+        @{foreach (var user in ViewBag.listOfUsers)
             {
                 <option value="@user.UserId ">@user.Username</option>
             }
@@ -53,12 +67,35 @@
     </select>
 
     <br/>
-    Start Date: <input type="text" name="StartDate"/>
-    <br/>
-    End Date: <input type="text" name="EndDate"/>
-    <br/>
-    Discount Percent: <input type="text" name="DiscountRate"/>
-    <br/>
+
+        @Html.LabelFor(m => m.StartDate)
+        @Html.TextBoxFor(m => m.StartDate)
+ 
+        @Html.LabelFor(m => m.EndDate)
+        @Html.TextBoxFor(m => m.EndDate)
+
+        @Html.LabelFor(m => m.DiscountRate)
+        @Html.TextBoxFor(m => m.DiscountRate)%
+    <br />
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
 </form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+
+    
+<script type ="text/javascript">
+    jQuery.validator.addMethod("comparator", function (value, element, param) {
+        var startdate = (new Date( $('#StartDate').val())).getTime();
+        var enddate = (new Date($('#EndDate').val())).getTime();
+        if (startdate == '' || enddate == '' || startdate >= enddate)
+            return false;
+        else
+            return true;
+    });
+
+    jQuery.validator.unobtrusive.adapters.addBool("comparator");
+
+</script>
+}

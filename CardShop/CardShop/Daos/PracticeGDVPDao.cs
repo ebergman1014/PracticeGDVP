@@ -9,6 +9,7 @@ namespace CardShop.Daos
 {
     public class PracticeGDVPDao : IPracticeGDVPDao
     {
+        private PracticeGDVPEntities gdvp;
         private IDbSet<User> users;
         private IDbSet<BaseballCard> baseBallCards;
         private IDbSet<BaseballCardTransaction> baseballCardTransactions;
@@ -26,7 +27,8 @@ namespace CardShop.Daos
             return users;
         }
 
-        public static PracticeGDVPDao GetInstance(){
+        public static PracticeGDVPDao GetInstance()
+        {
             if (gdvpDao == null)
             {
                 gdvpDao = new PracticeGDVPDao();
@@ -70,10 +72,10 @@ namespace CardShop.Daos
             return userDiscounts;
         }
 
-        
+
         private PracticeGDVPDao()
         {
-            PracticeGDVPEntities gdvp = new PracticeGDVPEntities();
+            gdvp = new PracticeGDVPEntities();
             users = new DbSetWrapper<User>(gdvp.Users);
             baseBallCards = new DbSetWrapper<BaseballCard>(gdvp.BaseballCards);
             baseballCardTransactions = new DbSetWrapper<BaseballCardTransaction>(gdvp.BaseballCardTransactions);
@@ -84,7 +86,13 @@ namespace CardShop.Daos
             storeInventories = new DbSetWrapper<StoreInventory>(gdvp.StoreInventories);
         }
 
-
-        public void Dispose(){}
+        public int SaveChanges()
+        {
+            return gdvp.SaveChanges();
+        }
+        public void Dispose()
+        {
+            //gdvp.Dispose();
+        }
     }
 }
