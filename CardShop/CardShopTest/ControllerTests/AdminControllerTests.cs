@@ -55,22 +55,44 @@ namespace CardShopTest.ControllerTests
         }
 
         /// <summary>
-        /// test ManageStore Get Method
+        /// test ManageStore Get Method when MembershipUser is null
         /// </summary>
         [TestMethod]
-        public void ManageStoreGetTest()
+        public void ManageStoreGetTestNull()
         {
             var mock = new Mock<IMembership>();
-            
-            mock.Setup(m => m.GetUser()).Returns((MembershipUser)null); //.Raises();
+            mock.Setup(m => m.GetUser()).Returns((MembershipUser)null);
 
             adminController.membership = mock.Object;
 
             adminController.ManageStore();
             Assert.IsInstanceOfType(adminController.ManageStore(),typeof(RedirectResult));
 
-        }
 
+        }
+        /// <summary>
+        /// Helper class for ManageStoreGetTestNotNull()
+        /// </summary>
+        private class FakeMembershipUser : MembershipUser
+        {
+            public FakeMembershipUser() { }
+        }
+        /// <summary>
+        /// Tests ManageStore Get request where MembershipUser is not null
+        /// </summary>
+        [TestMethod]
+        public void ManageStoreGetTestNotNull()
+        {
+            var mock = new Mock<IMembership>();
+
+            MembershipUser user = new FakeMembershipUser();
+
+            mock.Setup(m => m.GetUser()).Returns(user);
+
+            adminController.membership = mock.Object;
+
+            Assert.IsInstanceOfType(adminController.ManageStore(), typeof(ViewResult));
+        }
 
     }
 }
