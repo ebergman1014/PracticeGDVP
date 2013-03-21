@@ -2,10 +2,19 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CardShop.Controllers;
 using System.Web.Mvc;
+using System.Web.Security;
 using CardShop.Models;
 using CardShop.Service;
 using Moq;
 using CardShop.Auth;
+
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+
+
 
 namespace CardShopTest.ControllerTests
 {
@@ -32,7 +41,7 @@ namespace CardShopTest.ControllerTests
         public void ManageStorePostTest() 
         {
             var mock = new Mock<IAdminService>();
-
+            //mock.Setup(m => m.OwnedStore(2)).Returns(null);
             //set field in adminController
             adminController.adminService = mock.Object;
 
@@ -46,12 +55,14 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void ManageStoreGetTest()
         {
-            //var mock = new Mock<IMembership>();
-            //adminController.membership = mock.Object;
+            var mock = new Mock<IMembership>();
+            
+            mock.Setup(m => m.GetUser()).Returns((MembershipUser)null); //.Raises();
 
-           // mock.Setup(mockObject => mockObject.GetUser()).Callback(null);
+            adminController.membership = mock.Object;
 
-           // Assert.IsInstanceOfType(adminController.ManageStore(),typeof(RedirectResult));
+            adminController.ManageStore();
+            Assert.IsInstanceOfType(adminController.ManageStore(),typeof(RedirectResult));
 
         }
 

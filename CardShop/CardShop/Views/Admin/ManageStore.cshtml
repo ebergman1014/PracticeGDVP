@@ -4,10 +4,11 @@
 }
 
 <h2>ManageStore</h2>
-<br />
-Store Name: <br />
-<br />
-Store Owner: <br />
-<br />
-Store Discount: <input type="text" value="@Model.DiscountRate" /><br />
-<br />
+<form id="discountForm">
+    Store Name: @Model.Name<br />
+    <br />
+    Store Discount: <input type="text" name="DiscountRate" id ="DiscountRate" value="@Model.DiscountRate" /><br />
+    <input type="button" id="submitDiscount" value="Edit Store" />
+</form>
+ 
+<script src="@Url.Content("~/Scripts/Admin/admin.js")"></script>

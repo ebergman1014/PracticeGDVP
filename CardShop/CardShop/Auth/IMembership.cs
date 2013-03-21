@@ -576,5 +576,7 @@ namespace CardShop.Auth
         // Returns:
         //     true if the supplied user name and password are valid; otherwise, false.
         bool ValidateUser(string username, string password);
+
+        int GetUserId();
     }
 }
