@@ -92,7 +92,7 @@ namespace CardShop.Daos
         }
         public void Dispose()
         {
-            gdvp.Dispose();
+            //gdvp.Dispose();
         }
     }
 }

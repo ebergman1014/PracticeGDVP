@@ -41,7 +41,8 @@ namespace CardShop.Controllers
             if (membership.GetUser() == null) {
                 return Redirect("~/Account/Login");
             }
-            return View(adminService.OwnedStore(membership.GetUserId()));
+            return View(adminService.OwnedStore(Convert.ToInt32(
+            membership.GetUser().ProviderUserKey)));
         }
 
     }

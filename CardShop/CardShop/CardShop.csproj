@@ -236,6 +236,7 @@
     <Compile Include="Models\UserDiscount.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Validator\DateValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AdminService.cs" />
     <Compile Include="Service\DiscountService.cs" />
