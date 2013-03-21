@@ -1,5 +1,4 @@
-﻿@using System.Workflow.Activities
-@model CardShop.ViewModels.RulesetDetails
+﻿@model CardShop.ViewModels.RulesetDetails
 
 @{
     ViewBag.Title = "Details";
@@ -9,13 +8,13 @@
     <h2>
         @Model.ruleset.Name
     </h2>
-    Version @Model.ruleset.MajorVersion.@Model.ruleset.MinorVersion
+    Version @Model.rulesetWrapper.MajorVersion.@Model.rulesetWrapper.MinorVersion
 </div>
 
 <div>
     <h2>Rules</h2>
 
-    @foreach (var rule in Model.rules)
+    @foreach (var rule in Model.ruleset.Rules)
     {
         <div>
             <h3><b>@rule.Name</b></h3>
@@ -29,40 +28,40 @@
             <h5>Then Actions</h5>
             @foreach (var action in rule.ThenActions)
             {
-                action.ToString();
+                <text>@action</text><br />
             }
         
             <h5>Else Actions</h5>
             @foreach (var action in rule.ElseActions)
             {
-                action.ToString();
+                <text>@action</text><br />
             }
         </div>
     }
 </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.ruleset.AssemblyPath)
+         @Html.DisplayNameFor(model => model.rulesetWrapper.AssemblyPath)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ruleset.AssemblyPath)
+        @Html.DisplayFor(model => model.rulesetWrapper.AssemblyPath)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.ruleset.ActivityName)
+         @Html.DisplayNameFor(model => model.rulesetWrapper.ActivityName)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ruleset.ActivityName)
+        @Html.DisplayFor(model => model.rulesetWrapper.ActivityName)
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.ruleset.ModifiedDate)
+         @Html.DisplayNameFor(model => model.rulesetWrapper.ModifiedDate)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ruleset.ModifiedDate)
+        @Html.DisplayFor(model => model.rulesetWrapper.ModifiedDate)
     </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ruleset.RuleSetId }) |
+    @Html.ActionLink("Edit", "Edit", new { id=Model.rulesetWrapper.RuleSetId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
