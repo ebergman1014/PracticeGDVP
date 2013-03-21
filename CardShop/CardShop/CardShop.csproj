@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\IAdminController.cs" />
+    <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
