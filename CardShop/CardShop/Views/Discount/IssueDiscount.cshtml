@@ -1,19 +1,17 @@
-﻿@model List<CardShop.Models.User>
+﻿@model CardShop.Models.UserDiscount
 
 @{
     ViewBag.Title = "Issue A Discount";
 }
+
+
+
+
 <style>
-
-input
-    {
-    width:100px;
-    }
-.errorClass
-    {
-    display:none;
-    }
-
+    input
+        {
+        width:100px;
+        }
 </style>
 
 <script>
@@ -23,60 +21,27 @@ input
         //  as ajax request and display 
         //  returned coupon code
         $("#submitButton").click(function () {
+     
+            if ($("#theForm").validate()) {
 
-            
-            //  clear errors before checking for errors
-            $(".errorClass").hide();
-            
+                $.post("IssueDiscount",
+                     jsonForm,
+                     function (data) {
 
-            //  parse input date and return milliseconds
-            function parseDate(inputDate) {
-                var pieces = inputDate.split("/");
-                formattedDate = new Date(pieces[2], pieces[0], pieces[1], 00, 00, 00, 00);
-                var msTime = formattedDate.getTime();
-                return msTime;
+                         //  displayed name
+                         var displayName = $("#UserId").text();
+
+                         //  display coupon code and message here
+                         $("#couponCode").html("Coupon Code " + data.DiscountCode
+                             + " has been issued to " + displayName);
+
+                         // make text green per Nate
+                         $("#couponCode").css('color', 'green');
+
+                     },
+                     "json");
             }
-            
-            errorFree = true;
-
-            //  Check Discount Rate
-            if ($("#DiscountRate").val() > 100 || $("#DiscountRate").val() < 0) {
-
-                $("#discountError").css('color', 'red');
-                $("#discountError").show();
-                errorFree = false;
-            }
-
-            if (parseDate($("#StartDate").val()) > parseDate($("#EndDate").val())) {    // Check Dates
-
-                $("#dateError").css('color', 'red');
-                $("#dateError").show();
-                errorFree = false;
-            }
-            if (errorFree) {    //  submit if error free
-
-                //  parameterize the form data
-                var jsonForm = $("#theForm").serialize();
-            
-               //jQuery.post( url, [data], [callback], [type] )
-               $.post("IssueDiscount",
-                    jsonForm,
-                    function (data) {
-
-                        //  displayed name
-                        var displayName = $("#UserId").text();
-
-                        //  display coupon code and message here
-                        $("#couponCode").html("Coupon Code " + data.DiscountCode
-                            + " has been issued to " + displayName);
-
-                        // make text green per Nate
-                        $("#couponCode").css('color', 'green');
-
-                        },
-                    "json")
-            }
-
+       
         });
 
         $(function () {
@@ -86,19 +51,15 @@ input
 
     });
 
-
-
-
 </script>
 
-
 <h2>Issue A Discount</h2>
-
-
+@Html.ValidationSummary()
 <form id ="theForm">
+@Html.AntiForgeryToken()
     <!-- drop down list -->
     <select style="font-size:12pt" name="UserId" id ="UserId">
-        @{foreach (var user in Model)
+        @{foreach (var user in ViewBag.listOfUsers)
             {
                 <option value="@user.UserId ">@user.Username</option>
             }
@@ -106,14 +67,16 @@ input
     </select>
 
     <br/>
-    Start Date: <input type="text" name="StartDate" id ="StartDate"/>
-    <br/>
-    End Date: <input type="text" name="EndDate" id ="EndDate"/>
-    <span id ="dateError" class ="errorClass">End Date is before Start Date</span>
-    <br/>
-    Discount Percent As Whole Number: <input type="text" name="DiscountRate" id ="DiscountRate"/>%
-    <span id ="discountError" class ="errorClass">Discount is out of range</span>
-    <br/>
+
+        @Html.LabelFor(m => m.StartDate)
+        @Html.TextBoxFor(m => m.StartDate)
+ 
+        @Html.LabelFor(m => m.EndDate)
+        @Html.TextBoxFor(m => m.EndDate)
+
+        @Html.LabelFor(m => m.DiscountRate)
+        @Html.TextBoxFor(m => m.DiscountRate)%
+    <br />
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
 </form>
@@ -123,7 +86,7 @@ input
 
     
 <script type ="text/javascript">
-    jQuery.validator.addMethod("datevalidator", function (value, element, param) {
+    jQuery.validator.addMethod("comparator", function (value, element, param) {
         var startdate = (new Date( $('#StartDate').val())).getTime();
         var enddate = (new Date($('#EndDate').val())).getTime();
         if (startdate == '' || enddate == '' || startdate >= enddate)
@@ -132,7 +95,7 @@ input
             return true;
     });
 
-    jQuery.validator.unobtrusive.adapters.addBool("supervalidation");
+    jQuery.validator.unobtrusive.adapters.addBool("comparator");
 
 </script>
 }

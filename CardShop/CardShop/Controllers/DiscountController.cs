@@ -30,8 +30,9 @@ namespace CardShop.Controllers
         [HttpGet]
         public ActionResult IssueDiscount()
         {
-            // gets a list of all the users in DB, returns it!
-            return View(discountService.GetAllUsers());
+            // gets a list of all the users in DB and place it into viewbag
+            ViewBag.listOfUsers = discountService.GetAllUsers();
+            return View();
         }
 
         /// <summary>
