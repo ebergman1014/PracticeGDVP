@@ -1,20 +1,17 @@
-﻿@model List<CardShop.Models.User>
+﻿@model CardShop.Models.UserDiscount
 
 @{
     ViewBag.Title = "Issue A Discount";
 }
 
-@Html.AntiForgeryToken()
+
 
 
 <style>
-
-input
-    {
-    width:100px;
-    }
-
-
+    input
+        {
+        width:100px;
+        }
 </style>
 
 <script>
@@ -59,9 +56,10 @@ input
 <h2>Issue A Discount</h2>
 @Html.ValidationSummary()
 <form id ="theForm">
+@Html.AntiForgeryToken()
     <!-- drop down list -->
     <select style="font-size:12pt" name="UserId" id ="UserId">
-        @{foreach (var user in Model)
+        @{foreach (var user in ViewBag.listOfUsers)
             {
                 <option value="@user.UserId ">@user.Username</option>
             }
@@ -69,12 +67,16 @@ input
     </select>
 
     <br/>
-    Start Date: <input type="text" name="StartDate" id ="StartDate"/>
-    <br/>
-    End Date: <input type="text" name="EndDate" id ="EndDate"/>
-    <br/>
-    Discount Percent As Whole Number: <input type="text" name="DiscountRate" id ="DiscountRate"/>%
-    <br/>
+
+        @Html.LabelFor(m => m.StartDate)
+        @Html.TextBoxFor(m => m.StartDate)
+ 
+        @Html.LabelFor(m => m.EndDate)
+        @Html.TextBoxFor(m => m.EndDate)
+
+        @Html.LabelFor(m => m.DiscountRate)
+        @Html.TextBoxFor(m => m.DiscountRate)%
+    <br />
     <button type="button" id ="submitButton">Submit</button> 
     <p id ="couponCode">Coupon Code Not Issued</p>
 </form>
@@ -84,7 +86,7 @@ input
 
     
 <script type ="text/javascript">
-    jQuery.validator.addMethod("datevalidator", function (value, element, param) {
+    jQuery.validator.addMethod("comparator", function (value, element, param) {
         var startdate = (new Date( $('#StartDate').val())).getTime();
         var enddate = (new Date($('#EndDate').val())).getTime();
         if (startdate == '' || enddate == '' || startdate >= enddate)
@@ -93,7 +95,7 @@ input
             return true;
     });
 
-    jQuery.validator.unobtrusive.adapters.addBool("supervalidation");
+    jQuery.validator.unobtrusive.adapters.addBool("comparator");
 
 </script>
 }
