@@ -50,30 +50,19 @@
 
     
 <script type ="text/javascript">
-    (function($){
-        $.validator.addMethod("supervalidation", function (value, element, param) {
-            console.log("ssss");
-            var result = false;
-            var startdate = (new Date($('#StartDate').val()));
-            var enddate = (new Date($('#EndDate').val()));
-            if (startdate != new Date("") && enddate != new Date("")) {
-                if (enddate.getTime() > startdate.getTime()) {
-                    result = true;
-                }
+    $.validator.addMethod("comparator", function (value, element, param) {
+        var result = false;
+        var startdate = (new Date($('#StartDate').val()));
+        var enddate = (new Date($('#EndDate').val()));
+        if (startdate != new Date("") && enddate != new Date("")) {
+            if (enddate.getTime() > startdate.getTime()) {
+                result = true;
             }
-            return result;
-        });
-
-        $.validator.unobtrusive.adapters.addBool("supervalidation");
-    })(jQuery);
-    $.validator.unobtrusive.adapters.add("supervalidation", [], function (options) {
-        options.rules['supervalidation'] = true;
-        options.messages["wrongvalue"] = options.message;
+        }
+        return result;
     });
-    console.log("asdsdsdd");
-//    $.validator.unobtrusive.parse();
-</script>
-<script>
+
+    $.validator.unobtrusive.adapters.addBool("comparator");
     $(document).ready(function () {
 
         // on button click, submit form
