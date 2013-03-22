@@ -420,7 +420,6 @@
     <Content Include="Scripts\Global\knockout-2.1.0.js" />
     <Content Include="Scripts\Global\modernizr-2.5.3.js" />
     <Content Include="Scripts\jquery.edit-rules.js" />
-    <Content Include="Views\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
