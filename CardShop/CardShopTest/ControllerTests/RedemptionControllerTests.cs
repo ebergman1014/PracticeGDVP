@@ -4,11 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CardShopTest.ControllerTests
 {
     [TestClass]
-    public class RedemptionControllerTest
+    public class RedemptionControllerTests
     {
         [TestMethod]
         public void ReedemTest()
         {
+
+
         }
     }
 }
