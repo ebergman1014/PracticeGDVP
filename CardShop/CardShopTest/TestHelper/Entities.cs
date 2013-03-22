@@ -30,13 +30,13 @@ namespace CardShopTest.TestHelper
             listOfUsers = new List<User>();
             for (int index = 0; index < UsersWanted; index++)
             {
-                User user = new User();
-                user.UserId = index;
-                user.Username = "Tank" + index;
-                user.Name = "Frank" + index;
-                user.Password = "pass";
-                user.Role = "User";
-                listOfUsers.Add(user);
+                //User user = new User();
+                //user.UserId = index;
+                //user.Username = "Tank" + index;
+                //user.Name = "Frank" + index;
+                //user.Password = "pass";
+                //user.Role = "User";
+                //listOfUsers.Add(user);
             }
             return listOfUsers;
         }
@@ -54,14 +54,14 @@ namespace CardShopTest.TestHelper
     {
         public static User CreateUser(){
             User user = new User();
-            user.Name = "Paul";
-            user.Password = "Commander";
-            user.Role = "Captain";
+            user.FirstName = "Paul";
+            user.LastName = "Commander";
+            user.RoleId = 1;
             user.Stores = new List<Store>();
             user.Transactions = new List<Transaction>();
             user.UserDiscounts = new List<UserDiscount>();
             user.UserId = 23;
-            user.Username = "commanderpaul";
+            user.UserName = "commanderpaul";
             return user;
         }
 
@@ -133,7 +133,7 @@ namespace CardShopTest.TestHelper
                 store.StoreInventories = new List<StoreInventory>();
                 store.Transactions = new List<Transaction>();
                 store.UserId = index;
-                store.UserTable = UserTest.CreateUser();
+                store.UserProfile = UserTest.CreateUser();
                 stores.Add(store);
             }
             return stores;

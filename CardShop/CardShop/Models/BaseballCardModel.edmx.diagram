@@ -17,7 +17,7 @@
         <AssociationConnector Association="PracticeGDVPModel.FK_BaseballCardTransaction_Transaction" ManuallyRouted="false" />
         <AssociationConnector Association="PracticeGDVPModel.FK_StoreInventory_Store" ManuallyRouted="false" />
         <AssociationConnector Association="PracticeGDVPModel.FK_Transaction_Store" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="PracticeGDVPModel.UserProfile" Width="1.5" PointX="3.625" PointY="5.5" />
+        <EntityTypeShape EntityType="PracticeGDVPModel.User" Width="1.5" PointX="3.625" PointY="5.5" />
         <EntityTypeShape EntityType="PracticeGDVPModel.webpages_Roles" Width="1.5" PointX="1.375" PointY="6" />
         <AssociationConnector Association="PracticeGDVPModel.FK_Store_UserProfile" />
         <AssociationConnector Association="PracticeGDVPModel.FK_Transaction_UserProfile" />
