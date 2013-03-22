@@ -43,7 +43,7 @@ namespace CardShop.Controllers
                 return Redirect("~/Account/Login");
             }
             return View(adminService.OwnedStore(Convert.ToInt32(
-            membership.GetUser().ProviderUserKey)));
+            membership.GetUserId())));
         }
 
     }

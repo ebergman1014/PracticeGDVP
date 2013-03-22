@@ -12,7 +12,7 @@ using CardShop.Auth;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using CardShopTest.TestHelper;
 
 
 
@@ -22,10 +22,16 @@ namespace CardShopTest.ControllerTests
     public class AdminControllerTests
     {
         AdminController adminController;
+        List<Store> stores;
+        Store storeOne;
+        Store storeTwo;
 
         [TestInitialize]
         public void Setup() { 
             adminController = new AdminController();
+            stores = StoreTest.CreateStores(2);
+            storeOne = stores[0];
+            storeTwo = stores[1];
         }
 
         [TestMethod]
@@ -42,16 +48,18 @@ namespace CardShopTest.ControllerTests
         {
             var mock = new Mock<IAdminService>();
             var mockMember = new Mock<IMembership>();
-            adminController.membership = mockMember.Object;
 
+            
+            adminController.membership = mockMember.Object;
+            adminController.adminService = mock.Object;
             mockMember.Setup(m => m.GetUserId()).Returns(2);
-            //mock.Setup(m => m.OwnedStore(2)).Returns(null);
+            mock.Setup(m => m.OwnedStore(2)).Returns(storeOne);
+            mock.Setup(m => m.EditStore(storeOne, storeTwo)).Returns(new Store());
             //set field in adminController
             
-            adminController.adminService = mock.Object;
 
             Assert.IsInstanceOfType(adminController.
-                ManageStore(new Store()), typeof(JsonResult));
+                ManageStore(storeTwo), typeof(JsonResult));
         }
 
         /// <summary>
@@ -84,12 +92,15 @@ namespace CardShopTest.ControllerTests
         public void ManageStoreGetTestNotNull()
         {
             var mock = new Mock<IMembership>();
-
+            var mockService = new Mock<IAdminService>();
             MembershipUser user = new FakeMembershipUser();
-
+            adminController.membership = mock.Object;
+            adminController.adminService = mockService.Object;
             mock.Setup(m => m.GetUser()).Returns(user);
 
-            adminController.membership = mock.Object;
+            mockService.Setup(m => m.OwnedStore(1)).Returns(new Store());
+            mock.Setup(m => m.GetUserId()).Returns(1);
+
 
             Assert.IsInstanceOfType(adminController.ManageStore(), typeof(ViewResult));
         }
