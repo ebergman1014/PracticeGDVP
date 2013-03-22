@@ -52,11 +52,18 @@ namespace CardShopTest.TestHelper
     /// </summary>
     class UserTest
     {
-        public int UserID { get; set; }
-        public string Username { get; set; }
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public Role UserRole { get; set; }
+        public static User CreateUser(){
+            User user = new User();
+            user.Name = "Paul";
+            user.Password = "Commander";
+            user.Role = "Captain";
+            user.Stores = new List<Store>();
+            user.Transactions = new List<Transaction>();
+            user.UserDiscounts = new List<UserDiscount>();
+            user.UserId = 23;
+            user.Username = "commanderpaul";
+            return user;
+        }
 
         public UserTest() { }
     }
@@ -103,7 +110,7 @@ namespace CardShopTest.TestHelper
             UserDiscount coupon = new UserDiscount();
             UserDiscountUtility udc = new UserDiscountUtility();
             coupon.DiscountRate = 20;
-            coupon.EndDate = DateTime.Now;
+            coupon.EndDate = DateTime.Now.AddDays(1);
             coupon.StartDate = DateTime.Now;
             coupon.UserDiscountId = 0;
             coupon.UserId = 10;
@@ -112,5 +119,25 @@ namespace CardShopTest.TestHelper
             return coupon;
         }
 
+    }
+
+    public class StoreTest{
+        public static List<Store> CreateStores(int createNTables){
+            List<Store> stores = new List<Store>();
+            for (int index = 0; index < createNTables; index++)
+            {
+                Store store = new Store();
+                store.DiscountRate = index + 1;
+                store.Name = "CommanderPaul" +createNTables;
+                store.StoreId = index + 1;
+                store.StoreInventories = new List<StoreInventory>();
+                store.Transactions = new List<Transaction>();
+                store.UserId = index;
+                store.UserTable = UserTest.CreateUser();
+                stores.Add(store);
+            }
+            return stores;
+        }    
+    
     }
 }

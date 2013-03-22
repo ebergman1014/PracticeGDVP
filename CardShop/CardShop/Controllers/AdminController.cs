@@ -28,9 +28,11 @@ namespace CardShop.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ManageStore(Store storeToChange)
         {
-            return Json(adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange));
+            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange);
+            return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId});
         }
 
         [HttpGet]
@@ -41,7 +43,7 @@ namespace CardShop.Controllers
                 return Redirect("~/Account/Login");
             }
             return View(adminService.OwnedStore(Convert.ToInt32(
-            membership.GetUser().ProviderUserKey)));
+            membership.GetUserId())));
         }
 
     }

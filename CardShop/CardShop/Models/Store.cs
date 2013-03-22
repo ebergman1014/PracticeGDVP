@@ -25,8 +25,8 @@ namespace CardShop.Models
         public string Name { get; set; }
         public decimal DiscountRate { get; set; }
     
-        public virtual User UserTable { get; set; }
         public virtual ICollection<StoreInventory> StoreInventories { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual User UserProfile { get; set; }
     }
 }

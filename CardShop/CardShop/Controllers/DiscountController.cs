@@ -30,8 +30,9 @@ namespace CardShop.Controllers
         [HttpGet]
         public ActionResult IssueDiscount()
         {
-            // gets a list of all the users in DB, returns it!
-            return View(discountService.GetAllUsers());
+            // gets a list of all the users in DB and place it into viewbag
+            ViewBag.listOfUsers = discountService.GetAllUsers();
+            return View();
         }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace CardShop.Controllers
         /// <returns> full coupon </returns>
         /// <author>CommanderPaul and masterchief117</author>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult IssueDiscount(UserDiscount coupon)
         {
             // returns a coupon, hopefully with created date!
@@ -53,7 +55,15 @@ namespace CardShop.Controllers
             {
                 returnedDiscount = coupon;
             }
-            return Json(returnedDiscount);
+            return Json(new
+            {
+                UserDiscountId = coupon.UserDiscountId,
+                DiscountRate = coupon.DiscountRate,
+                StartDate = coupon.StartDate,
+                EndDate = coupon.EndDate,
+                DiscountCode = coupon.DiscountCode,
+                UserId = coupon.UserId,
+            });
         }
 
         /// <summary>

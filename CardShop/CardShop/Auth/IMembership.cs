@@ -14,7 +14,7 @@ namespace CardShop.Auth
         //
         // Returns:
         //     The name of the application.
-         string ApplicationName { get; set; }
+        string ApplicationName { get; set; }
         //
         // Summary:
         //     Gets a value indicating whether the current membership provider is configured
@@ -22,7 +22,7 @@ namespace CardShop.Auth
         //
         // Returns:
         //     true if the membership provider supports password reset; otherwise, false.
-         bool EnablePasswordReset { get; }
+        bool EnablePasswordReset { get; }
         //
         // Summary:
         //     Gets a value indicating whether the current membership provider is configured
@@ -30,7 +30,7 @@ namespace CardShop.Auth
         //
         // Returns:
         //     true if the membership provider supports password retrieval; otherwise, false.
-         bool EnablePasswordRetrieval { get; }
+        bool EnablePasswordRetrieval { get; }
         //
         // Summary:
         //     The identifier of the algorithm used to hash passwords.
@@ -38,7 +38,7 @@ namespace CardShop.Auth
         // Returns:
         //     The identifier of the algorithm used to hash passwords, or blank to use the
         //     default hash algorithm.
-         string HashAlgorithmType { get; }
+        string HashAlgorithmType { get; }
         //
         // Summary:
         //     Gets the number of invalid password or password-answer attempts allowed before
@@ -47,7 +47,7 @@ namespace CardShop.Auth
         // Returns:
         //     The number of invalid password or password-answer attempts allowed before
         //     the membership user is locked out.
-         int MaxInvalidPasswordAttempts { get; }
+        int MaxInvalidPasswordAttempts { get; }
         //
         // Summary:
         //     Gets the minimum number of special characters that must be present in a valid
@@ -56,14 +56,14 @@ namespace CardShop.Auth
         // Returns:
         //     The minimum number of special characters that must be present in a valid
         //     password.
-         int MinRequiredNonAlphanumericCharacters { get; }
+        int MinRequiredNonAlphanumericCharacters { get; }
         //
         // Summary:
         //     Gets the minimum length required for a password.
         //
         // Returns:
         //     The minimum length required for a password.
-         int MinRequiredPasswordLength { get; }
+        int MinRequiredPasswordLength { get; }
         //
         // Summary:
         //     Gets the time window between which consecutive failed attempts to provide
@@ -76,14 +76,14 @@ namespace CardShop.Auth
         //     failed attempt is greater than the System.Web.Security.Membership.PasswordAttemptWindow
         //     property setting, each failed attempt is treated as if it were the first
         //     failed attempt.
-         int PasswordAttemptWindow { get; }
+        int PasswordAttemptWindow { get; }
         //
         // Summary:
         //     Gets the regular expression used to evaluate a password.
         //
         // Returns:
         //     A regular expression used to evaluate a password.
-         string PasswordStrengthRegularExpression { get; }
+        string PasswordStrengthRegularExpression { get; }
         //
         // Summary:
         //     Gets a reference to the default membership provider for the application.
@@ -117,11 +117,11 @@ namespace CardShop.Auth
         // Returns:
         //     The number of minutes after the last-activity date/time stamp for a user
         //     during which the user is considered online.
-         int UserIsOnlineTimeWindow { get; }
+        int UserIsOnlineTimeWindow { get; }
 
         // Summary:
         //     Occurs when a user is created, a password is changed, or a password is reset.
-         event MembershipValidatePasswordEventHandler ValidatingPassword;
+        event MembershipValidatePasswordEventHandler ValidatingPassword;
 
         // Summary:
         //     Adds a new user to the data store.
@@ -385,7 +385,7 @@ namespace CardShop.Auth
         //   System.ArgumentException:
         //     length is less than 1 or greater than 128 -or-numberOfNonAlphanumericCharacters
         //     is less than 0 or greater than length.
-         string GeneratePassword(int length, int numberOfNonAlphanumericCharacters);
+        string GeneratePassword(int length, int numberOfNonAlphanumericCharacters);
         //
         // Summary:
         //     Gets a collection of all the users in the database.
@@ -393,7 +393,7 @@ namespace CardShop.Auth
         // Returns:
         //     A System.Web.Security.MembershipUserCollection of System.Web.Security.MembershipUser
         //     objects representing all of the users in the database.
-         MembershipUserCollection GetAllUsers();
+        MembershipUserCollection GetAllUsers();
         //
         // Summary:
         //     Gets a collection of all the users in the database in pages of data.
@@ -415,14 +415,14 @@ namespace CardShop.Auth
         // Exceptions:
         //   System.ArgumentException:
         //     pageIndex is less than zero.-or-pageSize is less than 1.
-         MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords);
+        MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords);
         //
         // Summary:
         //     Gets the number of users currently accessing an application.
         //
         // Returns:
         //     The number of users currently accessing an application.
-         int GetNumberOfUsersOnline();
+        int GetNumberOfUsersOnline();
         //
         // Summary:
         //     Gets the information from the data source and updates the last-activity date/time
@@ -435,7 +435,7 @@ namespace CardShop.Auth
         // Exceptions:
         //   System.ArgumentException:
         //     No membership user is currently logged in.
-         MembershipUser GetUser();
+        MembershipUser GetUser();
         //
         // Summary:
         //     Gets the information from the data source for the current logged-on membership

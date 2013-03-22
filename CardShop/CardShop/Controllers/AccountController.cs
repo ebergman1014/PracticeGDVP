@@ -16,7 +16,7 @@ namespace CardShop.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]
-    public class AccountController : Controller
+    public class AccountController : Controller, IAccountController
     {
         //
         // GET: /Account/Login
@@ -64,7 +64,28 @@ namespace CardShop.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterModel model = new RegisterModel();
+
+            List<SelectListItem> roleList = new List<SelectListItem>();
+
+            roleList.Add(new SelectListItem()
+            {
+                Value = "1",
+                Text = "User"
+            });
+            roleList.Add(new SelectListItem()
+            {
+                Value = "2",
+                Text = "Store Owner"
+            });
+            roleList.Add(new SelectListItem()
+            {
+                Value = "3",
+                Text = "Admin"
+            });
+
+            model.RoleList = new SelectList(roleList, "Value", "Text");
+            return View(model);
         }
 
         //
@@ -80,7 +101,13 @@ namespace CardShop.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, propertyValues: new
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        RoleId = Int32.Parse(model.RoleId)
+                    });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -266,12 +293,12 @@ namespace CardShop.Controllers
                 // Insert a new user into the database
                 using (UsersContext db = new UsersContext())
                 {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                    User user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists
                     if (user == null)
                     {
                         // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                        db.UserProfiles.Add(new User { UserName = model.UserName });
                         db.SaveChanges();
 
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace CardShop.Models
 {
@@ -16,16 +17,20 @@ namespace CardShop.Models
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
     }
 
     [Table("UserProfile")]
-    public class UserProfile
+    public class User
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int RoleId { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -73,12 +78,26 @@ namespace CardShop.Models
 
     public class RegisterModel
     {
+        
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email (Optional)")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(42, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -87,6 +106,13 @@ namespace CardShop.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string RoleId { get; set; }
+
+        [Display(Name = "Role")]
+        public SelectList RoleList { get; set; }
+
     }
 
     public class ExternalLogin

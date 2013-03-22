@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Workflow.Activities.Rules;
+using System.Workflow.ComponentModel.Compiler;
 using System.Workflow.ComponentModel.Serialization;
 using System.Xml;
 using CardShop.Models;
@@ -14,28 +16,32 @@ namespace CardShop.ViewModels
 {
     public class RulesetDetails
     {
-        public CardShop.Models.RuleSet ruleset;
-        public ICollection<Rule> rules;
+        public CardShop.Models.RuleSet rulesetWrapper { get; set; }
+        public System.Workflow.Activities.Rules.RuleSet ruleset { get; set; }
+        public ICollection<Rule> rules { get; set; }
 
-        public RulesetDetails(CardShop.Models.RuleSet ruleset)
+        public RulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
         {
-            this.ruleset = ruleset;
-            if (ruleset.RuleSet1 != null)
-                this.rules = DeserializeRuleSet(ruleset.RuleSet1).Rules;
+            this.rulesetWrapper = rulesetWrapper;
+            if (rulesetWrapper.RuleSet1 != null)
+            {
+                this.ruleset = DeserializeRuleSet(rulesetWrapper.RuleSet1);
+                this.rules = ruleset.Rules;
+            }
         }
 
         public RulesetDetails()
         {
         }
 
-        private System.Workflow.Activities.Rules.RuleSet DeserializeRuleSet(string rules)
+        public System.Workflow.Activities.Rules.RuleSet DeserializeRuleSet(string rules)
         {
             WorkflowMarkupSerializer serializer = new WorkflowMarkupSerializer();
             System.Workflow.Activities.Rules.RuleSet ruleset = (System.Workflow.Activities.Rules.RuleSet)serializer.Deserialize(XmlReader.Create(new StringReader(rules)));
             return ruleset;
         }
 
-        private string SerializeRuleSet(System.Workflow.Activities.Rules.RuleSet ruleset)
+        public string SerializeRuleSet(System.Workflow.Activities.Rules.RuleSet ruleset)
         {
             WorkflowMarkupSerializer serializer = new WorkflowMarkupSerializer();
             StringBuilder ruleDefinition = new StringBuilder();
@@ -60,5 +66,12 @@ namespace CardShop.ViewModels
 
             return ruleDefinition.ToString();
         }
+    }
+
+    public class RulesObject
+    {
+        public string Condition { get; set; }
+        public List<string> ThenActions { get; set; }
+        public List<string> ElseActions { get; set; }
     }
 }
