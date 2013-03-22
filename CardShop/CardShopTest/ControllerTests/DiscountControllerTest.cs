@@ -48,6 +48,11 @@ namespace CardShopTest.ControllerTests
             mock.Verify(mockedObject => mockedObject.CreateCoupon(coupon));
 
         }
+        /// <summary>
+        /// Currently test does not work the way it is suppose to.
+        /// Will fix today.
+        /// TODO
+        /// </summary>
         [TestMethod]
         public void IssueDiscountBadPostTest()
         {
@@ -63,7 +68,11 @@ namespace CardShopTest.ControllerTests
             // 
             Assert.IsInstanceOfType(json, typeof(JsonResult));
         }
-
+        /// <summary>
+        /// Curretnly the test does not work the way it is suppose to.
+        /// will fix later today
+        /// TODO
+        /// </summary>
         [TestMethod]
         public void IssueDiscountBadInputsTest()
         {

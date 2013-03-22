@@ -8,7 +8,7 @@ namespace CardShop.Service
 {
     public interface IAdminService
     {
-        Store EditStore(Store ownedStore, Store changesToStore);
+        Store EditStore(Store ownedStore, Store changesToStore, out bool success);
 
         Store OwnedStore(int ownerId);
     }

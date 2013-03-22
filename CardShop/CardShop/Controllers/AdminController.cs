@@ -31,8 +31,9 @@ namespace CardShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManageStore(Store storeToChange)
         {
-            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange);
-            return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId});
+            bool success;
+            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange, out success);
+            return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId, Success = success});
         }
 
         [HttpGet]
