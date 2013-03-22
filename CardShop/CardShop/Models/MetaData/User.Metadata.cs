@@ -13,6 +13,7 @@ namespace CardShop.Models
     public class UserMetaData
     {
 
+        [Key]
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string FirstName { get; set; }
@@ -22,6 +23,7 @@ namespace CardShop.Models
     
         public virtual ICollection<Store> Stores { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual webpages_Roles webpages_Roles { get; set; }
         public virtual ICollection<UserDiscount> UserDiscounts { get; set; }
     }
 }

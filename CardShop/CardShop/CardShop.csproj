@@ -221,6 +221,7 @@
     <Compile Include="Models\MetaData\Transaction.Metadata.cs" />
     <Compile Include="Models\MetaData\User.Metadata.cs" />
     <Compile Include="Models\MetaData\UserDiscount.Metadata.cs" />
+    <Compile Include="Models\MetaData\webpages_Roles.Metadata.cs" />
     <Compile Include="Models\RuleSet.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
