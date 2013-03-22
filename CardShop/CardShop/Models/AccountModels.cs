@@ -17,11 +17,11 @@ namespace CardShop.Models
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
     }
 
     [Table("UserProfile")]
-    public class UserProfile
+    public class User
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
