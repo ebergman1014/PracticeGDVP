@@ -7,7 +7,7 @@ namespace CardShopTest.ControllerTests
     public class RedemptionControllerTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void ReedemTest()
         {
         }
     }
