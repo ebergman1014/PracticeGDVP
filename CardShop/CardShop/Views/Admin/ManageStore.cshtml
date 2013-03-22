@@ -5,7 +5,8 @@
 
 <h2>Managing Store: @Model.Name</h2>
 
-@using (Html.BeginForm("Manage", "Account")) {
+@using (Html.BeginForm("Admin", "ManageStore", FormMethod.Post, new { id = "storeForm" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
@@ -17,6 +18,12 @@
                 @Html.TextBoxFor(m => m.DiscountRate)
             </li>
         </ol>
-        <input type="submit" value="Update Store" />
+        <input type="button" id="submitDiscount" value="Update Store" />
+        <div id="message"></div>
     </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+    @Scripts.Render("~/Scripts/Admin/admin.js")
 }
