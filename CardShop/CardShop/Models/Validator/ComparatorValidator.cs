@@ -13,32 +13,20 @@ namespace CardShop.Models.Validator
         {
             GreaterThan = 1, LessThan = -1, EqualTo = 0
         }
-
-        // Change at your leisure
+ 
+        // for implementation on 
         private const string jQueryValidatorName = "comparator";
         private const string defaultErrorMessage = "Value of {1} must be greater than value of {0}.";
         private readonly string otherProperty;
         private readonly string errorMessage;
         private readonly Operator op;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="otherProperty"></param>
-        /// <param name="op"></param>
-        public Comparator(string otherProperty, Operator op = Operator.EqualTo)
+        public Comparator(string otherProperty,Operator op=Operator.EqualTo)
         {
             this.otherProperty = otherProperty;
             this.errorMessage = null;
             this.op = op;
         }
-
-        /// <summary>
-        /// Create Custom ErrorMessage
-        /// </summary>
-        /// <param name="otherProperty"></param>
-        /// <param name="errorMessage"></param>
-        /// <param name="op"></param>
         public Comparator(string otherProperty, string errorMessage, Operator op = Operator.EqualTo)
         {
             this.errorMessage = errorMessage;
@@ -46,24 +34,19 @@ namespace CardShop.Models.Validator
             this.op = op;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext ctx)
-        {
+        protected override ValidationResult IsValid(object value, ValidationContext ctx) {
 
-
-            var otherObjectValue = ctx.ObjectInstance.GetType().GetProperty(otherProperty).
-                GetValue(ctx.ObjectInstance, null);
+            
+            var startDateValue = ctx.ObjectInstance.GetType().GetProperty(otherProperty).GetValue(ctx.ObjectInstance, null);
             ValidationResult result;
-            if (value != null && otherObjectValue != null && ((IComparable)otherObjectValue).
-                CompareTo((IComparable)value) == (int)this.op)
+            if (value!= null && startDateValue != null && ((IComparable)value).CompareTo((IComparable)startDateValue) == (int)this.op)
             {
                 result = ValidationResult.Success;
-            }
-            else
-            {
+            }else{
                 result = new ValidationResult(GetErrorMessage(ctx.DisplayName));
             }
 
-            return result;
+             return result;
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
@@ -74,8 +57,7 @@ namespace CardShop.Models.Validator
                 ValidationType = jQueryValidatorName
             };
         }
-        private string GetErrorMessage(string propertyName)
-        {
+        private string GetErrorMessage(string propertyName) {
             return errorMessage != null ? errorMessage : string.
                     Format(defaultErrorMessage, otherProperty, propertyName);
         }

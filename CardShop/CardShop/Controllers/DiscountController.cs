@@ -42,6 +42,7 @@ namespace CardShop.Controllers
         /// <returns> full coupon </returns>
         /// <author>CommanderPaul and masterchief117</author>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult IssueDiscount(UserDiscount coupon)
         {
             // returns a coupon, hopefully with created date!
@@ -54,7 +55,11 @@ namespace CardShop.Controllers
             {
                 returnedDiscount = coupon;
             }
-            return Json(returnedDiscount);
+            return Json(new {   UserDiscountId = coupon.UserDiscountId,
+                                DiscountCode = coupon.DiscountCode,
+                                DiscountRate = coupon.DiscountRate,
+                                StartDate = coupon.StartDate,
+                                EndDate = coupon.EndDate});
         }
 
         /// <summary>
