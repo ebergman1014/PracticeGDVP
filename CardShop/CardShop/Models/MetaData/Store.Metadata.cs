@@ -19,7 +19,7 @@ namespace CardShop.Models
         [Display(Name="Discount Rate")]
         public decimal DiscountRate { get; set; }
     
-        public virtual User UserTable { get; set; }
+        public virtual User UserProfiles { get; set; }
         public virtual ICollection<StoreInventory> StoreInventories { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
     }
