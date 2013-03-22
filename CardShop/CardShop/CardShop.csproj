@@ -173,7 +173,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\IAdminController.cs" />
+    <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Models\UserDiscount.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Validator\ComparatorValidator.cs" />
     <Compile Include="Models\webpages_Roles.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
@@ -343,7 +346,9 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -392,6 +397,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ManageStore.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
+    <Content Include="Views\Redemption\Redeem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
