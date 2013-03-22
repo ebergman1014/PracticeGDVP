@@ -21,7 +21,7 @@ namespace CardShop.Models
     }
 
     [Table("UserProfile")]
-    public class User
+    public class UserProfile
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]

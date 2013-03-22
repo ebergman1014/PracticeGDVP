@@ -1,5 +1,30 @@
-﻿@{
-    ViewBag.Title = "Redeem";
+﻿@model CardShop.Models.UserDiscount
+
+@{
+    ViewBag.Title = "Redeem Coupon";
 }
 
 <h2>Redeem</h2>
+@using (@Html.BeginForm("", "", FormMethod.Post, new { id = "redeemForm" }))
+{
+    @Html.ValidationSummary()
+    @Html.AntiForgeryToken()
+    <!-- drop down list -->
+    <fieldset>
+        <legend></legend>
+       
+
+        
+        @Html.DropDownListFor(m => m.UserId, new SelectList(ViewBag.listOfUsers, "UserId", "Username"))
+
+        
+
+        <br/>
+        @Html.LabelFor(m => m.DiscountCode)
+        @Html.TextBoxFor(m => m.DiscountCode)
+        <br/>
+
+        <br />
+        <input type="submit" id ="submitButton" value="Submit" />
+    </fieldset>
+}

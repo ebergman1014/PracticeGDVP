@@ -292,23 +292,23 @@
             <End Role="Store" EntitySet="Stores" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
-          <EntitySet Name="UserProfiles" EntityType="PracticeGDVPModel.UserProfile" />
+          <EntitySet Name="User" EntityType="PracticeGDVPModel.User" />
           <EntitySet Name="webpages_Roles" EntityType="PracticeGDVPModel.webpages_Roles" />
           <AssociationSet Name="FK_Store_UserProfile" Association="PracticeGDVPModel.FK_Store_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserProfile" EntitySet="User" />
             <End Role="Store" EntitySet="Stores" />
           </AssociationSet>
           <AssociationSet Name="FK_Transaction_UserProfile" Association="PracticeGDVPModel.FK_Transaction_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserProfile" EntitySet="User" />
             <End Role="Transaction" EntitySet="Transactions" />
           </AssociationSet>
           <AssociationSet Name="FK_UserDiscount_UserProfile" Association="PracticeGDVPModel.FK_UserDiscount_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserProfile" EntitySet="User" />
             <End Role="UserDiscount" EntitySet="UserDiscounts" />
           </AssociationSet>
           <AssociationSet Name="FK_UserProfile_webpages_Roles" Association="PracticeGDVPModel.FK_UserProfile_webpages_Roles">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserProfile" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="BaseballCard">
@@ -466,7 +466,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="UserProfile">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -490,7 +490,7 @@
           <NavigationProperty Name="UserProfiles" Relationship="PracticeGDVPModel.FK_UserProfile_webpages_Roles" FromRole="webpages_Roles" ToRole="UserProfile" />
         </EntityType>
         <Association Name="FK_Store_UserProfile">
-          <End Type="PracticeGDVPModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="PracticeGDVPModel.User" Role="UserProfile" Multiplicity="1" />
           <End Type="PracticeGDVPModel.Store" Role="Store" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserProfile">
@@ -502,7 +502,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Transaction_UserProfile">
-          <End Type="PracticeGDVPModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="PracticeGDVPModel.User" Role="UserProfile" Multiplicity="1" />
           <End Type="PracticeGDVPModel.Transaction" Role="Transaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="UserProfile">
@@ -514,7 +514,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_UserDiscount_UserProfile">
-          <End Type="PracticeGDVPModel.UserProfile" Role="UserProfile" Multiplicity="1">
+          <End Type="PracticeGDVPModel.User" Role="UserProfile" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Type="PracticeGDVPModel.UserDiscount" Role="UserDiscount" Multiplicity="*" />
@@ -529,7 +529,7 @@
         </Association>
         <Association Name="FK_UserProfile_webpages_Roles">
           <End Type="PracticeGDVPModel.webpages_Roles" Role="webpages_Roles" Multiplicity="0..1" />
-          <End Type="PracticeGDVPModel.UserProfile" Role="UserProfile" Multiplicity="*" />
+          <End Type="PracticeGDVPModel.User" Role="UserProfile" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="webpages_Roles">
               <PropertyRef Name="RoleId" />
@@ -626,8 +626,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserProfiles">
-            <EntityTypeMapping TypeName="PracticeGDVPModel.UserProfile">
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="PracticeGDVPModel.User">
               <MappingFragment StoreEntitySet="UserProfile">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
