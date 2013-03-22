@@ -12,16 +12,16 @@ namespace CardShop.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class UserDiscount
+    public partial class webpages_Roles
     {
-        public int UserDiscountId { get; set; }
-        public decimal DiscountRate { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
-        public string DiscountCode { get; set; }
-        public int UserId { get; set; }
-        public bool Reedemed { get; set; }
+        public webpages_Roles()
+        {
+            this.UserProfiles = new HashSet<User>();
+        }
     
-        public virtual User UserProfile { get; set; }
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+    
+        public virtual ICollection<User> UserProfiles { get; set; }
     }
 }

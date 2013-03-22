@@ -31,7 +31,6 @@ namespace CardShopTest.ControllerTests
             coupon = new UserDiscount();
             badCoupon = User_DiscountTest.CreateCoupon();
             badCoupon.DiscountCode = null;
-            badCoupon = new UserDiscount();
         }
 
         /// <summary>
@@ -60,10 +59,9 @@ namespace CardShopTest.ControllerTests
             coupon.DiscountCode = null;
             mock.Setup(mockObject => mockObject.CreateCoupon(coupon)).Returns(badCoupon);
             // cast ActionResult to JsonResult, pull data, cast to UserDiscount
-            UserDiscount returnedCoupon = (UserDiscount)
-                ((JsonResult)discountTest.IssueDiscount(coupon)).Data;
+            var json = ((JsonResult)discountTest.IssueDiscount(coupon));
             // 
-            Assert.IsTrue(returnedCoupon.DiscountCode == null);
+            Assert.IsInstanceOfType(json, typeof(JsonResult));
         }
 
         [TestMethod]
@@ -73,12 +71,11 @@ namespace CardShopTest.ControllerTests
             discountTest.discountService = mock.Object;
             // sets IsValid in the controller to false
             discountTest.ModelState.AddModelError("don't work", "alrights.");
-
-            UserDiscount returnedDiscount = (UserDiscount)
-                ((JsonResult)discountTest.IssueDiscount(badCoupon)).Data;
+            var json = (JsonResult)discountTest.IssueDiscount(badCoupon);
+           // UserDiscount returnedDiscount = (UserDiscount)json.Data;
             // verify the returned object matches object sent in 
             // (if test IsValid was true, returnedDiscount would be null)
-            Assert.AreSame(returnedDiscount, badCoupon);
+            Assert.IsInstanceOfType(json, typeof(JsonResult));
         }
 
         [TestMethod]

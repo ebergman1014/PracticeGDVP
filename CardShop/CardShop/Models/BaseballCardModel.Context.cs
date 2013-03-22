@@ -32,6 +32,7 @@ namespace CardShop.Models
         public DbSet<StoreInventory> StoreInventories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<UserDiscount> UserDiscounts { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
+        public DbSet<webpages_Roles> webpages_Roles { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using WebMatrix.WebData;
 
 namespace CardShop.Models
 {
@@ -16,11 +17,11 @@ namespace CardShop.Models
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<User> UserProfiles { get; set; }
     }
 
     [Table("UserProfile")]
-    public class UserProfile
+    public class User
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
@@ -29,6 +30,7 @@ namespace CardShop.Models
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int RoleId { get; set; }
     }
 
     public class RegisterExternalLoginModel
@@ -76,6 +78,8 @@ namespace CardShop.Models
 
     public class RegisterModel
     {
+        
+
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -102,6 +106,13 @@ namespace CardShop.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        public string RoleId { get; set; }
+
+        [Display(Name = "Role")]
+        public SelectList RoleList { get; set; }
+
     }
 
     public class ExternalLogin

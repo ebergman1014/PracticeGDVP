@@ -1,4 +1,4 @@
-﻿@model CardShop.Models.UserDiscountMetaData
+﻿@model CardShop.Models.UserDiscount
 
 @{
     ViewBag.Title = "Issue A Discount";
@@ -21,26 +21,27 @@
     @Html.AntiForgeryToken()
     <!-- drop down list -->
     <fieldset>
-        <select style="font-size:12pt" name="UserId" id ="UserId">
-            @{foreach (var user in ViewBag.listOfUsers)
-              {
-                    <option value="@user.UserId ">@user.Username</option>
-              }
-            }
-        </select>
-
-        <br/>
-
-            @Html.LabelFor(m => m.StartDate)
-            @Html.TextBoxFor(m => m.StartDate)
+        <legend>Discount Form</legend>
+        <ol>
+            <li>
+                <select style="font-size:12pt" name="UserId" id ="UserId">
+                    @{foreach (var user in ViewBag.listOfUsers)
+                      {
+                            <option value="@user.UserId ">@user.Username</option>
+                      }
+                    }
+                </select>
+            </li>
+           <li>@Html.LabelFor(m => m.StartDate)
+            @Html.TextBoxFor(m => m.StartDate)</li>
  
-            @Html.LabelFor(m => m.EndDate)
-            @Html.TextBoxFor(m => m.EndDate)
+           <li> @Html.LabelFor(m => m.EndDate)
+            @Html.TextBoxFor(m => m.EndDate)</li>
 
-            @Html.LabelFor(m => m.DiscountRate)
-            @Html.TextBoxFor(m => m.DiscountRate)%
-        <br />
-        <input type="submit" id ="submitButton" value="Submit" />
+            <li>@Html.LabelFor(m => m.DiscountRate)
+            @Html.TextBoxFor(m => m.DiscountRate)%</li>
+            <li><input type="button" id ="submitButton" value="Issue Discount" /></li>
+        </ol>
     </fieldset>
     <p id ="couponCode">Coupon Code Not Issued</p>
 }
@@ -63,18 +64,13 @@
     });
 
     $.validator.unobtrusive.adapters.addBool("comparator");
+
     $(document).ready(function () {
-
-        // on button click, submit form
-        //  as ajax request and display 
-
-        //  returned coupon code
-        /*$("#submitButton").click(function () {
-     
-            if ($("#discountForm").validate()) {
+        function submitForm() {
+            if ($("#discountForm").valid()) {
 
                 $.post("IssueDiscount",
-                     jsonForm,
+                     $("#discountForm").serialize(),
                      function (data) {
 
                          //  displayed name
@@ -90,8 +86,13 @@
                      },
                      "json");
             }
-       
-        });*/
+        }
+        // on button click, submit form
+        //  as ajax request and display 
+        //  returned coupon code
+        $("#submitButton").click(function () {
+            submitForm();
+        });
 
         $("#StartDate").datepicker();
         $("#EndDate").datepicker();

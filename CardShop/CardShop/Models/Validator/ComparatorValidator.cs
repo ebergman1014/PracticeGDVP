@@ -39,7 +39,7 @@ namespace CardShop.Models.Validator
             
             var startDateValue = ctx.ObjectInstance.GetType().GetProperty(otherProperty).GetValue(ctx.ObjectInstance, null);
             ValidationResult result;
-            if (value!= null && startDateValue != null && ((IComparable)startDateValue).CompareTo((IComparable)value) == (int)this.op)
+            if (value!= null && startDateValue != null && ((IComparable)value).CompareTo((IComparable)startDateValue) == (int)this.op)
             {
                 result = ValidationResult.Success;
             }else{
