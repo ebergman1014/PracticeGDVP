@@ -19,7 +19,7 @@ using CardShop.Controllers.Admin;
 namespace CardShopTest.ControllerTests
 {
     [TestClass]
-    public class AdminControllerTests
+    public class ManageStoreControllerTests
     {
         ManageStoreController adminController;
         List<Store> stores;
