@@ -1,5 +1,5 @@
 ﻿@{CardShop.Auth.IUserAuth auth = CardShop.Auth.UserAuth.Current;}
-@if (auth.User != null) {
+@if (auth.IsLoggedIn()) {
     <text>
         Logged in as @Html.ActionLink(auth.User.UserName, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
         @if(auth.ActingAs != null){

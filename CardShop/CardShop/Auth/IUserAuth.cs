@@ -13,5 +13,9 @@ namespace CardShop.Auth
         User ActingUser { get; }
 
         void Logout();
+
+        bool HasRole(params Role[] roles);
+
+        bool IsLoggedIn();
     }
 }

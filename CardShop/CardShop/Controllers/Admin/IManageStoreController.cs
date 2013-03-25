@@ -10,7 +10,6 @@ namespace CardShop.Controllers
     public interface IManageStoreController
     {
         ActionResult Index();
-        ActionResult ManageStore(Store storeToChange);
-        ActionResult ManageStore();
+        ActionResult Index(Store storeToChange);
     }
 }

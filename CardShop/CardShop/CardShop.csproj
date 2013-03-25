@@ -176,6 +176,7 @@
     <Compile Include="Auth\Role.cs" />
     <Compile Include="Auth\UserAuth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ManageStoreController.cs" />
     <Compile Include="Controllers\Admin\IManageUserController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
@@ -408,7 +409,7 @@
     <Content Include="Views\Rule\Edit.cshtml" />
     <Content Include="Views\Rule\Delete.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\ManageStore.cshtml" />
+    <Content Include="Views\ManageStore\Index.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Redemption\Redeem.cshtml" />
     <Content Include="Views\ManageUser\Index.cshtml" />
@@ -416,6 +417,7 @@
     <Content Include="Views\ManageUser\Create.cshtml" />
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
+    <Content Include="Views\ErrDocs\403.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
