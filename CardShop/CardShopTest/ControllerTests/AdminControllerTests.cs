@@ -21,14 +21,14 @@ namespace CardShopTest.ControllerTests
     [TestClass]
     public class AdminControllerTests
     {
-        AdminController adminController;
+        Admin2Controller adminController;
         List<Store> stores;
         Store storeOne;
         Store storeTwo;
 
         [TestInitialize]
         public void Setup() { 
-            adminController = new AdminController();
+            adminController = new Admin2Controller();
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];
@@ -48,13 +48,14 @@ namespace CardShopTest.ControllerTests
         {
             var mock = new Mock<IAdminService>();
             var mockMember = new Mock<IMembership>();
+            bool isSuccess = false;
 
             
             adminController.membership = mockMember.Object;
             adminController.adminService = mock.Object;
             mockMember.Setup(m => m.GetUserId()).Returns(2);
             mock.Setup(m => m.OwnedStore(2)).Returns(storeOne);
-            mock.Setup(m => m.EditStore(storeOne, storeTwo)).Returns(new Store());
+            mock.Setup(m => m.EditStore(storeOne, storeTwo, out isSuccess)).Returns(new Store());
             //set field in adminController
             
 

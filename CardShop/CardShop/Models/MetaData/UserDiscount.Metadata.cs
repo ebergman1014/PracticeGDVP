@@ -16,7 +16,6 @@ namespace CardShop.Models
         [Display(Name = "Discount Rate")]
         public decimal DiscountRate { get; set; }
         [Required]
-        [Comparator(
         [Display(Name = "Start Date")]
         public System.DateTime StartDate { get; set; }
         [Required]
