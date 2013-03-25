@@ -30,13 +30,13 @@ namespace CardShopTest.TestHelper
             listOfUsers = new List<User>();
             for (int index = 0; index < UsersWanted; index++)
             {
-                //User user = new User();
-                //user.UserId = index;
-                //user.Username = "Tank" + index;
-                //user.Name = "Frank" + index;
-                //user.Password = "pass";
-                //user.Role = "User";
-                //listOfUsers.Add(user);
+                User user = new User();
+                user.UserId = index;
+                user.FirstName = "Tank" + index;
+                user.LastName = "Frank" + index;
+                user.Email = "pass";
+                user.RoleId = 1;
+                listOfUsers.Add(user);
             }
             return listOfUsers;
         }

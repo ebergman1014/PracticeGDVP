@@ -74,7 +74,7 @@
                      function (data) {
 
                          //  displayed name
-                         var displayName = $("#UserId").text();
+                         var displayName = $("#UserId > option:selected").text();
 
                          //  display coupon code and message here
                          $("#couponCode").html("Coupon Code " + data.DiscountCode
