@@ -9,6 +9,7 @@ using System.Web.Security;
 using CardShop.Auth;
 namespace CardShop.Controllers
 {
+    [AuthorizeUser(Role.StoreOwner, Role.Admin)]
     public class ManageStoreController : Controller, IManageStoreController
     {
         public IManageStoreService adminService { get; set; }
@@ -18,33 +19,22 @@ namespace CardShop.Controllers
                 adminService = new ManageStoreService();
                 membership = MembershipWrapper.getInstance();
         }
-        
-        //
-        // GET: /Admin/
+
+        [HttpGet]
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            return View(adminService.OwnedStore(Convert.ToInt32(
+            membership.GetUserId())));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageStore(Store storeToChange)
+        public ActionResult Index(Store storeToChange)
         {
             bool success;
             Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange, out success);
             return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId, Success = success});
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult ManageStore()
-        {
-            if (membership.GetUser() == null) {
-                return Redirect("~/Account/Login");
-            }
-            return View(adminService.OwnedStore(Convert.ToInt32(
-            membership.GetUserId())));
         }
 
     }
