@@ -21,6 +21,22 @@ namespace CardShop.Auth
         public AuthorizeUserAttribute(params Role[] roles){
             this.roles = roles;
         }
+
+        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        {
+            if (UserAuth.Current.ActingUser != null)
+            {
+                filterContext.Result = new ViewResult
+                {
+                    ViewName = "~/Views/Errdocs/403.cshtml"
+                };
+                filterContext.HttpContext.Response.StatusCode = 403;
+            }
+            else
+            {
+                base.HandleUnauthorizedRequest(filterContext);
+            }
+        }
         
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
