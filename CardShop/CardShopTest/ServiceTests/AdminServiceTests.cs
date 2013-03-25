@@ -31,13 +31,14 @@ namespace CardShopTest.ServiceTests
         {
 
             var mockDbContext = new Mock<IPracticeGDVPDao>();
+            bool isSuccess = false;
 
             adminService.context = mockDbContext.Object;
 
             mockDbContext.Setup(mock => mock.SaveChanges()).Returns(1);
 
             Assert.IsTrue(adminService.EditStore(storeOne,
-                storeTwo).DiscountRate ==
+                storeTwo, out isSuccess).DiscountRate ==
                 storeTwo.DiscountRate);
 
             mockDbContext.Verify(mock => mock.SaveChanges());
@@ -46,8 +47,9 @@ namespace CardShopTest.ServiceTests
         [TestMethod]
         public void EditStoreBadTests()
         {
+            bool isSuccess = false ;
             storeTwo.DiscountRate = 102;
-            Assert.IsFalse(adminService.EditStore(storeOne, storeTwo).
+            Assert.IsFalse(adminService.EditStore(storeOne, storeTwo, out isSuccess).
                 DiscountRate == storeTwo.DiscountRate);
         }
 

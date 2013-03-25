@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using CardShop.Models;
@@ -53,6 +54,10 @@ namespace CardShop.Daos
         /// <returns></returns>
         IDbSet<UserDiscount> UserDiscounts();
 
+
+        IDbSet<webpages_Roles> webpages_Roles();
         int SaveChanges();
+
+        DbEntityEntry Entry(object entity);
     }
 }

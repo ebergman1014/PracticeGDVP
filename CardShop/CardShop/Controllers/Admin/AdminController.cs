@@ -9,12 +9,12 @@ using System.Web.Security;
 using CardShop.Auth;
 namespace CardShop.Controllers
 {
-    public class AdminController : Controller, IAdminController
+    public class ManageStoreController : Controller, IAdminController
     {
         public IAdminService adminService { get; set; }
         public IMembership membership { get; set; }
 
-        public AdminController(){
+        public ManageStoreController(){
                 adminService = new AdminService();
                 membership = MembershipWrapper.getInstance();
         }
@@ -31,8 +31,9 @@ namespace CardShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManageStore(Store storeToChange)
         {
-            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange);
-            return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId});
+            bool success;
+            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange, out success);
+            return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId, Success = success});
         }
 
         [HttpGet]

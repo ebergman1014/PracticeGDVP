@@ -15,14 +15,16 @@ namespace CardShop.Service
         /// </summary>
         /// <param name="changesToStore"></param>
         /// <returns></returns>
-        public Store EditStore(Store ownedStore, Store changesToStore)
+        public Store EditStore(Store ownedStore, Store changesToStore, out bool success)
         {
+            success = false; 
             // grab store with the StoreId of the one wanting to change.
             if (changesToStore.DiscountRate > 0 && changesToStore.DiscountRate < 100)
             {
                 // change the Discount rate
                 ownedStore.DiscountRate = changesToStore.DiscountRate;
                 context.SaveChanges();
+                success = true;
             }
             // return store with new discountRate
             return ownedStore;
