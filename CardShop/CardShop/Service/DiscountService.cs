@@ -58,15 +58,51 @@ namespace CardShop.Service
                              &&
                              cup.UserId == userId
                              select cup;
+
+                //  check for exists, expired, or used here
+
+
                 if (coupon.ToList().Count > 0)
                 {
+
                     returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
                     isSuccess = true;
                 }
+
                
             }
 
             return returnCoupon;
+        }
+
+        /// <summary>
+        /// Mark Inputted coupon as redeemed.
+        /// </summary>
+        /// <returns>UserDisount</returns>
+        /// <author>Paul Wroe</author>
+        public UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess)
+        {
+            isSuccess = false;
+
+            //  what if coupon is already redeemed?
+            //  what if coupon is expired?
+            //  what if coupon does not exist?
+
+
+            coupon.Reedemed = true;
+            using (var ctx = dbContext)
+            {
+                // add coupon to context
+                var userCoupon = ctx.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).FirstOrDefault();   //.Attach(coupon);   //.Add(coupon);
+                // save changes to context (saves to DB!)
+                userCoupon.Reedemed = true;
+                ctx.SaveChanges();
+
+
+            }
+
+
+            return coupon;
         }
 
 
