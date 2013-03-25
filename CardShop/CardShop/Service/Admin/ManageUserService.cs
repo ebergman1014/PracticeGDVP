@@ -16,17 +16,17 @@ namespace CardShop.Service.Admin
     public class ManageUserService : IManageUserService
     {
         private static ManageUserService manageUserService;
-        IPracticeGDVPDao db { get; set; }
+        public IPracticeGDVPDao db { get; set; }
 
         public User DeleteUser(int id, out bool isSuccess)
         {
             isSuccess = false;
-            User user = db.Users().Find(id);
+            var user = db.Users().Find(id);
             if (user != null)
             {
-                db.Users().Remove(user);
-                isSuccess = true;
+                user.IsActive = false;
                 db.SaveChanges();
+                isSuccess = true;
             }
             return user;
         }
@@ -34,7 +34,6 @@ namespace CardShop.Service.Admin
         public List<User> GetAllUsers(out bool isSuccess)
         {
             isSuccess = false;
-            PracticeGDVPEntities idb = new PracticeGDVPEntities();
             var user = db.Users().Include(u => u.webpages_Roles).ToList();
             if (user.Count > 0)
             {
@@ -62,12 +61,6 @@ namespace CardShop.Service.Admin
             isSuccess = true;
             return user;
 
-        }
-
-
-        private ManageUserService()
-        {
-            db = PracticeGDVPDao.GetInstance();
         }
 
         public static IManageUserService GetInstance()
@@ -126,5 +119,12 @@ namespace CardShop.Service.Admin
             UserAuth.Current.ActingAs = null;
             success = true;
         }
+
+        private ManageUserService()
+        {
+            db = PracticeGDVPDao.GetInstance();
+        }
+
+
     }
 }

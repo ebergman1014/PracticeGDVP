@@ -15,6 +15,7 @@ using CardShop.Auth;
 
 namespace CardShop.Controllers
 {
+    [AuthorizeUser(Role.Admin, Role.StoreOwner)]
     public class ManageUserController : Controller, IManageUserController
     {
         public IManageUserService manageUserService { get; set; }
@@ -58,7 +59,7 @@ namespace CardShop.Controllers
         public ActionResult Create(User user)
         {
             bool isSuccess;
-            if (membership.GetUser() == null)
+            if (ModelState.IsValid)
             {
                 manageUserService.CreateUser(user, out isSuccess);
                 return RedirectToAction("Index");
