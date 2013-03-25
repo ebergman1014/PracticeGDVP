@@ -181,7 +181,6 @@
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IAdminController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
-
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
@@ -416,6 +415,7 @@
     <Content Include="Views\ManageUser\Create.cshtml" />
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

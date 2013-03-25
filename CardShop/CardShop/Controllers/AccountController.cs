@@ -239,6 +239,17 @@ namespace CardShop.Controllers
             return View(model);
         }
 
+
+        //
+        // GET: /Account/PasswordReset
+
+        [AllowAnonymous]
+        public ActionResult PasswordReset()
+        {
+
+            return View();
+        }
+
         //
         // POST: /Account/ExternalLogin
 

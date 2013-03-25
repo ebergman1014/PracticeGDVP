@@ -115,6 +115,16 @@ namespace CardShop.Models
 
     }
 
+    public class PasswordReset
+    {
+        [Required]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
+        [HiddenInput]
+        public string ResetToken { get; set; }
+    }
+
     public class ExternalLogin
     {
         public string Provider { get; set; }
