@@ -5,7 +5,7 @@
 }
 
 <h2>Redeem</h2>
-@using (@Html.BeginForm("", "", FormMethod.Post, new { id = "redeemForm" }))
+@using (@Html.BeginForm("Redeem", "Redemption", FormMethod.Post, new { id = "redeemForm" }))//action,controller,formMethod,
 {
     @Html.ValidationSummary()
     @Html.AntiForgeryToken()
@@ -13,11 +13,8 @@
     <fieldset>
         <legend></legend>
        
-
         
         @Html.DropDownListFor(m => m.UserId, new SelectList(ViewBag.listOfUsers, "UserId", "Username"))
-
-        
 
         <br/>
         @Html.LabelFor(m => m.DiscountCode)
@@ -25,6 +22,65 @@
         <br/>
 
         <br />
-        <input type="submit" id ="submitButton" value="Submit" />
+        <input type="button" id ="checkCoupon" value="Check Coupon" />
+        <br />
+        <input type="submit" id ="submitButton" value="Redeem Coupon" />
     </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+
+    
+<script type ="text/javascript">
+ $(document).ready(function () {
+
+
+     function checkCoupon() {    //  retrieve coupon if it exists
+
+         
+             
+                 $.post("RetrieveDiscount",
+                 {
+                     userId: $("#UserId").val(),
+                     couponCode: $("#DiscountCode").val(),
+
+                 },
+                 function (data, status) {
+                     alert(data.StartDate);
+                 });
+
+     };
+
+
+
+
+
+     function submitForm() {
+            if ($("#redeemForm").valid()) {
+
+                $.post("Redeem",
+                     $("#redeemForm").serialize(),
+                     function (data) {
+
+                         //  do something
+
+                     },
+                     "json");
+            }
+        }
+
+
+     $("#submitButton").click(function () {
+            submitForm();
+        });
+     $("#checkCoupon").click(function () {
+            checkCoupon();
+        });
+
+ });
+
+</script>
+
+
 }
