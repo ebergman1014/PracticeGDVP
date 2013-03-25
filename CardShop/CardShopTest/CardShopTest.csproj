@@ -58,12 +58,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ControllerTests\DiscountControllerTests.cs" />
-    <Compile Include="ControllerTests\AdminControllerTests.cs" />
+    <Compile Include="ControllerTests\Admin\AdminControllerTests.cs" />
     <Compile Include="ControllerTests\RedemptionControllerTests.cs" />
     <Compile Include="ControllerTests\CouponDiscountTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\DiscountServiceTest.cs" />
-    <Compile Include="ServiceTests\AdminServiceTests.cs" />
+    <Compile Include="ServiceTests\Admin\ManageStoreTests.cs" />
     <Compile Include="TestHelper\Entities.cs" />
     <Compile Include="UtilityTests\DiscountUtilityTests.cs" />
   </ItemGroup>

@@ -133,5 +133,16 @@ namespace CardShop.Daos
         {
             return ((IEnumerable)db).GetEnumerator();
         }
+
+        /// <summary>
+        /// Get the 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public DbQuery<TEntity> Include(string path)
+        {
+            return db.Include(path);
+        }
+
     }
 }
