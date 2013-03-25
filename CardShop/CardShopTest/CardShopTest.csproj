@@ -57,8 +57,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ControllerTests\Admin\ManageUserControllerTests.cs" />
     <Compile Include="ControllerTests\DiscountControllerTests.cs" />
-    <Compile Include="ControllerTests\Admin\AdminControllerTests.cs" />
+    <Compile Include="ControllerTests\Admin\ManageStoreControllerTests.cs" />
     <Compile Include="ControllerTests\RedemptionControllerTests.cs" />
     <Compile Include="ControllerTests\CouponDiscountTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

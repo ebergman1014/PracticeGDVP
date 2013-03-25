@@ -10,12 +10,14 @@ using CardShop.Controllers.Admin;
 using CardShop.Service;
 using CardShop.Service.Admin;
 using CardShop.Daos;
+using CardShop.Auth;
 
 namespace CardShop.Controllers
 {
     public class ManageUserController : Controller, IManageUserController
     {
-        IManageUserService manageUserService { get; set; }
+        public IManageUserService manageUserService { get; set; }
+        public IMembership membership { get; set; }
         //
         // GET: /ManageUser/
         public ActionResult Index()
@@ -43,7 +45,8 @@ namespace CardShop.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName");
+            bool isSuccess;
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName");
             return View();
         }
 
@@ -54,13 +57,13 @@ namespace CardShop.Controllers
         public ActionResult Create(User user)
         {
             bool isSuccess;
-            if (ModelState.IsValid)
+            if (membership.GetUser() == null)
             {
                 manageUserService.CreateUser(user, out isSuccess);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 
@@ -75,7 +78,7 @@ namespace CardShop.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 
@@ -92,7 +95,7 @@ namespace CardShop.Controllers
                 
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 

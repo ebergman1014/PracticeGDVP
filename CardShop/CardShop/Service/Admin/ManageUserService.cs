@@ -78,8 +78,9 @@ namespace CardShop.Service.Admin
         }
 
 
-        public IEnumerable GetRoleView()
+        public IEnumerable GetRoleView(out bool isSuccess)
         {
+            isSuccess = true;
             return db.webpages_Roles();
         }
 
