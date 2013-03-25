@@ -171,14 +171,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Auth\AuthorizeUser.cs" />
+    <Compile Include="Auth\IUserAuth.cs" />
+    <Compile Include="Auth\Role.cs" />
+    <Compile Include="Auth\UserAuth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Admin\AdminController.cs" />
+    <Compile Include="Controllers\Admin\IManageUserController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
-    <Compile Include="Controllers\IAdminController.cs" />
-<<<<<<< HEAD
-=======
-    <Compile Include="Controllers\ManageUserController.cs" />
->>>>>>> 85bb96bdaccf144d84b6d0a335547fe7e8245579
+    <Compile Include="Controllers\Admin\IAdminController.cs" />
+    <Compile Include="Controllers\Admin\ManageUserController.cs" />
+
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
@@ -249,16 +252,18 @@
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\Audit.aspx.cs">
+    <Compile Include="Views\Shared\Audit.aspx.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Reports\Audit.aspx.designer.cs">
+    <Compile Include="Views\Shared\Audit.aspx.designer.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Service\AdminService.cs" />
+    <Compile Include="Service\Admin\AdminService.cs" />
+    <Compile Include="Service\Admin\IManageUserService.cs" />
+    <Compile Include="Service\Admin\ManageUserService.cs" />
     <Compile Include="Service\DiscountService.cs" />
-    <Compile Include="Service\IAdminService.cs" />
+    <Compile Include="Service\Admin\IAdminService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
@@ -335,6 +340,7 @@
     <Content Include="Content\themes\ui-theme\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Content\themes\ui-theme\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\themes\ui-theme\jquery-ui-1.10.2.custom.css" />
+<<<<<<< HEAD
     <Content Include="Controllers\Content\Site.css" />
     <Content Include="Controllers\Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Controllers\Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -406,7 +412,10 @@
     <Content Include="Controllers\Content\themes\ui-theme\images\ui-icons_ffd27a_256x240.png" />
     <Content Include="Controllers\Content\themes\ui-theme\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Controllers\Content\themes\ui-theme\jquery-ui-1.10.2.custom.css" />
+    <Content Include="Views\Shared\Audit.aspx" />
+=======
     <Content Include="Reports\Audit.aspx" />
+>>>>>>> bf5eaca435023dcc771804110f9b4c3709a10ea6
     <Content Include="Scripts\Admin\admin.js" />
     <Content Include="Scripts\Global\Global.js" />
     <None Include="Scripts\Global\jquery-1.8.3-vsdoc.js" />
@@ -426,16 +435,6 @@
     <Content Include="Scripts\Global\modernizr-2.5.3.js" />
     <Content Include="Scripts\jquery.edit-rules.js" />
     <Content Include="Global.asax" />
-<<<<<<< HEAD
-    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
-    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\knockout-2.1.0.js" />
-    <Content Include="Scripts\modernizr-2.5.3.js" />
-=======
->>>>>>> 85bb96bdaccf144d84b6d0a335547fe7e8245579
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -487,17 +486,15 @@
     <Content Include="Views\Admin\ManageStore.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
     <Content Include="Views\Redemption\Redeem.cshtml" />
-<<<<<<< HEAD
-=======
     <Content Include="Views\ManageUser\Index.cshtml" />
     <Content Include="Views\ManageUser\Details.cshtml" />
     <Content Include="Views\ManageUser\Create.cshtml" />
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
->>>>>>> 85bb96bdaccf144d84b6d0a335547fe7e8245579
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
