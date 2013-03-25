@@ -11,18 +11,28 @@ namespace CardShop.Auth
         public User User { get; set; }
         public User ActingAs { get; set; }
 
+        public User ActingUser{
+            get{
+                return ActingAs != null ? ActingAs : User;
+            }
+        }
+
+        public static IUserAuth Current {
+            get{
+                 return UserAuth.GetUserAuth(new HttpContextWrapper(HttpContext.Current));
+            }
+        }
+
         public static void CreateSession()
         {
             HttpContext.Current.Session.Add("__UserAuth",  new UserAuth());
         }
 
-        public User getActingUser(){
-            return ActingAs != null ? ActingAs : User;
-        }
-        
-        public static IUserAuth GetUserAuth()
+        public void Logout()
         {
-            return GetUserAuth(new HttpContextWrapper(HttpContext.Current));
+
+            User = null;
+            ActingAs = null;
         }
 
         internal static IUserAuth GetUserAuth(HttpContextBase context)

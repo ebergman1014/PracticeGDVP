@@ -7,7 +7,9 @@ using CardShop.Models;
 using System.Data.Entity;
 using System.Collections;
 using System.Data;
+using CardShop.Auth;
 using System.Data.Objects;
+
 
 namespace CardShop.Service.Admin
 {
@@ -105,6 +107,24 @@ namespace CardShop.Service.Admin
             }
             return user;
         }
+        public void ActAsUser(int id, out bool success)
+        {
+            User user = db.Users().Find(id);
+            if (user != null)
+            {
+                UserAuth.Current.ActingAs = user;
+                success = true;
+            }
+            else
+            {
+                success = false;
+            }
+        }
 
+        public void StopActingAsUser(out bool success)
+        {
+            UserAuth.Current.ActingAs = null;
+            success = true;
+        }
     }
 }

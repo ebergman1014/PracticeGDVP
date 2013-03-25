@@ -33,6 +33,45 @@ namespace CardShop.Controllers
             
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Redeem(UserDiscount userDiscount)
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Method for retrieveing a discount to see if the coupon
+        /// code is valid
+        /// </summary>
+        /// <returns>Returns UserDiscount</returns>
+        [HttpPost]
+        public ActionResult RetrieveDiscount(int userId, String couponCode)
+        {
+            bool isSuccess;
+
+            UserDiscount coupon = discountService.GetCoupon(userId, couponCode, out isSuccess);
+
+            if (isSuccess)
+            {
+                
+            }
+            
+
+            return Json(new
+            {
+                UserDiscountId = coupon.UserDiscountId,
+                DiscountRate = coupon.DiscountRate,
+                StartDate = coupon.StartDate,
+                EndDate = coupon.EndDate,
+                DiscountCode = coupon.DiscountCode,
+                UserId = coupon.UserId,
+            });
+
+
+        }
+
+
        
     }
 }

@@ -9,6 +9,7 @@ using CardShop.Models;
 using CardShop.Controllers.Admin;
 using CardShop.Service;
 using CardShop.Service.Admin;
+using CardShop.Auth;
 using CardShop.Daos;
 using CardShop.Auth;
 
@@ -128,6 +129,23 @@ namespace CardShop.Controllers
         public ManageUserController()
         {
             manageUserService = ManageUserService.GetInstance();
+        }
+
+        [HttpGet, ActionName("ActAsUser")]
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
+        public ActionResult ActAsUser(int id)
+        {
+            bool success;
+            manageUserService.ActAsUser(id, out success);
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpGet, ActionName("StopActingAsUser")]
+        [AuthorizeUser]
+        public ActionResult StopActingAsUser()
+        {
+            bool success;
+            manageUserService.StopActingAsUser(out success);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

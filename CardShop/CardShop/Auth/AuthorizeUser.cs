@@ -26,13 +26,12 @@ namespace CardShop.Auth
         {
             bool result = false;
             IUserAuth auth = UserAuth.GetUserAuth(httpContext);
-            User user = auth.getActingUser();
-            if (auth.User != null)
+            if (auth.ActingUser != null)
             {
                 if (roles.Length > 0)
                 {
                     foreach(Role role in roles){
-                        if (user.RoleId == (int)role)
+                        if (auth.ActingUser.RoleId == (int)role)
                         {
                             result = true;
                             break;

@@ -10,7 +10,8 @@ namespace CardShop.Auth
     {
         User User { get; set; }
         User ActingAs { get; set; }
+        User ActingUser { get; }
 
-        User getActingUser();
+        void Logout();
     }
 }
