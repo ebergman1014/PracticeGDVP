@@ -181,6 +181,7 @@
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IManageStoreController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
+    <Compile Include="Controllers\IRedemptionController.cs" />
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
