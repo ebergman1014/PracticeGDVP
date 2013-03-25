@@ -170,7 +170,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\SessionStart.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\AuthorizeUser.cs" />
     <Compile Include="Auth\IUserAuth.cs" />
@@ -182,7 +181,6 @@
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IAdminController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
-
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
