@@ -258,11 +258,11 @@
     <Compile Include="Reports\Audit.aspx.designer.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Service\Admin\AdminService.cs" />
+    <Compile Include="Service\Admin\ManageStoreService.cs" />
     <Compile Include="Service\Admin\IManageUserService.cs" />
     <Compile Include="Service\Admin\ManageUserService.cs" />
     <Compile Include="Service\DiscountService.cs" />
-    <Compile Include="Service\Admin\IAdminService.cs" />
+    <Compile Include="Service\Admin\IManageStoreService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />

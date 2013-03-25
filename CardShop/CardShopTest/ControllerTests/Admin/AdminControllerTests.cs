@@ -46,7 +46,7 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void ManageStorePostTest() 
         {
-            var mock = new Mock<IAdminService>();
+            var mock = new Mock<IManageStoreService>();
             var mockMember = new Mock<IMembership>();
             bool isSuccess = false;
 
@@ -93,7 +93,7 @@ namespace CardShopTest.ControllerTests
         public void ManageStoreGetTestNotNull()
         {
             var mock = new Mock<IMembership>();
-            var mockService = new Mock<IAdminService>();
+            var mockService = new Mock<IManageStoreService>();
             MembershipUser user = new FakeMembershipUser();
             adminController.membership = mock.Object;
             adminController.adminService = mockService.Object;

@@ -7,7 +7,7 @@ using CardShop.Daos;
 
 namespace CardShop.Service
 {
-    public class AdminService : IAdminService
+    public class ManageStoreService : IManageStoreService
     {
         public IPracticeGDVPDao context { get; set; }
         /// <summary>
@@ -52,7 +52,7 @@ namespace CardShop.Service
         /// No-Args constructor
         /// sets singleton instance of PracticeGDVPDao
         /// </summary>
-        public AdminService()
+        public ManageStoreService()
         {
             context = PracticeGDVPDao.GetInstance();
 
