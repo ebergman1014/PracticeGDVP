@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardShop.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,10 @@ namespace CardShop
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+        }
+        void Session_Start(object sender, EventArgs e)
+        {
+            UserAuth.CreateSession();
         }
     }
 }

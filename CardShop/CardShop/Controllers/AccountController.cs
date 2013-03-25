@@ -11,6 +11,8 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using CardShop.Filters;
 using CardShop.Models;
+using CardShop.Auth;
+using CardShop.Daos;
 
 namespace CardShop.Controllers
 {
@@ -18,6 +20,13 @@ namespace CardShop.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller, IAccountController
     {
+
+        IPracticeGDVPDao db { get; set; }
+
+        public AccountController()
+        {
+            db = PracticeGDVPDao.GetInstance();
+        }
         //
         // GET: /Account/Login
 
@@ -38,6 +47,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                UserAuth.GetUserAuth().User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -54,7 +64,7 @@ namespace CardShop.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-
+            UserAuth.GetUserAuth().User = null;
             return RedirectToAction("Index", "Home");
         }
 
