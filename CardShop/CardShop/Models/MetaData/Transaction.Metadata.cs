@@ -22,7 +22,6 @@ namespace CardShop.Models
     
         public virtual ICollection<BaseballCardTransaction> BaseballCardTransactions { get; set; }
         public virtual Store Store { get; set; }
-        //BITCH I SAID PROFILE
         public virtual User UserProfile { get; set; }
     }
 }
