@@ -80,17 +80,17 @@ namespace CardShop.Controllers
 
             roleList.Add(new SelectListItem()
             {
-                Value = "1",
+                Value = ((int)Role.User).ToString(),
                 Text = "User"
             });
             roleList.Add(new SelectListItem()
             {
-                Value = "2",
+                Value = ((int)Role.StoreOwner).ToString(),
                 Text = "Store Owner"
             });
             roleList.Add(new SelectListItem()
             {
-                Value = "3",
+                Value = ((int)Role.Admin).ToString(),
                 Text = "Admin"
             });
 
