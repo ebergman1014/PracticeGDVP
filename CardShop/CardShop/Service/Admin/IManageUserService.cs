@@ -16,6 +16,6 @@ namespace CardShop.Service.Admin
 
         IEnumerable GetRoleView();
 
-        User EditUser(User user, System.Data.EntityState entityState, out bool isSuccess);
+        User EditUser(User user, out bool isSuccess);
     }
 }
