@@ -15,20 +15,20 @@ namespace CardShop.Controllers.Admin
 
         ActionResult Details(int id);
 
-        [HttpPost]
         ActionResult Create();
 
         ActionResult Create(User user);
 
         ActionResult Edit(int id);
 
-        [HttpPost]
         ActionResult Edit(User user);
 
         ActionResult Delete(int id);
 
-        [HttpPost, ActionName("Delete")]
         ActionResult DeleteConfirmed(int id);
 
+        ActionResult ActAsUser(int id);
+
+        ActionResult StopActingAsUser();
     }
 }
