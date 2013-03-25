@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\IAdminController.cs" />
+    <Compile Include="Controllers\IRedemptionController.cs" />
     <Compile Include="Controllers\ManageUserController.cs" />
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />

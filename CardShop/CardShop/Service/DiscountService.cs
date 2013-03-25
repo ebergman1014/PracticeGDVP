@@ -34,6 +34,42 @@ namespace CardShop.Service
             }
             return users;
         }
+
+        /// <summary>
+        /// Get Coupon by userId and discountCode
+        /// returns null if no UserDiscount is found
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="DiscountCode"></param>
+        /// <returns>UserDiscount</returns>
+        /// <author>Paul Wroe</author>
+        public UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess)
+        {
+            isSuccess = false;
+            UserDiscount returnCoupon = null;
+            
+            using (var ctx = dbContext)
+            {
+                //  get coupon by id and coupon code
+                var coupon = from cup 
+                             in ctx.UserDiscounts()
+                             where
+                             cup.DiscountCode == discountCode
+                             &&
+                             cup.UserId == userId
+                             select cup;
+                if (coupon.ToList().Count > 0)
+                {
+                    returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
+                    isSuccess = true;
+                }
+               
+            }
+
+            return returnCoupon;
+        }
+
+
         /// <summary>
         /// Create and submit coupon
         /// </summary>
