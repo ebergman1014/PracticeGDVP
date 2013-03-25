@@ -20,11 +20,9 @@
         @Html.LabelFor(m => m.DiscountCode)
         @Html.TextBoxFor(m => m.DiscountCode)
         <br/>
+        <input type="button" id ="redeemCoupon" value="Redeem Coupon" />
+        <p id ="couponResult">Transaction Pending</p>
 
-        <br />
-        <input type="button" id ="checkCoupon" value="Check Coupon" />
-        <br />
-        <input type="submit" id ="submitButton" value="Redeem Coupon" />
     </fieldset>
 }
 
@@ -36,45 +34,26 @@
  $(document).ready(function () {
 
 
-     function checkCoupon() {    //  retrieve coupon if it exists
+     function checkCoupon() {
 
-         
-             
-                 $.post("RetrieveDiscount",
-                 {
-                     userId: $("#UserId").val(),
-                     couponCode: $("#DiscountCode").val(),
+         if ($("#DiscountCode").valid()) {// there are currently no constraints on UserDiscount.DiscountCode
 
-                 },
-                 function (data, status) {
-                     alert(data.StartDate);
-                 });
+             $.post("RedeemDiscount",
+             {
+                 userId: $("#UserId").val(),
+                 couponCode: $("#DiscountCode").val(),
 
+             },
+             function (coupon, status) {
+                 // place response for coupon here
+                 $("#couponResult").html(
+                     "Coupon has been redeemed for " + coupon.DiscountRate);
+             });
+         }
      };
 
 
-
-
-
-     function submitForm() {
-            if ($("#redeemForm").valid()) {
-
-                $.post("Redeem",
-                     $("#redeemForm").serialize(),
-                     function (data) {
-
-                         //  do something
-
-                     },
-                     "json");
-            }
-        }
-
-
-     $("#submitButton").click(function () {
-            submitForm();
-        });
-     $("#checkCoupon").click(function () {
+     $("#redeemCoupon").click(function () {
             checkCoupon();
         });
 
