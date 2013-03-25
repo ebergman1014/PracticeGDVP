@@ -116,7 +116,8 @@ namespace CardShop.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.Email,
-                        RoleId = Int32.Parse(model.RoleId)
+                        RoleId = Int32.Parse(model.RoleId),
+                        isActive = true
                     });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");

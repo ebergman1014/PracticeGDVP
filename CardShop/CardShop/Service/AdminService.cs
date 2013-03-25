@@ -53,6 +53,7 @@ namespace CardShop.Service
         public AdminService()
         {
             context = PracticeGDVPDao.GetInstance();
+
         }
     }
 }
