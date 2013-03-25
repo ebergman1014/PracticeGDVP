@@ -14,7 +14,7 @@ namespace CardShopTest.ControllerTests
     /// Test Class for DiscountController
     /// </summary>
     [TestClass]
-    public class DiscountControllerTest
+    public class DiscountControllerTests
     {
         // objects needed for tests
         DiscountController discountTest;

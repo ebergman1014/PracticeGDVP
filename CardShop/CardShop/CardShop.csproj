@@ -172,9 +172,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Admin\AdminController.cs" />
+    <Compile Include="Controllers\Admin\IManageUserController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
-    <Compile Include="Controllers\IAdminController.cs" />
+    <Compile Include="Controllers\Admin\IAdminController.cs" />
+    <Compile Include="Controllers\Admin\ManageUserController.cs" />
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
@@ -221,6 +223,7 @@
     <Compile Include="Models\MetaData\Transaction.Metadata.cs" />
     <Compile Include="Models\MetaData\User.Metadata.cs" />
     <Compile Include="Models\MetaData\UserDiscount.Metadata.cs" />
+    <Compile Include="Models\MetaData\webpages_Roles.Metadata.cs" />
     <Compile Include="Models\RuleSet.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
@@ -251,9 +254,11 @@
     <Compile Include="Reports\Audit.aspx.designer.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Service\AdminService.cs" />
+    <Compile Include="Service\Admin\AdminService.cs" />
+    <Compile Include="Service\Admin\IManageUserService.cs" />
+    <Compile Include="Service\Admin\ManageUserService.cs" />
     <Compile Include="Service\DiscountService.cs" />
-    <Compile Include="Service\IAdminService.cs" />
+    <Compile Include="Service\Admin\IAdminService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
@@ -420,9 +425,10 @@
     <Content Include="Scripts\Global\knockout-2.1.0.js" />
     <Content Include="Scripts\Global\modernizr-2.5.3.js" />
     <Content Include="Scripts\jquery.edit-rules.js" />
-    <Content Include="Views\favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -470,6 +476,12 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\ManageStore.cshtml" />
     <Content Include="Views\Home\Report.cshtml" />
+    <Content Include="Views\Redemption\Redeem.cshtml" />
+    <Content Include="Views\ManageUser\Index.cshtml" />
+    <Content Include="Views\ManageUser\Details.cshtml" />
+    <Content Include="Views\ManageUser\Create.cshtml" />
+    <Content Include="Views\ManageUser\Edit.cshtml" />
+    <Content Include="Views\ManageUser\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

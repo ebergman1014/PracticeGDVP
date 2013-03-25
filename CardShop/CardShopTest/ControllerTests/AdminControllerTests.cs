@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CardShopTest.TestHelper;
-
+using CardShop.Controllers.Admin;
 
 
 namespace CardShopTest.ControllerTests
@@ -21,14 +21,14 @@ namespace CardShopTest.ControllerTests
     [TestClass]
     public class AdminControllerTests
     {
-        Admin2Controller adminController;
+        ManageStoreController adminController;
         List<Store> stores;
         Store storeOne;
         Store storeTwo;
 
         [TestInitialize]
         public void Setup() { 
-            adminController = new Admin2Controller();
+            adminController = new ManageStoreController();
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];

@@ -136,6 +136,7 @@
           <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="30" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleId" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="webpages_Roles">
           <Key>
@@ -480,6 +481,7 @@
           <NavigationProperty Name="Transactions" Relationship="PracticeGDVPModel.FK_Transaction_UserProfile" FromRole="UserProfile" ToRole="Transaction" />
           <NavigationProperty Name="UserDiscounts" Relationship="PracticeGDVPModel.FK_UserDiscount_UserProfile" FromRole="UserProfile" ToRole="UserDiscount" />
           <NavigationProperty Name="webpages_Roles" Relationship="PracticeGDVPModel.FK_UserProfile_webpages_Roles" FromRole="UserProfile" ToRole="webpages_Roles" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
         </EntityType>
         <EntityType Name="webpages_Roles">
           <Key>
@@ -629,6 +631,7 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="PracticeGDVPModel.User">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

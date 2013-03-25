@@ -15,10 +15,11 @@ namespace CardShop
 
             routes.MapRoute(
                 name: "Admin",
-                url: "Admin/{controller}/{action}/{id}",
+                url: "Admin/ManageUser/{action}/{id}",
                 defaults: new { controller = "ManageUser", action = "Index", id = UrlParameter.Optional }
                 );
 
+           // routes.MapRoute();
 
             routes.MapRoute(
                 name: "Default",

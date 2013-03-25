@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using CardShop.Models;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 
 namespace CardShop.Daos
 {
@@ -18,6 +19,7 @@ namespace CardShop.Daos
         private IDbSet<Transaction> transactions;
         private IDbSet<Store> stores;
         private IDbSet<UserDiscount> userDiscounts;
+        public IDbSet<webpages_Roles> webpages_Roles;
 
 
         private static PracticeGDVPDao gdvpDao;
@@ -84,12 +86,25 @@ namespace CardShop.Daos
             ruleSets = new DbSetWrapper<RuleSet>(gdvp.RuleSets);
             stores = new DbSetWrapper<Store>(gdvp.Stores);
             storeInventories = new DbSetWrapper<StoreInventory>(gdvp.StoreInventories);
+            webpages_Roles = new DbSetWrapper<webpages_Roles>(gdvp.webpages_Roles);
+
         }
 
         public int SaveChanges()
         {
             return gdvp.SaveChanges();
         }
-        public void Dispose(){}
+        public void Dispose() { }
+
+
+        IDbSet<webpages_Roles> IPracticeGDVPDao.webpages_Roles()
+        {
+            return webpages_Roles;
+        }
+
+        public DbEntityEntry Entry(object entity)
+        {
+            return gdvp.Entry(entity);
+        }
     }
 }

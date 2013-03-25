@@ -152,5 +152,6 @@ namespace CardShop.Daos
         //     execute the query when it is enumerated.
         DbSqlQuery<TEntity> SqlQuery(string sql, params object[] parameters);
         List<TEntity> ToList();
+        DbQuery<TEntity> Include(string path);
     }
 }

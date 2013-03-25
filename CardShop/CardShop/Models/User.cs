@@ -27,6 +27,7 @@ namespace CardShop.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public Nullable<int> RoleId { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual ICollection<Store> Stores { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
