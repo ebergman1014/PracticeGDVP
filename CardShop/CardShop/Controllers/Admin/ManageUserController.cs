@@ -10,6 +10,7 @@ using CardShop.Controllers.Admin;
 using CardShop.Service;
 using CardShop.Service.Admin;
 using CardShop.Auth;
+using CardShop.Daos;
 
 namespace CardShop.Controllers
 {
@@ -88,7 +89,8 @@ namespace CardShop.Controllers
             bool isSuccess;
             if (ModelState.IsValid)
             {
-                manageUserService.EditUser(user, EntityState.Modified, out isSuccess);
+                manageUserService.EditUser(user, out isSuccess);
+                
                 return RedirectToAction("Index");
             }
             ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);

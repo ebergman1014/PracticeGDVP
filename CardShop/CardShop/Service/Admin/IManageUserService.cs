@@ -16,10 +16,10 @@ namespace CardShop.Service.Admin
 
         IEnumerable GetRoleView();
 
-        User EditUser(User user, System.Data.EntityState entityState, out bool isSuccess);
-
         void ActAsUser(int id, out bool success);
 
         void StopActingAsUser(out bool success);
+
+        User EditUser(User user, out bool isSuccess);
     }
 }

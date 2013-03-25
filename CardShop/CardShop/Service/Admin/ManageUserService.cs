@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Collections;
 using System.Data;
 using CardShop.Auth;
+using System.Data.Objects;
+
 
 namespace CardShop.Service.Admin
 {
@@ -45,7 +47,8 @@ namespace CardShop.Service.Admin
         {
             isSuccess = false;
             User user = db.Users().Find(id);
-            if (user != null) {
+            if (user != null)
+            {
                 isSuccess = true;
             }
             return user;
@@ -53,7 +56,7 @@ namespace CardShop.Service.Admin
 
         public User CreateUser(User user, out bool isSuccess)
         {
-            
+
             db.Users().Add(user);
             db.SaveChanges();
             isSuccess = true;
@@ -83,12 +86,24 @@ namespace CardShop.Service.Admin
         }
 
 
-        public User EditUser(User user, EntityState entityState, out bool isSuccess)
+        public User EditUser(User user, out bool isSuccess)
         {
+            var aUser = db.Users().Find(user.UserId);
+            if (aUser != null)
+            {
+                aUser.FirstName = user.FirstName;
+                aUser.RoleId = user.RoleId;
+                aUser.IsActive = user.IsActive;
+                aUser.LastName = user.LastName;
+                aUser.Email = user.Email;
 
-            db.Entry(user).State = entityState;
-            db.SaveChanges();
-            isSuccess = true;
+                db.SaveChanges();
+                isSuccess = true;
+            }
+            else
+            {
+                isSuccess = false;
+            }
             return user;
         }
         public void ActAsUser(int id, out bool success)

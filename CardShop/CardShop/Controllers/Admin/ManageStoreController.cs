@@ -9,13 +9,13 @@ using System.Web.Security;
 using CardShop.Auth;
 namespace CardShop.Controllers
 {
-    public class ManageStoreController : Controller, IAdminController
+    public class ManageStoreController : Controller, IManageStoreController
     {
-        public IAdminService adminService { get; set; }
+        public IManageStoreService adminService { get; set; }
         public IMembership membership { get; set; }
 
         public ManageStoreController(){
-                adminService = new AdminService();
+                adminService = new ManageStoreService();
                 membership = MembershipWrapper.getInstance();
         }
         
