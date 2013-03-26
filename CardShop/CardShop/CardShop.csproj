@@ -189,12 +189,12 @@
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IManageStoreController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
-    <Compile Include="Controllers\IRedemptionController.cs" />
-    <Compile Include="Controllers\RedemptionController.cs" />
+    <Compile Include="Controllers\Discount\IRedemptionController.cs" />
+    <Compile Include="Controllers\Discount\RedemptionController.cs" />
     <Compile Include="Controllers\RuleController.cs" />
-    <Compile Include="Controllers\DiscountController.cs" />
+    <Compile Include="Controllers\Discount\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IDiscountController.cs" />
+    <Compile Include="Controllers\Discount\IDiscountController.cs" />
     <Compile Include="Daos\DefaultContext.cs" />
     <Compile Include="Daos\DbSetWrapper.cs" />
     <Compile Include="Daos\IDbSet.cs" />
