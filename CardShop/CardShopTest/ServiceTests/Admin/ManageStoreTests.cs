@@ -6,6 +6,7 @@ using CardShopTest.TestHelper;
 using Moq;
 using CardShop.Daos;
 using System.Collections.Generic;
+using CardShop.Utilities;
 
 namespace CardShopTest.ServiceTests
 {
