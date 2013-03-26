@@ -16,6 +16,18 @@ namespace CardShop.Service
         /// </summary>
         /// <returns> returns List<CardShop.Models.User> </returns>
         List<User> GetAllUsers();
+
+        /// <summary>
+        /// Returns a UserDiscount from userId and discountCode
+        /// </summary>
+        /// <returns> returns List<CardShop.Models.User> </returns>
+        UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess);
+
+        /// <summary>
+        /// Takes a UserDiscount and marks it as redeemed
+        /// </summary>
+        /// <returns> returns List<CardShop.Models.User> </returns>
+        UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess);
         
         /// <summary>
         /// Create and save Coupon to DB

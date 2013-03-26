@@ -125,6 +125,20 @@ namespace CardShop.Models
         public string ResetToken { get; set; }
     }
 
+    public class PasswordResetModel
+    {
+        [Required]
+        [StringLength(42, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
+
     public class ExternalLogin
     {
         public string Provider { get; set; }

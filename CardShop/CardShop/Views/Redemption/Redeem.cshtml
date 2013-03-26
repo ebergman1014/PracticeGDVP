@@ -5,7 +5,7 @@
 }
 
 <h2>Redeem</h2>
-@using (@Html.BeginForm("", "", FormMethod.Post, new { id = "redeemForm" }))
+@using (@Html.BeginForm("Redeem", "Redemption", FormMethod.Post, new { id = "redeemForm" }))//action,controller,formMethod,
 {
     @Html.ValidationSummary()
     @Html.AntiForgeryToken()
@@ -13,18 +13,53 @@
     <fieldset>
         <legend></legend>
        
-
         
         @Html.DropDownListFor(m => m.UserId, new SelectList(ViewBag.listOfUsers, "UserId", "Username"))
-
-        
 
         <br/>
         @Html.LabelFor(m => m.DiscountCode)
         @Html.TextBoxFor(m => m.DiscountCode)
         <br/>
+        <input type="button" id ="redeemCoupon" value="Redeem Coupon" />
+        <p id ="couponResult">Transaction Pending</p>
 
-        <br />
-        <input type="submit" id ="submitButton" value="Submit" />
     </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-validate")
+
+    
+<script type ="text/javascript">
+ $(document).ready(function () {
+
+
+     function checkCoupon() {
+
+         if ($("#DiscountCode").valid()) {// there are currently no constraints on UserDiscount.DiscountCode
+
+             $.post("RedeemDiscount",
+             {
+                 userId: $("#UserId").val(),
+                 couponCode: $("#DiscountCode").val(),
+
+             },
+             function (coupon, status) {
+                 // place response for coupon here
+                 $("#couponResult").html(
+                     "Coupon has been redeemed for " + coupon.DiscountRate);
+             });
+         }
+     };
+
+
+     $("#redeemCoupon").click(function () {
+            checkCoupon();
+        });
+
+ });
+
+</script>
+
+
 }

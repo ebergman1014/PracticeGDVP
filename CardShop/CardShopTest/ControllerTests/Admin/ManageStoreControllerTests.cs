@@ -21,14 +21,14 @@ namespace CardShopTest.ControllerTests
     [TestClass]
     public class ManageStoreControllerTests
     {
-        ManageStoreController adminController;
+        ManageStoreController manageStoreController;
         List<Store> stores;
         Store storeOne;
         Store storeTwo;
 
         [TestInitialize]
         public void Setup() { 
-            adminController = new ManageStoreController();
+            manageStoreController = new ManageStoreController();
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];
@@ -37,7 +37,7 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void IndexTest()
         {
-            Assert.IsInstanceOfType(adminController.Index(), typeof(ActionResult));
+            Assert.IsInstanceOfType(manageStoreController.Index(), typeof(ActionResult));
         }
 
         /// <summary>
@@ -51,16 +51,16 @@ namespace CardShopTest.ControllerTests
             bool isSuccess = false;
 
             
-            adminController.membership = mockMember.Object;
-            adminController.adminService = mock.Object;
+            manageStoreController.membership = mockMember.Object;
+            manageStoreController.adminService = mock.Object;
             mockMember.Setup(m => m.GetUserId()).Returns(2);
             mock.Setup(m => m.OwnedStore(2)).Returns(storeOne);
             mock.Setup(m => m.EditStore(storeOne, storeTwo, out isSuccess)).Returns(new Store());
             //set field in adminController
             
 
-            Assert.IsInstanceOfType(adminController.
-                ManageStore(storeTwo), typeof(JsonResult));
+            Assert.IsInstanceOfType(manageStoreController.
+                Index(storeTwo), typeof(JsonResult));
         }
 
         /// <summary>
@@ -72,10 +72,10 @@ namespace CardShopTest.ControllerTests
             var mock = new Mock<IMembership>();
             mock.Setup(m => m.GetUser()).Returns((MembershipUser)null);
 
-            adminController.membership = mock.Object;
+            manageStoreController.membership = mock.Object;
 
-            adminController.ManageStore();
-            Assert.IsInstanceOfType(adminController.ManageStore(),typeof(RedirectResult));
+            manageStoreController.Index();
+            Assert.IsInstanceOfType(manageStoreController.Index(),typeof(RedirectResult));
 
 
         }
@@ -95,15 +95,15 @@ namespace CardShopTest.ControllerTests
             var mock = new Mock<IMembership>();
             var mockService = new Mock<IManageStoreService>();
             MembershipUser user = new FakeMembershipUser();
-            adminController.membership = mock.Object;
-            adminController.adminService = mockService.Object;
+            manageStoreController.membership = mock.Object;
+            manageStoreController.adminService = mockService.Object;
             mock.Setup(m => m.GetUser()).Returns(user);
 
             mockService.Setup(m => m.OwnedStore(1)).Returns(new Store());
             mock.Setup(m => m.GetUserId()).Returns(1);
 
 
-            Assert.IsInstanceOfType(adminController.ManageStore(), typeof(ViewResult));
+            Assert.IsInstanceOfType(manageStoreController.Index(), typeof(ViewResult));
         }
 
     }

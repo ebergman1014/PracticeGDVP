@@ -470,6 +470,14 @@ textarea {
         margin-right: 4px;
     }
 
+    div .ifCondition, .thenAction, .elseAction
+    {
+        outline: 2px solid #CCC;
+        background-color: #fff;
+        width: 400px;
+        padding: 20px;
+    }
+
 /* info and errors */
 .message-info {
     border: 1px solid;

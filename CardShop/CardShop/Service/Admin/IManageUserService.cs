@@ -14,7 +14,11 @@ namespace CardShop.Service.Admin
         User GetUser(int id, out bool isSuccess);
         User CreateUser(User user, out bool isSuccess);
 
-        IEnumerable GetRoleView();
+        IEnumerable GetRoleView(out bool isSuccess);
+
+        void ActAsUser(int id, out bool success);
+
+        void StopActingAsUser(out bool success);
 
         User EditUser(User user, out bool isSuccess);
     }

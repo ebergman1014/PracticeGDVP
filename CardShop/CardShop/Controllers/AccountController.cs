@@ -47,7 +47,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                UserAuth.GetUserAuth().User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
+                UserAuth.Current.User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -63,8 +63,9 @@ namespace CardShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
-            UserAuth.GetUserAuth().User = null;
+
+            WebSecurity.Logout(); 
+            UserAuth.Current.Logout();
             return RedirectToAction("Index", "Home");
         }
 
