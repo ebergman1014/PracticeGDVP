@@ -54,6 +54,7 @@ namespace CardShop.Service
             using (var ctx = dbContext)
             {
                 //  get coupon by id and coupon code
+                //  LINQ query instead of Lambda expression for clarity
                 var coupon = from cup 
                              in ctx.UserDiscounts()
                              where
@@ -66,13 +67,17 @@ namespace CardShop.Service
                 if (coupon.ToList().Count > 0)
                 {
                     returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
-                    if (!returnCoupon.Reedemed)  //  false is not redeemed
+                    if (returnCoupon.Reedemed)  //  false is not redeemed
                     {
-                        error = "Coupon already redeemed.  ";
+                        error = "Coupon already redeemed.";
                     }
-                    else if (DateTime.Compare(returnCoupon.EndDate, DateTime.Now) > 0)   // coupon is expired
+                    else if (DateTime.Compare(returnCoupon.EndDate, DateTime.Now) < 0)   // coupon is expired
                     {
-                        error = "Coupon is expired.  ";
+                        error = "Coupon is expired.";
+                    }
+                    else if (DateTime.Compare(returnCoupon.StartDate, DateTime.Now) > 0)  //  coupon is not yet active
+                    {
+                        error = "Coupon is not yet active.  Coupon starts " + returnCoupon.StartDate;
                     }
                     else
                     {
@@ -81,7 +86,7 @@ namespace CardShop.Service
                 }
                 else
                 {
-                    error = "Unable to find Coupon.  ";
+                    error = "Unable to find Coupon.";
                 }
             }
 
@@ -97,23 +102,15 @@ namespace CardShop.Service
         {
             isSuccess = false;
 
-            //  what if coupon is already redeemed?
-            //  what if coupon is expired?
-            //  what if coupon does not exist?
-
-
             coupon.Reedemed = true;
             using (var ctx = dbContext)
             {
                 // add coupon to context
-                var userCoupon = ctx.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).FirstOrDefault();   //.Attach(coupon);   //.Add(coupon);
-                // save changes to context (saves to DB!)
+                var userCoupon = ctx.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).FirstOrDefault();
                 userCoupon.Reedemed = true;
                 ctx.SaveChanges();
-
-
+                isSuccess = true;
             }
-
 
             return coupon;
         }
@@ -146,7 +143,7 @@ namespace CardShop.Service
         /// </summary>
         public DiscountService()
         {
-            couponUtility = new UserDiscountUtility();
+            couponUtility = Factory.Instance.Create<UserDiscountUtility>();
             dbContext = PracticeGDVPDao.GetInstance();
         }
     }

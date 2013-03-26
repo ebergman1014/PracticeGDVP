@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardShop.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace CardShop.Auth
         {
             get
             {
-                return WrapperFactory.Factory.Wrap<ContextWrapper, IHttpContext>(HttpContext.Current);
+                return Factory.Instance.Create<ContextWrapper, IHttpContext>(HttpContext.Current);
             }
         }
         private HttpContext context;
@@ -28,7 +29,7 @@ namespace CardShop.Auth
  
         private void Wrap(HttpContext context)
         {
-            Session = WrapperFactory.Factory.Wrap<SessionWrapper, ISession>(context.Session);
+            Session = Factory.Instance.Create<SessionWrapper, ISession>(context.Session);
             this.context = context;
         }
     }

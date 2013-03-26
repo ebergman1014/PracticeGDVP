@@ -1,4 +1,5 @@
 ﻿using CardShop.Models;
+using CardShop.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace CardShop.Auth
         /// </summary>
         public static IUserAuth Current {
             get{
-                 return UserAuth.GetUserAuth(WrapperFactory.Factory.Wrap<ContextWrapper,IHttpContext>(HttpContext.Current));
+                 return UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper,IHttpContext>(HttpContext.Current));
             }
             set
             {

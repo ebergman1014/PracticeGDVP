@@ -59,8 +59,8 @@ namespace CardShop.Controllers
                 coupon = discountService.RedeemCoupon(coupon1, out isSuccess);
             }
 
-            // return object (a little more than a whole coupon.)
-            var returnObject = Json(new { });
+            // return object
+            var returnObject = Json(new {Error = error, });
 
             if (isSuccess)
             {
@@ -73,6 +73,7 @@ namespace CardShop.Controllers
                     DiscountCode = coupon.DiscountCode,
                     UserId = coupon.UserId,
                     Error = error,  //  added this field to UserDiscount Json object
+                    Success = isSuccess,  //  added this field to UserDiscount Json object
                 });
             }
             return returnObject;
