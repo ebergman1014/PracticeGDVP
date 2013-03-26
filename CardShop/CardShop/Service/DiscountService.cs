@@ -38,6 +38,8 @@ namespace CardShop.Service
         /// <summary>
         /// Get Coupon by userId and discountCode
         /// returns null if no UserDiscount is found
+        /// Using outs to return additional error information
+        /// Also checks for expiration and redemption status
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="DiscountCode"></param>
@@ -60,20 +62,27 @@ namespace CardShop.Service
                              cup.UserId == userId
                              select cup;
 
-                //  check for exists, expired, or used here
-
-
+                //  check for exists, expired, or used
                 if (coupon.ToList().Count > 0)
                 {
                     returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
-                    isSuccess = true;
+                    if (!returnCoupon.Reedemed)  //  false is not redeemed
+                    {
+                        error = "Coupon already redeemed.  ";
+                    }
+                    else if (DateTime.Compare(returnCoupon.EndDate, DateTime.Now) > 0)   // coupon is expired
+                    {
+                        error = "Coupon is expired.  ";
+                    }
+                    else
+                    {
+                        isSuccess = true;
+                    }
                 }
                 else
                 {
-                    error = "Unable to find Coupon.";
+                    error = "Unable to find Coupon.  ";
                 }
-
-               
             }
 
             return returnCoupon;
