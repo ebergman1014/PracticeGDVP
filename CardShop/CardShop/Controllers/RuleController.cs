@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CardShop.Models;
-using CardShop.DAL;
+using CardShop.Daos;
 using CardShop.ViewModels;
 using System.Workflow.Activities.Rules.Design;
 using System.Web.Script.Serialization;
@@ -17,7 +17,7 @@ namespace CardShop.Controllers
 {
     public class RuleController : Controller
     {
-        private RulesContext db = new RulesContext();
+        private DefaultContext db = new DefaultContext();
 
         private Models.RuleSet SetUpTest()
         {

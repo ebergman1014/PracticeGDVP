@@ -179,6 +179,7 @@
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ManageStoreController.cs" />
     <Compile Include="Controllers\Admin\IManageUserController.cs" />
+    <Compile Include="Controllers\BaseballCardController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IManageStoreController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
@@ -188,7 +189,7 @@
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IDiscountController.cs" />
-    <Compile Include="DAL\RulesContext.cs" />
+    <Compile Include="Daos\DefaultContext.cs" />
     <Compile Include="Daos\DbSetWrapper.cs" />
     <Compile Include="Daos\IDbSet.cs" />
     <Compile Include="Daos\IPracticeGDVPDao.cs" />
@@ -419,6 +420,11 @@
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
     <Content Include="Views\ErrDocs\403.cshtml" />
+    <Content Include="Views\BaseballCard\Index.cshtml" />
+    <Content Include="Views\BaseballCard\Details.cshtml" />
+    <Content Include="Views\BaseballCard\Create.cshtml" />
+    <Content Include="Views\BaseballCard\Edit.cshtml" />
+    <Content Include="Views\BaseballCard\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

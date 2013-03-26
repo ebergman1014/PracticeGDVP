@@ -1,0 +1,25 @@
+﻿@model CardShop.Models.BaseballCard
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>BaseballCard</legend>
+
+    <h4>Player</h4>
+        @Html.DisplayFor(model => model.Player)
+
+    <h4>Team</h4>
+        @Html.DisplayFor(model => model.Team)
+
+    <h4>Cost</h4>
+        @Html.DisplayFor(model => model.Cost)
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.BaseballCardId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
