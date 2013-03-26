@@ -28,12 +28,17 @@
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li>@Html.ActionLink("Discount", "Index", "Discount")</li>
+<<<<<<< HEAD
+                            <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+@*<li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>*@
+                            <li>@Html.ActionLink("Report", "Report", "Report")</li>
+=======
                             @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){
                                 <li>@Html.ActionLink("Admin", "Index", "Admin")</li>                              
                             }
-@*<li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>*@
-                            <li>@Html.ActionLink("Report", "Report", "Report")</li>
+<li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>
                             <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
+>>>>>>> 17ba36b73dc74c3f37896bf60a58c58c8ff42cef
                         </ul>
                     </nav>
                 </div>

@@ -7,10 +7,9 @@ using CardShop.Models;
 
 namespace CardShop.Controllers
 {
-    public interface IAdminController
+    public interface IManageStoreController
     {
         ActionResult Index();
-        ActionResult ManageStore(Store storeToChange);
-        ActionResult ManageStore();
+        ActionResult Index(Store storeToChange);
     }
 }

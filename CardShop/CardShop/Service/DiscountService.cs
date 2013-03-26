@@ -34,6 +34,78 @@ namespace CardShop.Service
             }
             return users;
         }
+
+        /// <summary>
+        /// Get Coupon by userId and discountCode
+        /// returns null if no UserDiscount is found
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="DiscountCode"></param>
+        /// <returns>UserDiscount</returns>
+        /// <author>Paul Wroe</author>
+        public UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess)
+        {
+            isSuccess = false;
+            UserDiscount returnCoupon = null;
+            
+            using (var ctx = dbContext)
+            {
+                //  get coupon by id and coupon code
+                var coupon = from cup 
+                             in ctx.UserDiscounts()
+                             where
+                             cup.DiscountCode == discountCode
+                             &&
+                             cup.UserId == userId
+                             select cup;
+
+                //  check for exists, expired, or used here
+
+
+                if (coupon.ToList().Count > 0)
+                {
+
+                    returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
+                    isSuccess = true;
+                }
+
+               
+            }
+
+            return returnCoupon;
+        }
+
+        /// <summary>
+        /// Mark Inputted coupon as redeemed.
+        /// </summary>
+        /// <returns>UserDisount</returns>
+        /// <author>Paul Wroe</author>
+        public UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess)
+        {
+            isSuccess = false;
+
+            //  what if coupon is already redeemed?
+            //  what if coupon is expired?
+            //  what if coupon does not exist?
+
+
+            coupon.Reedemed = true;
+            using (var ctx = dbContext)
+            {
+                // add coupon to context
+                var userCoupon = ctx.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).FirstOrDefault();   //.Attach(coupon);   //.Add(coupon);
+                // save changes to context (saves to DB!)
+                userCoupon.Reedemed = true;
+                ctx.SaveChanges();
+
+
+            }
+
+
+            return coupon;
+        }
+
+
         /// <summary>
         /// Create and submit coupon
         /// </summary>

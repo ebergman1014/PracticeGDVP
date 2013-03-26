@@ -19,6 +19,7 @@ namespace CardShop.ViewModels
         public CardShop.Models.RuleSet rulesetWrapper { get; set; }
         public System.Workflow.Activities.Rules.RuleSet ruleset { get; set; }
         public ICollection<Rule> rules { get; set; }
+        public List<RuleObject> rulesDisplay { get; set; }
 
         public RulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
         {
@@ -27,6 +28,7 @@ namespace CardShop.ViewModels
             {
                 this.ruleset = DeserializeRuleSet(rulesetWrapper.RuleSet1);
                 this.rules = ruleset.Rules;
+                this.rulesDisplay = SetUpRulesDisplay(rules);
             }
         }
 
@@ -66,12 +68,18 @@ namespace CardShop.ViewModels
 
             return ruleDefinition.ToString();
         }
-    }
 
-    public class RulesObject
-    {
-        public string Condition { get; set; }
-        public List<string> ThenActions { get; set; }
-        public List<string> ElseActions { get; set; }
+        public List<RuleObject> SetUpRulesDisplay(ICollection<System.Workflow.Activities.Rules.Rule> rules)
+        {
+            List<RuleObject> rulesDisplay = new List<RuleObject>();
+
+            foreach (System.Workflow.Activities.Rules.Rule rule in rules)
+            {
+                RuleObject ruleObj = new RuleObject(rule);
+                rulesDisplay.Add(ruleObj);
+            }
+
+            return rulesDisplay;
+        }
     }
 }

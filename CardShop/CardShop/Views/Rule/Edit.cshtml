@@ -5,18 +5,16 @@
     ViewBag.Title = "Edit";
 }
 
-
 <h2>Edit</h2>
 
-@using (Html.BeginForm("CompileRules", "Rule", FormMethod.Post, new { id = "form" })) {
+@using (Html.BeginForm("CompileRules", "Rule", FormMethod.Post, new { id = "form" }))
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>RuleSet</legend>
 
         @Html.HiddenFor(model => model.rulesetWrapper.RuleSetId)
-
-        @Html.HiddenFor(model => model.rulesetWrapper.RuleSet1)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.rulesetWrapper.Name)
@@ -76,53 +74,69 @@
 
         <div>
             <h4>Rules</h4>
-            <input type="button" id="click" value="Click"/>
-
-            @for (int i = 0; i < Model.rules.Count; i++)
+            @foreach (var rule in Model.rulesDisplay)
             {
-                var rule = Model.rules.ElementAt(i);
                 <div class="rule">
-                    <h5>@rule.Name</h5>
+                    Name: <input type="text" class="name" value="@rule.Name" />
 
                     <p>If Condition</p>
-                    <input type="hidden" id="Condition" />
-                    <input type="text" value="@rule.Condition" class="ifCondition" />
+                    <div class="ifCondition">
+                        Field: 
+                        <input type="text" class="field" value="@rule.Condition.field"/><br />
+                        @*<select>
+                            <option value="">Is Equal To</option>
+                            <option value="">Is Less Than</option>
+                            <option value="">Is Less Than Or Equal To</option>
+                            <option value="">Is Greater Than</option>
+                            <option value="">Is Greater Than Or Equal To</option>
+                        </select>*@
+                        Value: 
+                        <input type="text" class="value" value="@rule.Condition.value"/>
+                    </div>
 
                     <p>Then Actions</p>
                     <div class="thenActions">
-                        <input type="hidden" id="ThenActions" />
                         @if (rule.ThenActions != null)
                         {
-                            for (int j = 0; j < rule.ThenActions.Count; j++)
+                            foreach (var action in rule.ThenActions)
                             {
-                                <div>
-                                    <input type="text" value="@rule.ThenActions.ElementAt(j)"/>
-                                    <input type="button" value="Remove" class="remove"/>
-                                </div>
+                            <div class="thenAction">
+                                Field:
+                                <input type="text" class="field" value="@action.field"/><br />
+                                Value:
+                                <input type="text" class="value" value="@action.value"/><br />
+                                <input type="button" value="Remove" class="remove" />
+                            </div>
                             }
                         }
-                        <input type='button' value='Add Action' class='add'>
+                        <input type='button' value='Add Action' class='addThen'>
                     </div>
 
                     <p>Else Actions</p>
                     <div class="elseActions">
-                        <input type="hidden" id="ElseActions" />
                         @if (rule.ElseActions != null)
                         {
-                            for (int j = 0; j < rule.ElseActions.Count; j++)
+                            foreach (var action in rule.ElseActions)
                             {
-                                <div>
-                                    <input type="text" value="@rule.ElseActions.ElementAt(j)"/>
-                                    <input type="button" value="Remove" class="remove"/>
-                                </div>
+                            <div class="elseAction">
+                                Field:
+                                <input type="text" class="field" value="@action.field"/><br />
+                                Value:
+                                <input type="text" class="value" value="@action.value"/><br />
+                                <input type="button" value="Remove" class="remove" />
+                            </div>
                             }
                         }
-                        <input type='button' value='Add Action' class='add'>
+                        <input type='button' value='Add Action' class='addElse'>
                     </div>
                 </div>
             }
         </div>
-        <input type="hidden" id="rulesObject" name="rulesObject"/>
+
+        <input type="hidden" id="rulesObject" name="rulesObject" />
+
+        <input type="button" id="newRule" value="Add Rule"/>
+
         <p>
             <input type="submit" value="Save" />
         </p>
