@@ -56,7 +56,7 @@ namespace CardShop.Service.Admin
 
         public User CreateUser(User user, out bool isSuccess)
         {
-
+            user.IsActive = true;
             db.Users().Add(user);
             db.SaveChanges();
             isSuccess = true;
@@ -91,6 +91,7 @@ namespace CardShop.Service.Admin
                 aUser.IsActive = user.IsActive;
                 aUser.LastName = user.LastName;
                 aUser.Email = user.Email;
+                aUser.IsActive = user.IsActive;
 
                 db.SaveChanges();
                 isSuccess = true;

@@ -6,7 +6,8 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     @Html.ValidationSummary(true)
 
     <fieldset>
@@ -15,7 +16,8 @@
         @Html.HiddenFor(model => model.UserId)
 
         <div class="editor-field">
-            Welcome, Please Edit:  <br /> 
+            Welcome, Please Edit: 
+            <br />
             @Html.DisplayFor(model => model.UserName)
         </div>
 
@@ -50,6 +52,14 @@
             @Html.DropDownList("RoleId", String.Empty)
             @Html.ValidationMessageFor(model => model.RoleId)
         </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsActive, "Account is Active")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("IsActive", String.Empty)
+
+        </div>
+
 
         <p>
             <input type="submit" value="Save" />
