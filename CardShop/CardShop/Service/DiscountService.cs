@@ -54,6 +54,7 @@ namespace CardShop.Service
             using (var ctx = dbContext)
             {
                 //  get coupon by id and coupon code
+                //  LINQ query instead of Lambda expression for clarity
                 var coupon = from cup 
                              in ctx.UserDiscounts()
                              where
