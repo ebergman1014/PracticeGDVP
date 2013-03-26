@@ -5,15 +5,16 @@ using System.Linq;
 using System.Web;
 using CardShop.Models;
 
-namespace CardShop.DAL
+namespace CardShop.Daos
 {
-    public class RulesContext : DbContext
+    public class DefaultContext : DbContext
     {
-        public RulesContext()
+        public DefaultContext()
             : base("PracticeGDVPEntities")
         {
         }
 
+        public DbSet<BaseballCard> BaseballCards { get; set; }
         public DbSet<RuleSet> RuleSets { get; set; }
     }
 }

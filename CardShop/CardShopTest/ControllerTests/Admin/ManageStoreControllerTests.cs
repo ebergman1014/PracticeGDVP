@@ -35,9 +35,20 @@ namespace CardShopTest.ControllerTests
         }
 
         [TestMethod]
-        public void IndexTest()
+        public void ManageStoreIndexTest()
         {
+            var mock = new Mock<IManageStoreService>();
+            var mockMember = new Mock<IMembership>();
+
+            manageStoreController.adminService = mock.Object;
+            manageStoreController.membership = mockMember.Object;
+
+            mockMember.Setup(mockObject => mockObject.GetUserId()).Returns(1);
+            mock.Setup(mockObject => mockObject.OwnedStore(1)).Returns(new Store());
+
+
             Assert.IsInstanceOfType(manageStoreController.Index(), typeof(ActionResult));
+            mock.Verify(mockObject => mockObject.OwnedStore(1));
         }
 
         /// <summary>
@@ -63,22 +74,7 @@ namespace CardShopTest.ControllerTests
                 Index(storeTwo), typeof(JsonResult));
         }
 
-        /// <summary>
-        /// test ManageStore Get Method when MembershipUser is null
-        /// </summary>
-        [TestMethod]
-        public void ManageStoreGetTestNull()
-        {
-            var mock = new Mock<IMembership>();
-            mock.Setup(m => m.GetUser()).Returns((MembershipUser)null);
 
-            manageStoreController.membership = mock.Object;
-
-            manageStoreController.Index();
-            Assert.IsInstanceOfType(manageStoreController.Index(),typeof(RedirectResult));
-
-
-        }
         /// <summary>
         /// Helper class for ManageStoreGetTestNotNull()
         /// </summary>
