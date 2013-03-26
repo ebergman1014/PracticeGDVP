@@ -8,16 +8,25 @@ using System.Web.Security;
 
 namespace CardShop.Auth
 {
+    /// <summary>
+    /// Used to specify a method or class that requires authentication.
+    /// </summary>
     public class AuthorizeUserAttribute : AuthorizeAttribute
     {
 
         private Role[] roles;
 
+        /// <summary>
+        /// Requires the user to be logged in, but not of any particular role.
+        /// </summary>
         public AuthorizeUserAttribute()
         {
             roles = new Role[] { };
         }
-
+        /// <summary>
+        /// Requires the user to have one of the specified roles.
+        /// </summary>
+        /// <param name="roles">params Role[]</param>
         public AuthorizeUserAttribute(params Role[] roles){
             this.roles = roles;
         }
@@ -28,7 +37,7 @@ namespace CardShop.Auth
         /// <param name="filterContext"></param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (UserAuth.GetUserAuth(filterContext.HttpContext).IsLoggedIn())
+            if (UserAuth.GetUserAuth(WrapperFactory.Factory.Wrap<ContextWrapper, IHttpContext>(filterContext.HttpContext)).IsLoggedIn())
             {
                 filterContext.Result = new ViewResult
                 {
@@ -51,7 +60,7 @@ namespace CardShop.Auth
         /// <returns>bool authenticationSuccess</returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            IUserAuth auth = UserAuth.GetUserAuth(httpContext);
+            IUserAuth auth = UserAuth.GetUserAuth(WrapperFactory.Factory.Wrap<ContextWrapper,IHttpContext>(httpContext));
             return auth.HasRole(roles);
         }
     }
