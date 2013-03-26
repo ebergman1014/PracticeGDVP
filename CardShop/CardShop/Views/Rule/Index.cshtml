@@ -17,12 +17,12 @@
         <th>
             Version
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.AssemblyPath)
         </th>
         <th>
             Workflow
-        </th>
+        </th>*@
         <th>
             Last Modified
         </th>
@@ -32,24 +32,23 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.ActionLink(item.Name, "Details", new { id=item.RuleSetId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.MajorVersion).
             @Html.DisplayFor(modelItem => item.MinorVersion)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.AssemblyPath)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActivityName)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.ModifiedDate)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.RuleSetId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RuleSetId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.RuleSetId })
         </td>
     </tr>
