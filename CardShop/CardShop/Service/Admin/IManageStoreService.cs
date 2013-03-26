@@ -6,7 +6,7 @@ using CardShop.Models;
 
 namespace CardShop.Service
 {
-    public interface IAdminService
+    public interface IManageStoreService
     {
         Store EditStore(Store ownedStore, Store changesToStore, out bool success);
 

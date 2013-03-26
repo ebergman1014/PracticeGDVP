@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace CardShopTest.ServiceTests
 {
     [TestClass]
-    public class AdminServiceTests
+    public class ManageStoreServiceTests
     {
-        AdminService adminService;
+        ManageStoreService adminService;
         Store storeOne;
         Store storeTwo;
         List<Store> stores;
@@ -20,7 +20,7 @@ namespace CardShopTest.ServiceTests
         [TestInitialize]
         public void Setup()
         {
-            adminService = new AdminService();
+            adminService = new ManageStoreService();
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];

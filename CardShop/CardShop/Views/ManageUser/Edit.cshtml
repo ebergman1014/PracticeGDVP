@@ -14,12 +14,9 @@
 
         @Html.HiddenFor(model => model.UserId)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.UserName)
-        </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.UserName)
-            @Html.ValidationMessageFor(model => model.UserName)
+            Welcome, Please Edit:  <br /> 
+            @Html.DisplayFor(model => model.UserName)
         </div>
 
         <div class="editor-label">

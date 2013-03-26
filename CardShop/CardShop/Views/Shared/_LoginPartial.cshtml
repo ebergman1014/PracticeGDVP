@@ -1,6 +1,10 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@{CardShop.Auth.IUserAuth auth = CardShop.Auth.UserAuth.Current;}
+@if (auth.IsLoggedIn()) {
     <text>
-        Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+        Logged in as @Html.ActionLink(auth.User.UserName, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })
+        @if(auth.ActingAs != null){
+            <span>Acting as: @auth.ActingAs.UserName @Html.ActionLink("[stop]","StopActingAsUser", "Admin/ManageUser", routeValues: null,  htmlAttributes: new { @class = "username", title = "Stop acting as User" })</span>
+        }
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
             @Html.AntiForgeryToken()
             <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>

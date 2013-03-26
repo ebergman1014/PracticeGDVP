@@ -9,12 +9,17 @@ using CardShop.Models;
 using CardShop.Controllers.Admin;
 using CardShop.Service;
 using CardShop.Service.Admin;
+using CardShop.Auth;
+using CardShop.Daos;
+using CardShop.Auth;
 
 namespace CardShop.Controllers
 {
+    [AuthorizeUser(Role.Admin, Role.StoreOwner)]
     public class ManageUserController : Controller, IManageUserController
     {
-        IManageUserService manageUserService { get; set; }
+        public IManageUserService manageUserService { get; set; }
+        public IMembership membership { get; set; }
         //
         // GET: /ManageUser/
         public ActionResult Index()
@@ -42,7 +47,8 @@ namespace CardShop.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName");
+            bool isSuccess;
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName");
             return View();
         }
 
@@ -59,7 +65,7 @@ namespace CardShop.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 
@@ -74,7 +80,7 @@ namespace CardShop.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 
@@ -87,10 +93,11 @@ namespace CardShop.Controllers
             bool isSuccess;
             if (ModelState.IsValid)
             {
-                manageUserService.EditUser(user, EntityState.Modified, out isSuccess);
+                manageUserService.EditUser(user, out isSuccess);
+                
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(), "RoleId", "RoleName", user.RoleId);
+            ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);
         }
 
@@ -123,6 +130,23 @@ namespace CardShop.Controllers
         public ManageUserController()
         {
             manageUserService = ManageUserService.GetInstance();
+        }
+
+        [HttpGet, ActionName("ActAsUser")]
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
+        public ActionResult ActAsUser(int id)
+        {
+            bool success;
+            manageUserService.ActAsUser(id, out success);
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpGet, ActionName("StopActingAsUser")]
+        [AuthorizeUser]
+        public ActionResult StopActingAsUser()
+        {
+            bool success;
+            manageUserService.StopActingAsUser(out success);
+            return RedirectToAction("Index", "Home");
         }
     }
 }
