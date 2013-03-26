@@ -1,4 +1,5 @@
 ﻿using CardShop.Models;
+using CardShop.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace CardShop.Auth
         /// <param name="filterContext"></param>
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (UserAuth.GetUserAuth(WrapperFactory.Factory.Wrap<ContextWrapper, IHttpContext>(filterContext.HttpContext)).IsLoggedIn())
+            if (UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper, IHttpContext>(filterContext.HttpContext)).IsLoggedIn())
             {
                 filterContext.Result = new ViewResult
                 {
@@ -60,7 +61,7 @@ namespace CardShop.Auth
         /// <returns>bool authenticationSuccess</returns>
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            IUserAuth auth = UserAuth.GetUserAuth(WrapperFactory.Factory.Wrap<ContextWrapper,IHttpContext>(httpContext));
+            IUserAuth auth = UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper,IHttpContext>(httpContext));
             return auth.HasRole(roles);
         }
     }

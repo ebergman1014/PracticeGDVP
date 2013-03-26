@@ -7,6 +7,7 @@ using System.Web.SessionState;
 using System.Web.Mvc;
 using System.Reflection;
 using Moq;
+using CardShop.Utilities;
 
 namespace CardShopTest.AuthTests
 {
@@ -15,7 +16,7 @@ namespace CardShopTest.AuthTests
     {
 
         private AuthorizeUserAttribute authCore;
-        private Mock<IWrapperFactory> factory;
+        private Mock<IFactory> factory;
         private Mock<IHttpContext> context;
         private Mock<ISession> session;
         private Mock<IUserAuth> auth;
@@ -24,13 +25,13 @@ namespace CardShopTest.AuthTests
         public void Setup()
         {
             this.authCore = new AuthorizeUserAttribute();
-            factory = new Mock<IWrapperFactory>();
+            factory = new Mock<IFactory>();
             context = new Mock<IHttpContext>();
             session = new Mock<ISession>();
             auth = new Mock<IUserAuth>();
-            WrapperFactory.Factory = factory.Object;
+            Factory.Instance = factory.Object;
             AuthorizeUserAttribute authCore = new AuthorizeUserAttribute();
-            factory.Setup(f => f.Wrap<ContextWrapper, IHttpContext>(It.IsAny<HttpContextBase>())).Returns(context.Object);
+            factory.Setup(f => f.Create<ContextWrapper, IHttpContext>(It.IsAny<HttpContextBase>())).Returns(context.Object);
             context.SetupGet(c => c.Session).Returns(session.Object);
             session.SetupGet(s => s["__UserAuth"]).Returns(auth.Object);
         }
