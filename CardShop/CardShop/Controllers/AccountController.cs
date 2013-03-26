@@ -23,6 +23,8 @@ namespace CardShop.Controllers
 
         IPracticeGDVPDao db { get; set; }
 
+        #region Constructors
+
         public AccountController()
         {
             db = PracticeGDVPDao.GetInstance();
@@ -30,6 +32,9 @@ namespace CardShop.Controllers
         //
         // GET: /Account/Login
 
+        #endregion
+
+        #region Login/Logoff/Register Methods
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -132,7 +137,9 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Manage Methods
         //
         // POST: /Account/Disassociate
 
@@ -161,7 +168,7 @@ namespace CardShop.Controllers
 
             return RedirectToAction("Manage", new { Message = message });
         }
-
+        
         //
         // GET: /Account/Manage
 
@@ -239,6 +246,7 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
         #region Password Reset Methods
         //
@@ -251,18 +259,48 @@ namespace CardShop.Controllers
         }
 
         //
-        // GET: /Account/PasswordReset
+        // POST: /Account/PasswordToken
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PasswordReset(string UserName)
+        public ActionResult PasswordToken(string UserName)
         {
+            // TODO: Added in logic to validate user exisit in DB
+            
             PasswordReset resetModel = new PasswordReset();
-            resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(UserName);
 
-            return View(resetModel);
+            // This token isn't used properly
+            resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(UserName);
+            
+            // here we would want to send the token to the users email to navigate back to the site confirming they are real.
+            // or we would redirect them to a QuestionandAwnser page to fill out security questions.
+
+            // For now it redirects the user to fill out a new password
+            return View("PasswordResetFinal", resetModel);
         }
+
+        //
+        //POST: /Account/PasswordUpdate
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PasswordUpdate(PasswordReset model)
+        {
+            bool updatedPassword = WebSecurity.ResetPassword(model.ResetToken, model.NewPassword);
+            if (updatedPassword)
+            {
+                model.Message = "Your password was succesfully updated";
+            }
+            else
+            {
+                model.Message = "Your Password has failed to be reset. Please contact system administrator.";
+            }
+            return View(model);
+        }
+
+
         #endregion
 
+        #region External Methods
         //
         // POST: /Account/ExternalLogin
 
@@ -390,6 +428,7 @@ namespace CardShop.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
+        #endregion
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

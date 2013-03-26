@@ -420,12 +420,14 @@
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
     <Content Include="Views\ErrDocs\403.cshtml" />
-<Content Include="Views\Account\PasswordReset.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
     <Content Include="Views\BaseballCard\Index.cshtml" />
     <Content Include="Views\BaseballCard\Details.cshtml" />
     <Content Include="Views\BaseballCard\Create.cshtml" />
     <Content Include="Views\BaseballCard\Edit.cshtml" />
     <Content Include="Views\BaseballCard\Delete.cshtml" />
+    <Content Include="Views\Account\PasswordResetFinal.cshtml" />
+    <Content Include="Views\Account\PasswordUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
