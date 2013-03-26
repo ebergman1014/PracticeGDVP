@@ -239,16 +239,28 @@ namespace CardShop.Controllers
             return View(model);
         }
 
-
+        #region Password Reset Methods
         //
         // GET: /Account/PasswordReset
 
         [AllowAnonymous]
         public ActionResult PasswordReset()
         {
-
             return View();
         }
+
+        //
+        // GET: /Account/PasswordReset
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PasswordReset(string UserName)
+        {
+            PasswordReset resetModel = new PasswordReset();
+            resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(UserName);
+
+            return View(resetModel);
+        }
+        #endregion
 
         //
         // POST: /Account/ExternalLogin
