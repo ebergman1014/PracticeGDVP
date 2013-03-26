@@ -43,8 +43,9 @@ namespace CardShop.Service
         /// <param name="DiscountCode"></param>
         /// <returns>UserDiscount</returns>
         /// <author>Paul Wroe</author>
-        public UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess)
+        public UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess, out String error)
         {
+            error = "none";
             isSuccess = false;
             UserDiscount returnCoupon = null;
             
@@ -64,9 +65,12 @@ namespace CardShop.Service
 
                 if (coupon.ToList().Count > 0)
                 {
-
                     returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
                     isSuccess = true;
+                }
+                else
+                {
+                    error = "Unable to find Coupon.";
                 }
 
                

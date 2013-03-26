@@ -46,17 +46,15 @@ namespace CardShop.Controllers
         public ActionResult RedeemDiscount(int userId, String couponCode)
         {
             bool isSuccess;
-
+            String error;   //  
             //  comes back null if there is no match.  isSuccess should be false too.
-            UserDiscount coupon = discountService.GetCoupon(userId, couponCode, out isSuccess);
+            UserDiscount coupon1 = discountService.GetCoupon(userId, couponCode, out isSuccess, out error);
 
             // if true, redeem coupon, else coupon doesn't exist
 
-
-
             // set redemption to true and persist
 
-            UserDiscount coupon2 = discountService.RedeemCoupon(coupon, out isSuccess);
+            UserDiscount coupon = discountService.RedeemCoupon(coupon1, out isSuccess);
 
             var returnObject = Json(new { });
 
@@ -70,6 +68,7 @@ namespace CardShop.Controllers
                     EndDate = coupon.EndDate,
                     DiscountCode = coupon.DiscountCode,
                     UserId = coupon.UserId,
+                    Error = "unknown",
                 });
             }
             return returnObject;
