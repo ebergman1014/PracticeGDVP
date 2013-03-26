@@ -33,6 +33,9 @@
 <script type ="text/javascript">
  $(document).ready(function () {
 
+     $("#couponResult").html("Transaction Pending");    // reset text
+     $("#couponResult").css('color', 'black');
+     $("#DiscountCode").val("");
 
      function checkCoupon() {
 
@@ -46,17 +49,18 @@
              },
              function (coupon, status) {
 
-                 // return something larger than just the coupon in json
+                 if (coupon.Error != "none") {  //  there was an error
 
-                 // place response for coupon here
-                 
-                 // if null, unable to retrieve
+                     $("#couponResult").css('color', 'red');
+                     $("#couponResult").html(
+                     "There was an error: " + coupon.Error);
 
-                 // end date past 
+                 } else {
 
-                 $("#couponResult").html(
-                     "Coupon has been redeemed for " + coupon.DiscountRate);
-
+                     $("#couponResult").css('color', 'green');
+                     $("#couponResult").html(
+                     "Coupon has been redeemed for " + coupon.DiscountRate + "%");
+                 }
 
              });
          }
