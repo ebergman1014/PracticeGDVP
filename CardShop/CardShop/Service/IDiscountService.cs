@@ -21,7 +21,7 @@ namespace CardShop.Service
         /// Returns a UserDiscount from userId and discountCode
         /// </summary>
         /// <returns> returns List<CardShop.Models.User> </returns>
-        UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess);
+        UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess, out String error);
 
         /// <summary>
         /// Takes a UserDiscount and marks it as redeemed

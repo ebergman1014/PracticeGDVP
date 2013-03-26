@@ -45,9 +45,19 @@
 
              },
              function (coupon, status) {
+
+                 // return something larger than just the coupon in json
+
                  // place response for coupon here
+                 
+                 // if null, unable to retrieve
+
+                 // end date past 
+
                  $("#couponResult").html(
                      "Coupon has been redeemed for " + coupon.DiscountRate);
+
+
              });
          }
      };
