@@ -24,7 +24,7 @@ namespace CardShop.Daos
 
         private static PracticeGDVPDao gdvpDao;
 
-        IDbSet<User> IPracticeGDVPDao.Users()
+        public IDbSet<User> Users()
         {
             return users;
         }

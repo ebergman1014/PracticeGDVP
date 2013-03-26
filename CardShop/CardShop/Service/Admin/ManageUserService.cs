@@ -34,12 +34,13 @@ namespace CardShop.Service.Admin
         public List<User> GetAllUsers(out bool isSuccess)
         {
             isSuccess = false;
-            var user = db.Users().Include(u => u.webpages_Roles).ToList();
-            if (user.Count > 0)
+            var user = db.Users().Include(u => u.webpages_Roles);
+            List<User> usersList = user.ToList();
+            if (usersList.Count > 0)
             {
                 isSuccess = true;
             }
-            return user.ToList();
+            return usersList;
         }
 
         public User GetUser(int id, out bool isSuccess)
