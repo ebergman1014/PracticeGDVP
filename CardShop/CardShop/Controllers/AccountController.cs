@@ -28,15 +28,13 @@ namespace CardShop.Controllers
 
         public AccountController()
             : this(new WebSecurityWrapper())
-        {
-        }
+        { }
 
         public AccountController(IWebSecurity webSecurity)
         {
             WebSecurity = webSecurity;
         }
        
-
         public AccountController()
         {
             dbContext = PracticeGDVPDao.GetInstance();
@@ -80,7 +78,6 @@ namespace CardShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-
             WebSecurity.Logout(); 
             UserAuth.Current.Logout();
             return RedirectToAction("Index", "Home");
@@ -152,35 +149,6 @@ namespace CardShop.Controllers
         #endregion
 
         #region Manage Methods
-        //
-        // POST: /Account/Disassociate
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
-        {
-            string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-            ManageMessageId? message = null;
-
-            // Only disassociate the account if the currently logged in user is the owner
-            if (ownerAccount == User.Identity.Name)
-            {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-                {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-                    {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
-                    }
-                }
-            }
-
-            return RedirectToAction("Manage", new { Message = message });
-        }
-        
         //
         // GET: /Account/Manage
 
