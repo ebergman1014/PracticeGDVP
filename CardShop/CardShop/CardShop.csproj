@@ -276,6 +276,7 @@
     <Compile Include="Service\DiscountService.cs" />
     <Compile Include="Service\Admin\IManageStoreService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
+    <Compile Include="Utilities\SessionObjects.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
     <Compile Include="ViewModels\RuleDisplayObjects.cs" />
@@ -429,12 +430,15 @@
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
     <Content Include="Views\ErrDocs\403.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
     <Content Include="Views\BaseballCard\Index.cshtml" />
     <Content Include="Views\BaseballCard\Details.cshtml" />
     <Content Include="Views\BaseballCard\Create.cshtml" />
     <Content Include="Views\BaseballCard\Edit.cshtml" />
     <Content Include="Views\BaseballCard\Delete.cshtml" />
     <Content Include="Views\BaseballCard\Upload.cshtml" />
+    <Content Include="Views\Account\PasswordResetFinal.cshtml" />
+    <Content Include="Views\Account\PasswordUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />

@@ -71,8 +71,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AuthTests\AuthorizeUserTest.cs" />
+    <Compile Include="ControllerTests\AccountControllerTest.cs" />
     <Compile Include="ControllerTests\Admin\ManageUserControllerTests.cs" />
     <Compile Include="ControllerTests\Admin\ManageStoreControllerTests.cs" />
+    <Compile Include="ControllerTests\ControllerUtility.cs" />
     <Compile Include="ControllerTests\Discount\DiscountControllerTests.cs" />
     <Compile Include="ControllerTests\Discount\RedemptionControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

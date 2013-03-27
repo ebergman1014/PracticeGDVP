@@ -17,6 +17,9 @@ namespace CardShop.Controllers
         ActionResult Disassociate(string provider, string providerUserId);
         ActionResult Manage(CardShop.Controllers.AccountController.ManageMessageId? message);
         ActionResult Manage(LocalPasswordModel model);
+        ActionResult PasswordReset();
+        ActionResult PasswordToken(PasswordReset resetModel);
+        ActionResult PasswordUpdate(PasswordReset model);
         ActionResult ExternalLogin(string provider, string returnUrl);
         ActionResult ExternalLoginCallback(string returnUrl);
         ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl);

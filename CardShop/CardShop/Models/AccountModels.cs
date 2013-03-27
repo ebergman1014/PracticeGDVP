@@ -78,8 +78,6 @@ namespace CardShop.Models
 
     public class RegisterModel
     {
-        
-
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
@@ -113,6 +111,27 @@ namespace CardShop.Models
         [Display(Name = "Role")]
         public SelectList RoleList { get; set; }
 
+    }
+
+    public class PasswordReset
+    {
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
+        public string ResetToken { get; set; }
+        
+        [Required]
+        [StringLength(42, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [DataType(DataType.Password)]
+        [Display(Name = "New Password")]
+        public string NewPassword { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm New Password")]
+        [Compare("NewPassword", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        public string Message { get; set; }
     }
 
     public class ExternalLogin
