@@ -16,6 +16,7 @@ using System.Data.Objects;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Text;
+using CardShop.Utilities;
 
 
 
@@ -25,7 +26,7 @@ namespace CardShopTest.ServiceTests.Admin
     public class ManageUserServiceTests
     {
         // manage
-        private ManageUserService manageUserService = (ManageUserService)ManageUserService.GetInstance();
+        private ManageUserService manageUserService;
         private bool isSuccess;
         private StringBuilder _stringBuilder = new StringBuilder();
 
@@ -38,10 +39,14 @@ namespace CardShopTest.ServiceTests.Admin
         // MOCKS
         Mock<IPracticeGDVPDao> mockIPracticeGDVPDao = new Mock<IPracticeGDVPDao>();
         Mock<IDbSet<User>> mockDbSetUser = new Mock<IDbSet<User>>();
+        Mock<IDbSet<Store>> mockDbSetStore = new Mock<IDbSet<Store>>();
         Mock<IDbSet<webpages_Roles>> mockDbSetWebpageRoles = new Mock<IDbSet<webpages_Roles>>();
+        Mock<IFactory> mockStoreFactory = new Mock<IFactory>();
 
         //        private DbQuery<User> users = new DbQueryTest<User>();
         private List<User> listOfUsersTest = ListOfUsers.GetListOfUsers(USER_FOUR);
+
+        private Store store = StoreTest.CreateStores(1)[0];
 
 
         private User userTest = ListOfUsers.GetListOfUsers(USER_FOUR)[FIRST_USER];
@@ -50,7 +55,10 @@ namespace CardShopTest.ServiceTests.Admin
         public void Setup()
         {
             // set our field object to the mock object
-            manageUserService.db = mockIPracticeGDVPDao.Object;
+            Factory.Instance = mockStoreFactory.Object;
+            mockStoreFactory.Setup(f => f.Create<PracticeGDVPDao,IPracticeGDVPDao>()).Returns(mockIPracticeGDVPDao.Object);
+            manageUserService = (ManageUserService)ManageUserService.GetInstance();
+            //manageUserService.db = mockIPracticeGDVPDao.Object;
         }
 
 
@@ -155,6 +163,38 @@ namespace CardShopTest.ServiceTests.Admin
             Assert.IsInstanceOfType(manageUserService.EditUser(userTest, out isSuccess), typeof(User));
             Assert.IsTrue(isSuccess);
             mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
+        }
+
+
+        [TestMethod]
+        public void CreateStoreStoreOwnerFailTest()
+        {
+            userTest.RoleId = 2;
+            var manageUserService = new Mock<ManageUserService>();
+            mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
+            manageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>() { store });
+
+            Assert.AreSame(null, manageUserService.Object.CreateStore(userTest));
+
+        }
+        [TestMethod]
+        public void CreateStoreStoreOwnerPassTest()
+        {
+            store = new Store();
+            userTest.RoleId = 2;
+            var manageUserService = new Mock<ManageUserService>();
+
+            mockStoreFactory.Setup(m => m.Create<Store>()).Returns(store);
+
+
+            mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
+           
+            manageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>());
+
+            Assert.AreSame(store, manageUserService.Object.CreateStore(userTest));
+            mockIPracticeGDVPDao.Verify(m => m.SaveChanges());
+            mockDbSetStore.Verify(m => m.Add(store));
+            Assert.AreEqual(userTest.UserId, store.UserId);
         }
 
         [TestMethod]

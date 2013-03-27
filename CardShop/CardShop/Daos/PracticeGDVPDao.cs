@@ -23,18 +23,18 @@ namespace CardShop.Daos
         public IDbSet<webpages_Roles> webpages_Roles;
 
 
-        private static PracticeGDVPDao gdvpDao;
+        private static IPracticeGDVPDao gdvpDao;
 
         public IDbSet<User> Users()
         {
             return users;
         }
 
-        public static PracticeGDVPDao GetInstance()
+        public static IPracticeGDVPDao GetInstance()
         {
             if (gdvpDao == null)
             {
-                gdvpDao = new PracticeGDVPDao();
+                gdvpDao = Factory.Instance.Create<PracticeGDVPDao,IPracticeGDVPDao>();
             }
             return gdvpDao;
         }
@@ -76,9 +76,9 @@ namespace CardShop.Daos
         }
 
 
-        private PracticeGDVPDao()
+        public PracticeGDVPDao()
         {
-            gdvp = new PracticeGDVPEntities();
+            gdvp = Factory.Instance.Create<PracticeGDVPEntities>();
             users = gdvp.User;
             baseBallCards = gdvp.BaseballCards;
             baseballCardTransactions = gdvp.BaseballCardTransactions;

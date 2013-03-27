@@ -9,6 +9,7 @@ using System.Collections;
 using System.Data;
 using CardShop.Auth;
 using System.Data.Objects;
+using CardShop.Utilities;
 
 
 namespace CardShop.Service.Admin
@@ -97,7 +98,7 @@ namespace CardShop.Service.Admin
                 isSuccess = true;
                 if (isSuccess && user.RoleId == (int)Role.StoreOwner)
                 {
-                    CreateStore(user.UserId);
+                    CreateStore(user);
                 }
             }
             else
@@ -126,22 +127,31 @@ namespace CardShop.Service.Admin
             success = true;
         }
 
-        private ManageUserService()
+        public ManageUserService()
         {
             db = PracticeGDVPDao.GetInstance();
         }
 
-        public void CreateStore(int ownerId)
+        public Store CreateStore(User owner)
         {
-            List<Store> store = db.Stores().Where(u => u.UserId == ownerId).ToList();
+            Store newStore = null;
+            List<Store> store = FindStore(owner);
 
-            if (store.Count == 0)
+            if (store.Count == 0 && owner.RoleId == (int)Role.StoreOwner)
             {
-                var newStore = db.Stores().Create();
-                newStore.UserId = ownerId;
-                newStore.Name = "NEW STORE";
+                newStore = Factory.Instance.Create<Store>();
+                newStore.Name = owner.LastName +"-s" ;
+                newStore.UserId = owner.UserId;
+                db.Stores().Add(newStore);
+
                 db.SaveChanges();
             }
+            return newStore;
+        }
+
+        public virtual List<Store> FindStore(User owner)
+        {
+            return db.Stores().Where(u => u.UserId == owner.UserId).ToList();
         }
 
     }
