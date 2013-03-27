@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data.Entity.Infrastructure;
 using System.Collections;
+using System.Linq.Expressions;
 
 namespace CardShop.Daos
 {
@@ -153,5 +154,7 @@ namespace CardShop.Daos
         DbSqlQuery<TEntity> SqlQuery(string sql, params object[] parameters);
         List<TEntity> ToList();
         DbQuery<TEntity> Include(string path);
+
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
     }
 }
