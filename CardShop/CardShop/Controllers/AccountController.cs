@@ -21,15 +21,20 @@ namespace CardShop.Controllers
     public class AccountController : Controller, IAccountController
     {
 
-        IPracticeGDVPDao db { get; set; }
+        IPracticeGDVPDao dbContext { get; set; }
+
+        #region Constructors
 
         public AccountController()
         {
-            db = PracticeGDVPDao.GetInstance();
+            dbContext = PracticeGDVPDao.GetInstance();
         }
         //
         // GET: /Account/Login
 
+        #endregion
+
+        #region Login/Logoff/Register Methods
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -47,7 +52,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                UserAuth.Current.User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
+                UserAuth.Current.User = dbContext.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -132,7 +137,9 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Manage Methods
         //
         // POST: /Account/Disassociate
 
@@ -161,7 +168,7 @@ namespace CardShop.Controllers
 
             return RedirectToAction("Manage", new { Message = message });
         }
-
+        
         //
         // GET: /Account/Manage
 
@@ -239,7 +246,68 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Password Reset Methods
+        //
+        // GET: /Account/PasswordReset
+
+        [AllowAnonymous]
+        public ActionResult PasswordReset()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/PasswordToken
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PasswordToken(PasswordReset resetModel)
+        {
+            string ViewName = "";
+            bool userExist = dbContext.Users().Any(u => u.UserName == resetModel.UserName);
+            if (userExist)
+            {
+                ViewName = "PasswordResetFinal";
+                // This token isn't used properly
+                resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(resetModel.UserName);
+
+                // here we would want to send the token to the users email to navigate back to the site confirming they are real.
+                // or we would redirect them to a QuestionandAwnser page to fill out security questions.
+            }
+            else
+            {
+                ViewName = "PasswordUpdate";
+                resetModel.Message = "I'm sorry we did not find account information linked to that User name. Please contact System admin";
+            }
+
+            return View(ViewName, resetModel);
+
+        }
+
+        //
+        //POST: /Account/PasswordUpdate
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PasswordUpdate(PasswordReset model)
+        {
+            bool updatedPassword = WebSecurity.ResetPassword(model.ResetToken, model.NewPassword);
+            if (updatedPassword)
+            {
+                model.Message = "Your password was succesfully updated";
+            }
+            else
+            {
+                model.Message = "Your Password has failed to be reset. Please contact system administrator.";
+            }
+            return View(model);
+        }
+
+
+        #endregion
+
+        #region External Methods
         //
         // POST: /Account/ExternalLogin
 
@@ -367,6 +435,7 @@ namespace CardShop.Controllers
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
         }
+        #endregion
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)

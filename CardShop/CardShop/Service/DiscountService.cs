@@ -19,7 +19,7 @@ namespace CardShop.Service
         /// </summary>
         public IUserDiscountUtility couponUtility { get; set; }
         public IPracticeGDVPDao dbContext { get; set; }
-
+        private static DiscountService discountService;
         /// <summary>
         /// GetAllUsers gets a list of all the Users
         /// </summary>
@@ -47,7 +47,7 @@ namespace CardShop.Service
         /// <author>Paul Wroe</author>
         public UserDiscount GetCoupon(int userId, String discountCode, out bool isSuccess, out String error)
         {
-            error = "none";
+            error = null;
             isSuccess = false;
             UserDiscount returnCoupon = null;
             
@@ -141,10 +141,19 @@ namespace CardShop.Service
         /// <summary>
         /// No-Args constructor, creates new CouponUtility();
         /// </summary>
-        public DiscountService()
+        private DiscountService()
         {
             couponUtility = Factory.Instance.Create<UserDiscountUtility>();
             dbContext = PracticeGDVPDao.GetInstance();
+        }
+
+        public static IDiscountService GetInstance()
+        {
+            if (discountService == null)
+            {
+                discountService = new DiscountService();
+            }
+            return discountService;
         }
     }
 }

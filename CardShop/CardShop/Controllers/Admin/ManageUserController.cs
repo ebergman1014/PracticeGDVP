@@ -19,6 +19,8 @@ namespace CardShop.Controllers
     {
         public IManageUserService manageUserService { get; set; }
         public IMembership membership { get; set; }
+
+
         //
         // GET: /ManageUser/
         [AuthorizeUser(Role.Admin, Role.StoreOwner)]

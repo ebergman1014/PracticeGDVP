@@ -18,6 +18,8 @@ namespace CardShopTest.ServiceTests
         Store storeTwo;
         List<Store> stores;
 
+        Mock<IPracticeGDVPDao> mockDbContext = new Mock<IPracticeGDVPDao>();
+
         [TestInitialize]
         public void Setup()
         {
@@ -25,16 +27,15 @@ namespace CardShopTest.ServiceTests
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];
+
+            adminService.context = mockDbContext.Object;
         }
 
         [TestMethod]
         public void EditStoreGoodTests()
         {
 
-            var mockDbContext = new Mock<IPracticeGDVPDao>();
             bool isSuccess = false;
-
-            adminService.context = mockDbContext.Object;
 
             mockDbContext.Setup(mock => mock.SaveChanges()).Returns(1);
 

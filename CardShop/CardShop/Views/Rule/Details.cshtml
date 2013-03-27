@@ -6,7 +6,7 @@
 
 <div>
     <h2>
-        @Model.ruleset.Name
+        @Model.rulesetWrapper.Name
     </h2>
     Version @Model.rulesetWrapper.MajorVersion.@Model.rulesetWrapper.MinorVersion
 </div>
@@ -14,27 +14,29 @@
 <div>
     <h2>Rules</h2>
 
-    @foreach (var rule in Model.ruleset.Rules)
+    @foreach (var rule in Model.rulesDisplay)
     {
         <div>
             <h3><b>@rule.Name</b></h3>
 
-            <h5>Priority</h5>
-            @rule.Priority
-
             <h5>Conditions</h5>
-            @rule.Condition.ToString()
+            Field:
+                @rule.Condition.field<br />
+            Value:
+                @rule.Condition.value
         
             <h5>Then Actions</h5>
             @foreach (var action in rule.ThenActions)
             {
-                <text>@action</text><br />
+                <<text>Field: @action.field</text><br />
+                <<text>Value: @action.value</text>
             }
         
             <h5>Else Actions</h5>
             @foreach (var action in rule.ElseActions)
             {
-                <text>@action</text><br />
+                <<text>Field: @action.field</text><br />
+                <<text>Value: @action.value</text>
             }
         </div>
     }
