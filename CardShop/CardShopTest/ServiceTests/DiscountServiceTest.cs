@@ -15,18 +15,26 @@ namespace CardShopTest.ServiceTests
     {
         private DiscountService discountService;
         private UserDiscount userDiscount;
+        private Mock<IUserDiscountUtility> mockUserDiscountUtility = new Mock<IUserDiscountUtility>();
+        private Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
+
+        private UserDiscount coupon = User_DiscountTest.CreateCoupon();
+
+        private bool isSuccess;
+        private String error;
+        private const int USER4 = 4;
+        private const String DISCOUNTCODE4 = "ABCDE";
 
         [TestInitialize]
         public void Setup()
         {
-            discountService = new DiscountService();
+            discountService = (DiscountService)DiscountService.GetInstance();
             userDiscount = User_DiscountTest.CreateCoupon();
         }
 
         [TestMethod]
-        public void GetAllUsers()
+        public void DiscountServiceGetAllUsers()
         {
-            var mockContext = new Mock<IPracticeGDVPDao>();
             var mockDbSet = new Mock<IDbSet<User>>();
             List<User> list = ListOfUsers.GetListOfUsers(4);
             mockContext.Setup(m => m.Users()).Returns(mockDbSet.Object);
@@ -37,22 +45,28 @@ namespace CardShopTest.ServiceTests
         }
 
         [TestMethod]
-        public void CreateCouponSuccessTest()
+        public void DiscountServiceCreateCouponSuccessTest()
         {
-            var mockUserDiscountUtility = new Mock<IUserDiscountUtility>();
-            var mockDbSet = new Mock<IPracticeGDVPDao>();
             discountService.couponUtility = mockUserDiscountUtility.Object;
-            discountService.dbContext = mockDbSet.Object;
+            discountService.dbContext = mockContext.Object;
             
 
             mockUserDiscountUtility.Setup(mock => mock.GenerateCoupon()).
                 Returns(userDiscount.DiscountCode);
-            mockDbSet.Setup(mock => mock.UserDiscounts().
+            mockContext.Setup(mock => mock.UserDiscounts().
                 Add(userDiscount)).Returns(userDiscount);
 
             Assert.AreSame(discountService.CreateCoupon(userDiscount), userDiscount);
 
-            mockDbSet.Verify(mock => mock.SaveChanges());
+            mockContext.Verify(mock => mock.SaveChanges());
+        }
+
+        [TestMethod]
+        public void DiscountServicesGetCouponPassTest()
+        {
+            Assert.AreSame(coupon, discountService.GetCoupon(USER4, DISCOUNTCODE4, out isSuccess, out error), "test for return object");
+            Assert.IsTrue(isSuccess);
+            Assert.IsNull(error);
         }
     }
 }

@@ -48,8 +48,8 @@
 
              },
              function (coupon, status) {
-
-                 if (coupon.Error != "none") {  //  there was an error
+                 
+                 if (coupon.Error) {  //  there was an error
 
                      $("#couponResult").css('color', 'red');
                      $("#couponResult").html(

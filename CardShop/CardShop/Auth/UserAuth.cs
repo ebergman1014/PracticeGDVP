@@ -108,7 +108,7 @@ namespace CardShop.Auth
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        internal static IUserAuth GetUserAuth(IHttpContext context)
+        public static IUserAuth GetUserAuth(IHttpContext context)
         {
             IUserAuth result = null;
             if (context != null)

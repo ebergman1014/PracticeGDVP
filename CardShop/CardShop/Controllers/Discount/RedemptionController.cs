@@ -17,7 +17,7 @@ namespace CardShop.Controllers
         // Constructor
         public RedemptionController()
         {
-            this.discountService = new DiscountService();
+            this.discountService = DiscountService.GetInstance();
         }
 
         //
@@ -31,7 +31,7 @@ namespace CardShop.Controllers
         [HttpGet]
         public ActionResult Redeem()
         {
-            ViewBag.listOfUsers = discountService.GetAllUsers().ToList();
+            ViewBag.listOfUsers = discountService.GetAllUsers();
             
             return View();
         }
@@ -54,7 +54,7 @@ namespace CardShop.Controllers
             UserDiscount coupon1 = discountService.GetCoupon(userId, couponCode, out isSuccess, out error);
 
             // if coupon passes muster, redeem it
-            if (isSuccess)
+            if (coupon1 != null && String.IsNullOrEmpty(error))
             {
                 coupon = discountService.RedeemCoupon(coupon1, out isSuccess);
             }
@@ -62,7 +62,7 @@ namespace CardShop.Controllers
             // return object
             var returnObject = Json(new {Error = error, });
 
-            if (isSuccess)
+            if (coupon1 != null && String.IsNullOrEmpty(error))
             {
                 returnObject = Json(new
                 {
@@ -79,7 +79,5 @@ namespace CardShop.Controllers
             return returnObject;
         }
 
-
-       
     }
 }

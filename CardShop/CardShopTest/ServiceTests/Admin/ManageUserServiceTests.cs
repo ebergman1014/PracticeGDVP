@@ -23,52 +23,65 @@ namespace CardShopTest.ServiceTests.Admin
     [TestClass]
     public class ManageUserServiceTests
     {
+        // manage
         private ManageUserService manageUserService = (ManageUserService)ManageUserService.GetInstance();
+        private bool isSuccess;
+        private StringBuilder _stringBuilder = new StringBuilder();
+
+
+        //constants needed for tests
         private const int USER_FOUR = 4;
         private const int FIRST_USER = 0;
         private const string stupidPath = "you are a dumb path";
-        private bool isSuccess;
-        private StringBuilder _stringBuilder = new StringBuilder();
+
+        // MOCKS
+        Mock<IPracticeGDVPDao> mockIPracticeGDVPDao = new Mock<IPracticeGDVPDao>();
+        Mock<IDbSet<User>> mockDbSetUser = new Mock<IDbSet<User>>();
+        Mock<IDbSet<webpages_Roles>> mockDbSetWebpageRoles = new Mock<IDbSet<webpages_Roles>>();
+
         //        private DbQuery<User> users = new DbQueryTest<User>();
         private List<User> listOfUsersTest = ListOfUsers.GetListOfUsers(USER_FOUR);
 
 
         private User userTest = ListOfUsers.GetListOfUsers(USER_FOUR)[FIRST_USER];
+
         [TestInitialize]
         public void Setup()
         {
+            // set our field object to the mock object
+            manageUserService.db = mockIPracticeGDVPDao.Object;
+        }
+
+
+        [TestMethod]
+        public void DeleteUserPassTest()
+        {
+
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns(userTest);
+            Assert.AreEqual<User>(manageUserService.DeleteUser(USER_FOUR, out isSuccess), userTest);
+            mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
+            Assert.IsTrue(isSuccess);
         }
 
         [TestMethod]
-        public void DeleteUserTest()
+        public void DeleteUserFailTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            manageUserService.db = mock.Object;
-
-            mock.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns(userTest);
-            Assert.AreEqual<User>(manageUserService.DeleteUser(USER_FOUR, out isSuccess), userTest);
-            Assert.IsTrue(isSuccess);
-
-            mock.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns((User)null);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns((User)null);
             Assert.AreEqual<User>(manageUserService.DeleteUser(USER_FOUR, out isSuccess), null);
             Assert.IsFalse(isSuccess);
-
-            mock.Verify(mockObject => mockObject.SaveChanges());
         }
+
+
 
         /// <summary>
         ///  NEEDS FIXIN
         /// </summary>
         public void GetAllUsersTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
 
 
-            manageUserService.db = mock.Object;
-
-            mock.Setup(m => m.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(m => m.Include(It.IsAny<String>())).Returns((DbQuery<User>)mockDbSet.Object);
+            mockIPracticeGDVPDao.Setup(m => m.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(m => m.Include(It.IsAny<String>())).Returns((DbQuery<User>)mockDbSetUser.Object);
 
             manageUserService.GetAllUsers(out isSuccess);
         }
@@ -76,12 +89,9 @@ namespace CardShopTest.ServiceTests.Admin
         [TestMethod]
         public void GetUserGoodTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
-            manageUserService.db = mock.Object;
 
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns(userTest);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns(userTest);
 
             Assert.AreSame(manageUserService.GetUser(USER_FOUR, out isSuccess), userTest);
             Assert.IsTrue(isSuccess);
@@ -90,12 +100,9 @@ namespace CardShopTest.ServiceTests.Admin
         [TestMethod]
         public void GetUserBadTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
-            manageUserService.db = mock.Object;
 
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
 
             Assert.AreSame(manageUserService.GetUser(USER_FOUR, out isSuccess), null);
             Assert.IsFalse(isSuccess);
@@ -104,45 +111,35 @@ namespace CardShopTest.ServiceTests.Admin
         [TestMethod]
         public void CreateUserTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
-            manageUserService.db = mock.Object;
 
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mockObject => mockObject.Add(userTest)).Returns((User)userTest);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(mockObject => mockObject.Add(userTest)).Returns((User)userTest);
 
             Assert.AreSame(manageUserService.CreateUser(userTest, out isSuccess), userTest);
             Assert.IsTrue(isSuccess);
 
-            mock.Verify(mockObject => mockObject.SaveChanges());
+            mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
 
         }
 
         [TestMethod]
         public void GetRoleViewTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<webpages_Roles>>();
-            manageUserService.db = mock.Object;
 
-            mock.Setup(mockObject => mockObject.webpages_Roles()).Returns(mockDbSet.Object);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.webpages_Roles()).Returns(mockDbSetWebpageRoles.Object);
             Assert.IsInstanceOfType(manageUserService.GetRoleView(out isSuccess), typeof(IEnumerable));
             Assert.IsTrue(isSuccess);
 
-            mock.Verify(mockObject => mockObject.webpages_Roles());
+            mockIPracticeGDVPDao.Verify(mockObject => mockObject.webpages_Roles());
         }
 
         [TestMethod]
         public void EditUserFailTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
 
-            manageUserService.db = mock.Object;
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
 
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-
-            mockDbSet.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns((User)null);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns((User)null);
             Assert.IsInstanceOfType(manageUserService.EditUser(userTest, out isSuccess), typeof(User));
             Assert.IsFalse(isSuccess);
 
@@ -151,29 +148,19 @@ namespace CardShopTest.ServiceTests.Admin
         [TestMethod]
         public void EditUserPassTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
 
-            manageUserService.db = mock.Object;
-
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-
-            mockDbSet.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns(userTest);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns(userTest);
             Assert.IsInstanceOfType(manageUserService.EditUser(userTest, out isSuccess), typeof(User));
             Assert.IsTrue(isSuccess);
-            mock.Verify(mockObject => mockObject.SaveChanges());
+            mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
         }
 
         [TestMethod]
         public void ActAsUserFailTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
-
-            manageUserService.db = mock.Object;
-
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
 
             manageUserService.ActAsUser(USER_FOUR, out isSuccess);
             Assert.IsFalse(isSuccess);
@@ -182,26 +169,25 @@ namespace CardShopTest.ServiceTests.Admin
         // maybe do later. Bad codes for now. Need MORE WRAPPERS!
         public void ActAsUserPassTest()
         {
-            var mock = new Mock<IPracticeGDVPDao>();
-            var mockDbSet = new Mock<IDbSet<User>>();
+            // ignore for nows.
             var response = new Mock<HttpResponseBase>();
             response.Setup(x => x.Write(It.IsAny<string>())).Callback<string>(y => _stringBuilder.Append(y));
-            
+
             var url = new Uri("http://localhost/Home/");
-            
+
             var request = new Mock<HttpRequestBase>();
             request.Setup(x => x.Url).Returns(url);
             request.Setup(x => x.ApplicationPath).Returns("");
-            
+
             var httpContext = new Mock<HttpContextBase>();
             httpContext.Setup(x => x.Request).Returns(request.Object);
             httpContext.Setup(x => x.Response).Returns(response.Object);
 
 
-            manageUserService.db = mock.Object;
+            manageUserService.db = mockIPracticeGDVPDao.Object;
 
-            mock.Setup(mockObject => mockObject.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns(userTest);
+            mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns(userTest);
 
             manageUserService.ActAsUser(USER_FOUR, out isSuccess);
             Assert.IsTrue(isSuccess);
