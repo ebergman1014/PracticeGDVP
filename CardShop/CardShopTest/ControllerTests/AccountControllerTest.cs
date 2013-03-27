@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
 using CardShop.Controllers;
 using CardShop.Models;
+using CardShop.Filters;
 
 namespace CardShopTest.ControllerTests
 {
@@ -13,11 +14,14 @@ namespace CardShopTest.ControllerTests
     public class AccountControllerTests
     {
         AccountController _AccountController;
+        InitializeSimpleMembershipAttribute _SimpleMembership;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _AccountController = (AccountController)ControllerUtility.mockRequest(typeof(AccountController));
+            _SimpleMembership = new InitializeSimpleMembershipAttribute();
+
         }
 
         [TestCleanup]

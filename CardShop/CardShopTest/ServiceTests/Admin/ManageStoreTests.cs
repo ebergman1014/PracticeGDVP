@@ -9,6 +9,7 @@ using CardShop.Daos;
 using System.Collections.Generic;
 using CardShop.Utilities;
 using System.Linq;
+using System.Data.Entity;
 
 namespace CardShopTest.ServiceTests
 {
