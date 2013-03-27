@@ -190,6 +190,7 @@ namespace CardShopTest.ServiceTests.Admin
             mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
            
             manageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>());
+            //
 
             Assert.AreSame(store, manageUserService.Object.CreateStore(userTest));
             mockIPracticeGDVPDao.Verify(m => m.SaveChanges());
