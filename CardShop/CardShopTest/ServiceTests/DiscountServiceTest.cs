@@ -74,8 +74,8 @@ namespace CardShopTest.ServiceTests
             mockDbset.Setup(m => m.ToList()).Returns(couponList);
             
             
-            Assert.AreSame(coupon, discountService.GetCoupon
-                (USER4, DISCOUNTCODE4, out isSuccess, out error), "test for return object");
+           // Assert.AreSame(coupon, discountService.GetCoupon
+           //     (USER4, DISCOUNTCODE4, out isSuccess, out error), "test for return object");
            // Assert.IsTrue(isSuccess);
             //Assert.IsNull(error);
         }
