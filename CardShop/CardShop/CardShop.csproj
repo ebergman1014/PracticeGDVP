@@ -275,6 +275,7 @@
     <Compile Include="Service\DiscountService.cs" />
     <Compile Include="Service\Admin\IManageStoreService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
+    <Compile Include="Utilities\SessionObjects.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
     <Compile Include="ViewModels\RuleDisplayObjects.cs" />
