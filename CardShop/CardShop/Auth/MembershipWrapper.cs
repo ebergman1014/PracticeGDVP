@@ -10,7 +10,7 @@ namespace CardShop.Auth
     {
 
         private static MembershipWrapper wrapper;
-        public MembershipWrapper(){
+        private MembershipWrapper(){
         }
         public static IMembership getInstance(){
             if (wrapper == null)
