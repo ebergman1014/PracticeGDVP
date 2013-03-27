@@ -1,4 +1,5 @@
 ﻿using CardShop.Models;
+using CardShop.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +9,34 @@ namespace CardShop.Auth
 {
     public class UserAuth : IUserAuth
     {
+        /// <summary>
+        /// The actual logged-in user.
+        /// </summary>
         public User User { get; set; }
+        /// <summary>
+        /// The user account that the logged-in user is pretending to be
+        /// </summary>
         public User ActingAs { get; set; }
-
+        /// <summary>
+        /// Will return the impersonated user, if there is one. Otherwise, will
+        /// return the logged-in user.
+        /// </summary>
         public User ActingUser{
             get{
                 return ActingAs != null ? ActingAs : User;
             }
         }
 
+        /// <summary>
+        /// Will return an IUserAuth with the current HttpContext.
+        /// </summary>
         public static IUserAuth Current {
             get{
-                 return UserAuth.GetUserAuth(new HttpContextWrapper(HttpContext.Current));
+                 return UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper,IHttpContext>(HttpContext.Current));
+            }
+            set
+            {
+                Current = value;
             }
         }
 
@@ -33,7 +50,7 @@ namespace CardShop.Auth
         public bool HasRole(params Role[] roles)
         {
             bool result = false;
-            if (IsLoggedIn())
+            if (IsLoggedIn() && IsActive())
             {
                 if (roles.Length > 0)
                 {
@@ -54,16 +71,31 @@ namespace CardShop.Auth
             return result;
         }
 
+        /// <summary>
+        /// Returns whether there is a logged-in user stored in session.
+        /// </summary>
+        /// <returns>bool</returns>
         public bool IsLoggedIn()
         {
             return (ActingUser != null);
         }
 
+        public bool IsActive()
+        {
+            return ActingUser.IsActive;
+        }
+
+        /// <summary>
+        /// Creates a new UserAuth for the current session.
+        /// </summary>
         public static void CreateSession()
         {
             HttpContext.Current.Session.Add("__UserAuth",  new UserAuth());
         }
 
+        /// <summary>
+        /// Logs out the current user.
+        /// </summary>
         public void Logout()
         {
 
@@ -71,7 +103,12 @@ namespace CardShop.Auth
             ActingAs = null;
         }
 
-        internal static IUserAuth GetUserAuth(HttpContextBase context)
+        /// <summary>
+        /// Returns an IUserAuth with the specified HttpContext.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        internal static IUserAuth GetUserAuth(IHttpContext context)
         {
             IUserAuth result = null;
             if (context != null)

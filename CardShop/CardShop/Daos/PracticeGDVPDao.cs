@@ -5,6 +5,7 @@ using System.Web;
 using CardShop.Models;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using CardShop.Utilities;
 
 namespace CardShop.Daos
 {
@@ -78,15 +79,15 @@ namespace CardShop.Daos
         private PracticeGDVPDao()
         {
             gdvp = new PracticeGDVPEntities();
-            users = new DbSetWrapper<User>(gdvp.User);
-            baseBallCards = new DbSetWrapper<BaseballCard>(gdvp.BaseballCards);
-            baseballCardTransactions = new DbSetWrapper<BaseballCardTransaction>(gdvp.BaseballCardTransactions);
-            transactions = new DbSetWrapper<Transaction>(gdvp.Transactions);
-            userDiscounts = new DbSetWrapper<UserDiscount>(gdvp.UserDiscounts);
-            ruleSets = new DbSetWrapper<RuleSet>(gdvp.RuleSets);
-            stores = new DbSetWrapper<Store>(gdvp.Stores);
-            storeInventories = new DbSetWrapper<StoreInventory>(gdvp.StoreInventories);
-            webpages_Roles = new DbSetWrapper<webpages_Roles>(gdvp.webpages_Roles);
+            users = Factory.Instance.Create<DbSetWrapper<User>>(gdvp.User);
+            baseBallCards = Factory.Instance.Create<DbSetWrapper<BaseballCard>>(gdvp.BaseballCards);
+            baseballCardTransactions = Factory.Instance.Create<DbSetWrapper<BaseballCardTransaction>>(gdvp.BaseballCardTransactions);
+            transactions = Factory.Instance.Create<DbSetWrapper<Transaction>>(gdvp.Transactions);
+            userDiscounts = Factory.Instance.Create<DbSetWrapper<UserDiscount>>(gdvp.UserDiscounts);
+            ruleSets = Factory.Instance.Create<DbSetWrapper<RuleSet>>(gdvp.RuleSets);
+            stores = Factory.Instance.Create<DbSetWrapper<Store>>(gdvp.Stores);
+            storeInventories = Factory.Instance.Create<DbSetWrapper<StoreInventory>>(gdvp.StoreInventories);
+            webpages_Roles = Factory.Instance.Create<DbSetWrapper<webpages_Roles>>(gdvp.webpages_Roles);
 
         }
 

@@ -44,6 +44,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -67,11 +70,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AuthTests\AuthorizeUserTest.cs" />
+    <Compile Include="ControllerTests\AccountControllerTest.cs" />
     <Compile Include="ControllerTests\Admin\ManageUserControllerTests.cs" />
-    <Compile Include="ControllerTests\DiscountControllerTests.cs" />
     <Compile Include="ControllerTests\Admin\ManageStoreControllerTests.cs" />
-    <Compile Include="ControllerTests\RedemptionControllerTests.cs" />
-    <Compile Include="ControllerTests\CouponDiscountTests.cs" />
+    <Compile Include="ControllerTests\ControllerUtility.cs" />
+    <Compile Include="ControllerTests\Discount\DiscountControllerTests.cs" />
+    <Compile Include="ControllerTests\Discount\RedemptionControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTests\Admin\ManageUserServiceTests.cs" />
     <Compile Include="ServiceTests\DiscountServiceTest.cs" />
