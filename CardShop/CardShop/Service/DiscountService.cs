@@ -25,7 +25,7 @@ namespace CardShop.Service
         /// GetAllUsers gets a list of all the Users
         /// </summary>
         /// <returns> a list of all the users in the DB</returns>
-        public List<User> GetAllUsers()
+        public virtual List<User> GetAllUsers()
         {
             List<User> users;
             using (var ctx = dbContext)
@@ -51,7 +51,7 @@ namespace CardShop.Service
         {
             error = null;
             isSuccess = false;
-            
+
             List<UserDiscount> couponList = null;
 
             using (var ctx = dbContext)
@@ -172,5 +172,8 @@ namespace CardShop.Service
             }
             return discountService;
         }
+
+
     }
+
 }

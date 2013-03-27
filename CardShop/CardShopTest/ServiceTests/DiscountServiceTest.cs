@@ -38,17 +38,6 @@ namespace CardShopTest.ServiceTests
             userDiscount = User_DiscountTest.CreateCoupon();
         }
 
-        [TestMethod]
-        public void DiscountServiceGetAllUsers()
-        {
-            var mockDbSet = new Mock<IDbSet<User>>();
-            List<User> list = ListOfUsers.GetListOfUsers(4);
-            mockContext.Setup(m => m.Users()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(m => m.ToList()).Returns(list);
-            discountService.dbContext = mockContext.Object;
-
-            Assert.AreSame(list, discountService.GetAllUsers());
-        }
 
         [TestMethod]
         public void DiscountServiceCreateCouponSuccessTest()
