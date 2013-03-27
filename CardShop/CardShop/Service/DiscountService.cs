@@ -49,45 +49,59 @@ namespace CardShop.Service
         {
             error = null;
             isSuccess = false;
-            UserDiscount returnCoupon = null;
             
+            List<UserDiscount> couponList = null;
+
             using (var ctx = dbContext)
             {
                 //  get coupon by id and coupon code
                 //  LINQ query instead of Lambda expression for clarity
-                var coupon = from cup 
-                             in ctx.UserDiscounts()
-                             where
+                IQueryable<UserDiscount> coupon = from cup in ctx.UserDiscounts() where
                              cup.DiscountCode == discountCode
                              &&
                              cup.UserId == userId
                              select cup;
 
-                //  check for exists, expired, or used
-                if (coupon.ToList().Count > 0)
+                couponList = coupon.ToList();
+
+            }
+
+            //  got to method to check for exists, expired, or used, or not yet active
+            //  and set success and error, then return resultant UserDiscount
+            return ValidateCoupon(couponList, out isSuccess, out error);
+        }
+
+        public UserDiscount ValidateCoupon
+            (List<UserDiscount> couponList, out bool isSuccess, out String error)
+        {
+            error = null;
+            isSuccess = false;
+            UserDiscount returnCoupon = null;
+
+            //  check for exists, expired, or used, or not yet active
+            if (couponList.Count > 0)
+            {
+                returnCoupon = couponList.First(); //  fails if sequence contains no elements
+                if (returnCoupon.Reedemed)  //  false is not redeemed
                 {
-                    returnCoupon = coupon.ToList().First(); //  fails if sequence contains no elements
-                    if (returnCoupon.Reedemed)  //  false is not redeemed
-                    {
-                        error = "Coupon already redeemed.";
-                    }
-                    else if (DateTime.Compare(returnCoupon.EndDate, DateTime.Now) < 0)   // coupon is expired
-                    {
-                        error = "Coupon is expired.";
-                    }
-                    else if (DateTime.Compare(returnCoupon.StartDate, DateTime.Now) > 0)  //  coupon is not yet active
-                    {
-                        error = "Coupon is not yet active.  Coupon starts " + returnCoupon.StartDate;
-                    }
-                    else
-                    {
-                        isSuccess = true;
-                    }
+                    error = "Coupon already redeemed.";
+                }
+                else if (DateTime.Compare(returnCoupon.EndDate, DateTime.Now) < 0)   // coupon is expired
+                {
+                    error = "Coupon is expired.";
+                }
+                else if (DateTime.Compare(returnCoupon.StartDate, DateTime.Now) > 0)  //  coupon is not yet active
+                {
+                    error = "Coupon is not yet active.  Coupon starts " + returnCoupon.StartDate;
                 }
                 else
                 {
-                    error = "Unable to find Coupon.";
+                    isSuccess = true;
                 }
+            }
+            else
+            {
+                error = "Unable to find Coupon.";
             }
 
             return returnCoupon;
