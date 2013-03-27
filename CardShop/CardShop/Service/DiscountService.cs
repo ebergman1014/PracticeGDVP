@@ -118,18 +118,23 @@ namespace CardShop.Service
         public UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess)
         {
             isSuccess = false;
-
-            coupon.Reedemed = true;
-            using (var ctx = dbContext)
-            {
+            
                 // add coupon to context
-                var userCoupon = ctx.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).FirstOrDefault();
-                userCoupon.Reedemed = true;
-                ctx.SaveChanges();
-                isSuccess = true;
+                List<UserDiscount> userCoupon = GetCouponList(coupon);
+                if (userCoupon.Count != 0)
+                {
+                    var theCoupon = userCoupon[0];
+                    theCoupon.Reedemed = true;
+                    dbContext.SaveChanges();
+                    isSuccess = true;
+                    
             }
-
             return coupon;
+        }
+
+        public virtual List<UserDiscount> GetCouponList(UserDiscount coupon)
+        {
+            return dbContext.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).ToList();
         }
 
 
@@ -158,7 +163,7 @@ namespace CardShop.Service
         /// <summary>
         /// No-Args constructor, creates new CouponUtility();
         /// </summary>
-        private DiscountService()
+        public DiscountService()
         {
             couponUtility = Factory.Instance.Create<UserDiscountUtility>();
             dbContext = PracticeGDVPDao.GetInstance();

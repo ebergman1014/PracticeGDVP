@@ -36,6 +36,7 @@ namespace CardShopTest.ServiceTests
         {
             discountService = (DiscountService)DiscountService.GetInstance();
             userDiscount = User_DiscountTest.CreateCoupon();
+            couponList.Add(coupon);
         }
 
 
@@ -44,7 +45,7 @@ namespace CardShopTest.ServiceTests
         {
             discountService.couponUtility = mockUserDiscountUtility.Object;
             discountService.dbContext = mockContext.Object;
-            
+
 
             mockUserDiscountUtility.Setup(mock => mock.GenerateCoupon()).
                 Returns(userDiscount.DiscountCode);
@@ -67,5 +68,16 @@ namespace CardShopTest.ServiceTests
 
         }
 
+
+        [TestMethod]
+        public void DiscountServiceReedemCoupon()
+        {
+            var userDiscount = new Mock<DiscountService>();
+
+            userDiscount.Setup(m => m.GetCouponList(coupon)).Returns(couponList);
+            Assert.AreSame(coupon, userDiscount.Object.RedeemCoupon(coupon, out isSuccess));
+            Assert.IsTrue(isSuccess);
+            Assert.IsTrue(coupon.Reedemed);
+        }
     }
 }
