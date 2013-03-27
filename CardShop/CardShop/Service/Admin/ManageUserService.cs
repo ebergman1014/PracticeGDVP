@@ -95,6 +95,10 @@ namespace CardShop.Service.Admin
 
                 db.SaveChanges();
                 isSuccess = true;
+                if (isSuccess && user.RoleId == (int)Role.StoreOwner)
+                {
+                    CreateStore(user.UserId);
+                }
             }
             else
             {
@@ -127,6 +131,18 @@ namespace CardShop.Service.Admin
             db = PracticeGDVPDao.GetInstance();
         }
 
+        public void CreateStore(int ownerId)
+        {
+            List<Store> store = db.Stores().Where(u => u.UserId == ownerId).ToList();
+
+            if (store.Count == 0)
+            {
+                var newStore = db.Stores().Create();
+                newStore.UserId = ownerId;
+                newStore.Name = "NEW STORE";
+                db.SaveChanges();
+            }
+        }
 
     }
 }
