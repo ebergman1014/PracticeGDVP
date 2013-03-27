@@ -21,13 +21,13 @@ namespace CardShop.Controllers
     public class AccountController : Controller, IAccountController
     {
 
-        IPracticeGDVPDao db { get; set; }
+        IPracticeGDVPDao dbContext { get; set; }
 
         #region Constructors
 
         public AccountController()
         {
-            db = PracticeGDVPDao.GetInstance();
+            dbContext = PracticeGDVPDao.GetInstance();
         }
         //
         // GET: /Account/Login
@@ -52,7 +52,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                UserAuth.Current.User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
+                UserAuth.Current.User = dbContext.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -262,20 +262,27 @@ namespace CardShop.Controllers
         // POST: /Account/PasswordToken
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult PasswordToken(string UserName)
+        public ActionResult PasswordToken(PasswordReset resetModel)
         {
-            // TODO: Added in logic to validate user exisit in DB
-            
-            PasswordReset resetModel = new PasswordReset();
+            string ViewName = "";
+            bool userExist = dbContext.Users().Any(u => u.UserName == resetModel.UserName);
+            if (userExist)
+            {
+                ViewName = "PasswordResetFinal";
+                // This token isn't used properly
+                resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(resetModel.UserName);
 
-            // This token isn't used properly
-            resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(UserName);
-            
-            // here we would want to send the token to the users email to navigate back to the site confirming they are real.
-            // or we would redirect them to a QuestionandAwnser page to fill out security questions.
+                // here we would want to send the token to the users email to navigate back to the site confirming they are real.
+                // or we would redirect them to a QuestionandAwnser page to fill out security questions.
+            }
+            else
+            {
+                ViewName = "PasswordUpdate";
+                resetModel.Message = "I'm sorry we did not find account information linked to that User name. Please contact System admin";
+            }
 
-            // For now it redirects the user to fill out a new password
-            return View("PasswordResetFinal", resetModel);
+            return View(ViewName, resetModel);
+
         }
 
         //
