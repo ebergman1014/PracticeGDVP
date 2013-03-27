@@ -30,7 +30,8 @@ namespace CardShop.Service
             using (var ctx = dbContext)
             {
                 //get all users to a list
-                users = ctx.Users().ToList();
+                var user = ctx.Users();
+                users = user.ToList();
             }
             return users;
         }

@@ -144,5 +144,10 @@ namespace CardShop.Daos
             return db.Include(path);
         }
 
+
+        public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate) {
+
+            return db.Where(predicate);
+        }
     }
 }

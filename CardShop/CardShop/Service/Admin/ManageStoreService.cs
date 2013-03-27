@@ -40,10 +40,11 @@ namespace CardShop.Service
             Store store = new Store();
             store.UserId = ownerId;
             // createList of stores
-            var storeOwned = context.Stores().Where(s => s.UserId == ownerId).ToList();
-            if (storeOwned.Count > 0)
+           // IDbSet<Store> storeOwned = context.Stores();
+            List<Store> stores = ((IDbSet<Store>)context.Stores().Where(s => s.UserId == ownerId)).ToList();
+            if (stores.Count > 0)
             {
-                store = storeOwned[0];
+                store = stores[0];
             }
             return store;
         }
