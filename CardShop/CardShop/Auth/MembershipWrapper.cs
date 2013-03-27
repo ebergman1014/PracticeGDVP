@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardShop.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Security;
@@ -14,7 +15,7 @@ namespace CardShop.Auth
         public static IMembership getInstance(){
             if (wrapper == null)
             {
-                wrapper = new MembershipWrapper();
+                wrapper = Factory.Instance.Create<MembershipWrapper>();
 
             }
             return wrapper;

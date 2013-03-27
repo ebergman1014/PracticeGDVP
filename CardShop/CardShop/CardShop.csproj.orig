@@ -172,27 +172,36 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Auth\AuthorizeUser.cs" />
+    <Compile Include="Auth\ContextWrapper.cs" />
+    <Compile Include="Auth\IHttpContext.cs" />
+    <Compile Include="Utilities\IFactory.cs" />
+    <Compile Include="Auth\ISession.cs" />
     <Compile Include="Auth\IUserAuth.cs" />
     <Compile Include="Auth\Role.cs" />
+    <Compile Include="Auth\SessionWrapper.cs" />
     <Compile Include="Auth\UserAuth.cs" />
+    <Compile Include="Utilities\Factory.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\Admin\ManageStoreController.cs" />
     <Compile Include="Controllers\Admin\IManageUserController.cs" />
+    <Compile Include="Controllers\BaseballCardController.cs" />
     <Compile Include="Controllers\IAccountController.cs" />
     <Compile Include="Controllers\Admin\IManageStoreController.cs" />
     <Compile Include="Controllers\Admin\ManageUserController.cs" />
 <<<<<<< HEAD
-=======
     <Compile Include="Controllers\IRedemptionController.cs" />
->>>>>>> 17ba36b73dc74c3f37896bf60a58c58c8ff42cef
     <Compile Include="Controllers\RedemptionController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+=======
+    <Compile Include="Controllers\Discount\IRedemptionController.cs" />
+    <Compile Include="Controllers\Discount\RedemptionController.cs" />
+>>>>>>> ea4bb62c5366a8ad2baace53866997bc714b23a3
     <Compile Include="Controllers\RuleController.cs" />
-    <Compile Include="Controllers\DiscountController.cs" />
+    <Compile Include="Controllers\Discount\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IDiscountController.cs" />
-    <Compile Include="DAL\RulesContext.cs" />
+    <Compile Include="Controllers\Discount\IDiscountController.cs" />
+    <Compile Include="Daos\DefaultContext.cs" />
     <Compile Include="Daos\DbSetWrapper.cs" />
     <Compile Include="Daos\IDbSet.cs" />
     <Compile Include="Daos\IPracticeGDVPDao.cs" />
@@ -416,24 +425,21 @@
     <Content Include="Views\Rule\Edit.cshtml" />
     <Content Include="Views\Rule\Delete.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\Admin\ManageStore.cshtml" />
-    <Content Include="Views\Report\Report.cshtml" />
-=======
     <Content Include="Views\ManageStore\Index.cshtml" />
-    <Content Include="Views\Home\Report.cshtml" />
->>>>>>> 17ba36b73dc74c3f37896bf60a58c58c8ff42cef
+    <Content Include="Views\Report\Report.cshtml" />
     <Content Include="Views\Redemption\Redeem.cshtml" />
     <Content Include="Views\ManageUser\Index.cshtml" />
     <Content Include="Views\ManageUser\Details.cshtml" />
     <Content Include="Views\ManageUser\Create.cshtml" />
     <Content Include="Views\ManageUser\Edit.cshtml" />
     <Content Include="Views\ManageUser\Delete.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Report\Index.cshtml" />
-=======
     <Content Include="Views\ErrDocs\403.cshtml" />
->>>>>>> 17ba36b73dc74c3f37896bf60a58c58c8ff42cef
+    <Content Include="Views\BaseballCard\Index.cshtml" />
+    <Content Include="Views\BaseballCard\Details.cshtml" />
+    <Content Include="Views\BaseballCard\Create.cshtml" />
+    <Content Include="Views\BaseballCard\Edit.cshtml" />
+    <Content Include="Views\BaseballCard\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardShop.Controllers
+namespace CardShop.Auth
 {
-    interface IRedemptionController
+    public interface IHttpContext
     {
+        ISession Session { get; set; }
     }
 }

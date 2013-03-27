@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CardShop.Models.BaseballCard>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Player)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Team)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Player)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Team)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cost)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BaseballCardId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BaseballCardId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BaseballCardId })
+        </td>
+    </tr>
+}
+
+</table>
