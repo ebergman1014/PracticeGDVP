@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Upload";
+    string msg = (string) TempData["error"];
 }
 
 <h2>Upload</h2>
@@ -8,7 +9,24 @@
 
     <p>Upload baseball cards.</p>
 
+    <div id="error" style="color:red">
+        @if(msg!=null)
+        {
+              @msg;
+        }
+    </div>
+
     <input type="file" name="file" id="file" /><br />
     <input type="submit" />
 </form>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#form').submit(function () {
+            if ($(this).find('#file').val() == '') {
+                $('#error').html('Please select a file.');
+                return false;
+            }
+        });
+    });
+</script>

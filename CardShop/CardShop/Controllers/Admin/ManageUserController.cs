@@ -19,6 +19,8 @@ namespace CardShop.Controllers
     {
         public IManageUserService manageUserService { get; set; }
         public IMembership membership { get; set; }
+
+
         //
         // GET: /ManageUser/
         [AuthorizeUser(Role.Admin, Role.StoreOwner)]
@@ -151,7 +153,9 @@ namespace CardShop.Controllers
             manageUserService.ActAsUser(id, out success);
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet, ActionName("StopActingAsUser")]
+        [AuthorizeUser]
         public ActionResult StopActingAsUser()
         {
             bool success;

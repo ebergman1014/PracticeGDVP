@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    string msg = (string)TempData["cards"];
 }
 
 <h2>Index</h2>
@@ -9,6 +10,16 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<p>
+    @Html.ActionLink("Upload", "Upload")
+</p>
+
+<div style="color:blue">
+@if (msg != null)
+{
+    @msg;
+}
+</div>
 <table>
     <tr>
         <th>

@@ -79,15 +79,15 @@ namespace CardShop.Daos
         private PracticeGDVPDao()
         {
             gdvp = new PracticeGDVPEntities();
-            users = Factory.Instance.Create<DbSetWrapper<User>>(gdvp.User);
-            baseBallCards = Factory.Instance.Create<DbSetWrapper<BaseballCard>>(gdvp.BaseballCards);
-            baseballCardTransactions = Factory.Instance.Create<DbSetWrapper<BaseballCardTransaction>>(gdvp.BaseballCardTransactions);
-            transactions = Factory.Instance.Create<DbSetWrapper<Transaction>>(gdvp.Transactions);
-            userDiscounts = Factory.Instance.Create<DbSetWrapper<UserDiscount>>(gdvp.UserDiscounts);
-            ruleSets = Factory.Instance.Create<DbSetWrapper<RuleSet>>(gdvp.RuleSets);
-            stores = Factory.Instance.Create<DbSetWrapper<Store>>(gdvp.Stores);
-            storeInventories = Factory.Instance.Create<DbSetWrapper<StoreInventory>>(gdvp.StoreInventories);
-            webpages_Roles = Factory.Instance.Create<DbSetWrapper<webpages_Roles>>(gdvp.webpages_Roles);
+            users = gdvp.User;
+            baseBallCards = gdvp.BaseballCards;
+            baseballCardTransactions = gdvp.BaseballCardTransactions;
+            transactions = gdvp.Transactions;
+            userDiscounts = gdvp.UserDiscounts;
+            ruleSets = gdvp.RuleSets;
+            stores = gdvp.Stores;
+            storeInventories = gdvp.StoreInventories;
+            webpages_Roles = gdvp.webpages_Roles;
 
         }
 

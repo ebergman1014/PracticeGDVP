@@ -34,10 +34,6 @@ namespace CardShop.Auth
             get{
                  return UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper,IHttpContext>(HttpContext.Current));
             }
-            set
-            {
-                Current = value;
-            }
         }
 
         /// <summary>
@@ -108,7 +104,7 @@ namespace CardShop.Auth
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        internal static IUserAuth GetUserAuth(IHttpContext context)
+        public static IUserAuth GetUserAuth(IHttpContext context)
         {
             IUserAuth result = null;
             if (context != null)
