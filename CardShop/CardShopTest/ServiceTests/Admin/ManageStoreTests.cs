@@ -62,7 +62,7 @@ namespace CardShopTest.ServiceTests
         {
 
             mockDbContext.Setup(mock => mock.Stores()).Returns(mockDbSet.Object);
-          //  mockDbSet.Setup(m => ((IQueryable)m).Where(It.IsAny<Expression<Func<Store,bool>>>())).Returns(mockDbSet.Object);
+            mockDbSet.Setup(m => m.Where(It.IsAny<Expression<Func<Store,bool>>>())).Returns(mockDbSet.Object);
             mockDbSet.Setup(m => m.ToList()).Returns(stores);
 
             Assert.IsTrue(adminService.OwnedStore(1).StoreId != 0);

@@ -5,6 +5,7 @@ using System.Web;
 using CardShop.Models;
 using CardShop.Utilities;
 using CardShop.Daos;
+using System.Data.Entity;
 
 namespace CardShop.Service
 {
