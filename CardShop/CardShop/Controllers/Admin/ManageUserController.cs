@@ -153,7 +153,9 @@ namespace CardShop.Controllers
             manageUserService.ActAsUser(id, out success);
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet, ActionName("StopActingAsUser")]
+        [AuthorizeUser]
         public ActionResult StopActingAsUser()
         {
             bool success;

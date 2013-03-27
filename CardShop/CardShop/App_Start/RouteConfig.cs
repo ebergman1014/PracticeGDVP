@@ -14,6 +14,12 @@ namespace CardShop
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Admin_ManageInventory",
+                url: "Admin/ManageInventory/{action}/{id}",
+                defaults: new { controller = "ManageInventory", action = "Index", id = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
                 name: "Admin_ManageUser",
                 url: "Admin/ManageUser/{action}/{id}",
                 defaults: new { controller = "ManageUser", action = "Index", id = UrlParameter.Optional }

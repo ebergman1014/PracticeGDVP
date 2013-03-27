@@ -8,6 +8,9 @@ using CardShopTest.TestHelper;
 using Moq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Data.Entity;
+using System.Linq;
+
 
 namespace CardShopTest.ServiceTests
 {
