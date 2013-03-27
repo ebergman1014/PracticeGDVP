@@ -68,22 +68,6 @@ namespace CardShopTest.ServiceTests
         }
 
         [TestMethod]
-        public void DiscountServicesGetCouponPassTest()
-        {
-            couponList.Add(coupon);
-            
-            mockContext.Setup(m => m.UserDiscounts()).Returns(mockDbset.Object);
-            mockDbset.Setup(m => m.Where(It.IsAny<Expression<Func<UserDiscount, bool>>>())).Returns(mockDbset.Object);
-            mockDbset.Setup(m => m.ToList()).Returns(couponList);
-            
-            
-           // Assert.AreSame(coupon, discountService.GetCoupon
-           //     (USER4, DISCOUNTCODE4, out isSuccess, out error), "test for return object");
-           // Assert.IsTrue(isSuccess);
-            //Assert.IsNull(error);
-        }
-
-        [TestMethod]
         public void DiscountServicesValidateCoupon()
         {
 
