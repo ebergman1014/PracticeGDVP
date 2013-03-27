@@ -7,12 +7,16 @@ using System.Web;
 using System.Web.Mvc;
 using CardShop.Models;
 using CardShop.Daos;
+using System.IO;
+using CardShop.Service;
 
 namespace CardShop.Controllers
 {
     public class BaseballCardController : Controller
     {
         private DefaultContext db = new DefaultContext();
+        //public IUploadService uploadService { get; set; }
+        public UploadService uploadService { get; set; }
 
         //
         // GET: /BaseballCard/
@@ -41,6 +45,25 @@ namespace CardShop.Controllers
         public ActionResult Upload()
         {
             return View();
+        }
+
+        //
+        // POST: /BaseballCard/Upload
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file.ContentLength > 0)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                file.SaveAs(path);
+
+                uploadService = new UploadService();
+                uploadService.LoadFromFile(path);
+
+            }
+            return RedirectToAction("Index");
         }
 
         //
