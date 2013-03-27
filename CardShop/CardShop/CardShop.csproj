@@ -200,7 +200,6 @@
     <Compile Include="Controllers\Discount\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Discount\IDiscountController.cs" />
-    <Compile Include="Daos\DefaultContext.cs" />
     <Compile Include="Daos\IPracticeGDVPDao.cs" />
     <Compile Include="Daos\PracticeGDVPDao.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
