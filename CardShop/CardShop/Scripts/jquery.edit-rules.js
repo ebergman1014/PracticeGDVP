@@ -86,7 +86,6 @@
         if (rules.length === 0) {
             return false;
         } else {
-            $('#rulesObject').val(JSON.stringify(rules));
             $('#rulesetWrapper_RuleSet1').val(JSON.stringify(rules));
         }        
     });
