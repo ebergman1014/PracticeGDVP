@@ -143,7 +143,7 @@ namespace CardShop.Service
         /// </summary>
         private DiscountService()
         {
-            couponUtility = new UserDiscountUtility();
+            couponUtility = Factory.Instance.Create<UserDiscountUtility>();
             dbContext = PracticeGDVPDao.GetInstance();
         }
 

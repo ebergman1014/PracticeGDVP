@@ -11,17 +11,19 @@ using CardShop.Service;
 using CardShop.Service.Admin;
 using CardShop.Auth;
 using CardShop.Daos;
-using CardShop.Auth;
 
 namespace CardShop.Controllers
 {
-    [AuthorizeUser(Role.Admin, Role.StoreOwner)]
+    [AuthorizeUser]
     public class ManageUserController : Controller, IManageUserController
     {
         public IManageUserService manageUserService { get; set; }
         public IMembership membership { get; set; }
+
+
         //
         // GET: /ManageUser/
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Index()
         {
             bool isSuccess;
@@ -31,6 +33,7 @@ namespace CardShop.Controllers
         //
         // GET: /ManageUser/Details/5
 
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Details(int id = 0)
         {
             bool isSuccess;
@@ -45,6 +48,7 @@ namespace CardShop.Controllers
         //
         // GET: /ManageUser/Create
 
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Create()
         {
             bool isSuccess;
@@ -56,6 +60,7 @@ namespace CardShop.Controllers
         // POST: /ManageUser/Create
 
         [HttpPost]
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Create(User user)
         {
             bool isSuccess;
@@ -72,6 +77,7 @@ namespace CardShop.Controllers
         //
         // GET: /ManageUser/Edit/5
 
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Edit(int id = 0)
         {
             bool isSuccess;
@@ -92,6 +98,7 @@ namespace CardShop.Controllers
         // POST: /ManageUser/Edit/5
 
         [HttpPost]
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Edit(User user)
         {
             bool isSuccess;
@@ -108,6 +115,7 @@ namespace CardShop.Controllers
         //
         // GET: /ManageUser/Delete/5
 
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult Delete(int id = 0)
         {
             bool isSuccess;
@@ -123,6 +131,7 @@ namespace CardShop.Controllers
         // POST: /ManageUser/Delete/5
 
         [HttpPost, ActionName("Delete")]
+        [AuthorizeUser(Role.Admin, Role.StoreOwner)]
         public ActionResult DeleteConfirmed(int id)
         {
             bool isSuccess = false;
@@ -145,7 +154,6 @@ namespace CardShop.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpGet, ActionName("StopActingAsUser")]
-        [AuthorizeUser]
         public ActionResult StopActingAsUser()
         {
             bool success;
