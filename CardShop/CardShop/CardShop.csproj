@@ -174,6 +174,8 @@
     <Compile Include="Auth\AuthorizeUser.cs" />
     <Compile Include="Auth\ContextWrapper.cs" />
     <Compile Include="Auth\IHttpContext.cs" />
+    <Compile Include="Service\IUploadService.cs" />
+    <Compile Include="Service\UploadService.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />
     <Compile Include="Auth\IUserAuth.cs" />
@@ -435,9 +437,10 @@
     <Content Include="Views\BaseballCard\Create.cshtml" />
     <Content Include="Views\BaseballCard\Edit.cshtml" />
     <Content Include="Views\BaseballCard\Delete.cshtml" />
+    <Content Include="Views\BaseballCard\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
