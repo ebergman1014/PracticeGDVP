@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Reflection;
 using Moq;
 using CardShop.Utilities;
+using System.IO;
 
 namespace CardShopTest.AuthTests
 {
@@ -44,7 +45,7 @@ namespace CardShopTest.AuthTests
                 BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 authCore,
-                new Object[]{null}));
+                new object[]{null}));
         }
         [TestMethod]
         public void TestAuthCoreNegative()
@@ -54,19 +55,33 @@ namespace CardShopTest.AuthTests
                 BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 authCore,
-                new Object[]{null}));
+                new object[]{null}));
         }
-
         [TestMethod]
         public void TestHandleUnauthorizedLoggedIn()
         {
-            AuthorizationContext context = new AuthorizationContext();
             auth.Setup(a => a.IsLoggedIn()).Returns(true);
-            /*authCore.GetType().InvokeMember("HandleUnauthorizedRequest",
+            AuthorizationContext context = CardShopTest.TestHelper.TestUtils.CreateAuthorizationContext();
+            authCore.GetType().InvokeMember("HandleUnauthorizedRequest",
                 BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 authCore,
-                new Object[] { context });*/
+                new object[] { context });
+            Assert.AreEqual(403, context.HttpContext.Response.StatusCode);
+            Assert.IsNotNull(context.Result);
+        }
+
+        [TestMethod]
+        public void TestHandleUnauthorizedNotLoggedIn()
+        {
+            auth.Setup(a => a.IsLoggedIn()).Returns(false);
+            AuthorizationContext context = CardShopTest.TestHelper.TestUtils.CreateAuthorizationContext();
+            authCore.GetType().InvokeMember("HandleUnauthorizedRequest",
+                BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
+                null,
+                authCore,
+                new object[] { context });
+            Assert.IsNotNull(context.Result);
         }
     }
 }
