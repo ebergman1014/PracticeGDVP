@@ -78,7 +78,7 @@ namespace CardShop.Daos
 
         private PracticeGDVPDao()
         {
-            gdvp = Factory.Instance.Create<PracticeGDVPEntities>();
+            gdvp = new PracticeGDVPEntities();
             users = Factory.Instance.Create<DbSetWrapper<User>>(gdvp.User);
             baseBallCards = Factory.Instance.Create<DbSetWrapper<BaseballCard>>(gdvp.BaseballCards);
             baseballCardTransactions = Factory.Instance.Create<DbSetWrapper<BaseballCardTransaction>>(gdvp.BaseballCardTransactions);

@@ -56,5 +56,17 @@ namespace CardShopTest.AuthTests
                 authCore,
                 new Object[]{null}));
         }
+
+        [TestMethod]
+        public void TestHandleUnauthorizedLoggedIn()
+        {
+            AuthorizationContext context = new AuthorizationContext();
+            auth.Setup(a => a.IsLoggedIn()).Returns(true);
+            /*authCore.GetType().InvokeMember("HandleUnauthorizedRequest",
+                BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
+                null,
+                authCore,
+                new Object[] { context });*/
+        }
     }
 }
