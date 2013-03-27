@@ -175,6 +175,7 @@
     <Compile Include="Auth\ContextWrapper.cs" />
     <Compile Include="Auth\IHttpContext.cs" />
     <Compile Include="Service\IUploadService.cs" />
+    <Compile Include="Service\RuleService.cs" />
     <Compile Include="Service\UploadService.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />
@@ -481,7 +482,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>54856</DevelopmentServerPort>
+          <DevelopmentServerPort>56185</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
