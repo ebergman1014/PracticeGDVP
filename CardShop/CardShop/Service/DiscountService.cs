@@ -57,14 +57,23 @@ namespace CardShop.Service
             {
                 //  get coupon by id and coupon code
                 //  LINQ query instead of Lambda expression for clarity
-                IQueryable<UserDiscount> coupon = from cup in ctx.UserDiscounts() where
-                             cup.DiscountCode == discountCode
-                             &&
-                             cup.UserId == userId
-                             select cup;
+                //IQueryable<UserDiscount> coupon = from cup in ctx.UserDiscounts() where
+                //             cup.DiscountCode == discountCode
+                //             &&
+                //             cup.UserId == userId
+                //             select cup;
 
-                couponList = coupon.ToList();
 
+
+                //couponList = coupon.ToList();
+
+
+
+                //couponList = ((IDbSet<UserDiscount>)ctx.UserDiscounts().Where(m => m.DiscountCode == discountCode && m.UserId == userId)).ToList();
+                IDbSet<UserDiscount> aCouponList = ctx.UserDiscounts();
+                IDbSet<UserDiscount> where = (IDbSet<UserDiscount>)aCouponList.Where(m => m.DiscountCode == discountCode && m.UserId == userId);
+                List<UserDiscount> listOfList = where.ToList();
+                couponList = listOfList;
             }
 
             //  got to method to check for exists, expired, or used, or not yet active

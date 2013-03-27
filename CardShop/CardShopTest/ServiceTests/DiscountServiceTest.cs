@@ -7,6 +7,7 @@ using CardShop.Models;
 using CardShopTest.TestHelper;
 using Moq;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace CardShopTest.ServiceTests
 {
@@ -18,8 +19,10 @@ namespace CardShopTest.ServiceTests
         private Mock<IUserDiscountUtility> mockUserDiscountUtility = new Mock<IUserDiscountUtility>();
         private Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
 
-        private UserDiscount coupon = User_DiscountTest.CreateCoupon();
+        private Mock<IDbSet<UserDiscount>> mockDbset = new Mock<IDbSet<UserDiscount>>();
 
+        private UserDiscount coupon = User_DiscountTest.CreateCoupon();
+        private List<UserDiscount> couponList = new List<UserDiscount>();
         private bool isSuccess;
         private String error;
         private const int USER4 = 4;
@@ -64,7 +67,11 @@ namespace CardShopTest.ServiceTests
         [TestMethod]
         public void DiscountServicesGetCouponPassTest()
         {
+            couponList.Add(coupon);
             
+            mockContext.Setup(m => m.UserDiscounts()).Returns(mockDbset.Object);
+            mockDbset.Setup(m => m.Where(It.IsAny<Expression<Func<UserDiscount, bool>>>())).Returns(mockDbset.Object);
+            mockDbset.Setup(m => m.ToList()).Returns(couponList);
             
             
             Assert.AreSame(coupon, discountService.GetCoupon
