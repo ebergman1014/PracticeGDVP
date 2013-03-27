@@ -34,10 +34,6 @@ namespace CardShop.Auth
             get{
                  return UserAuth.GetUserAuth(Factory.Instance.Create<ContextWrapper,IHttpContext>(HttpContext.Current));
             }
-            set
-            {
-                Current = value;
-            }
         }
 
         /// <summary>

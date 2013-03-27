@@ -86,7 +86,7 @@ namespace CardShopTest.AuthTests
         }
 
         [TestMethod]
-        public void GetUserAuthFromContext()
+        public void TestGetUserAuthFromContext()
         {
 
             factory.Setup(f => f.Create<ContextWrapper, IHttpContext>(context)).Returns(context.Object);
@@ -94,7 +94,7 @@ namespace CardShopTest.AuthTests
         }
 
         [TestMethod]
-        public void GetUserAuthFromCurrentContext()
+        public void TestGetUserAuthFromCurrentContext()
         {
 
             factory.Setup(f => f.Create<ContextWrapper, IHttpContext>(HttpContext.Current)).Returns(context.Object);

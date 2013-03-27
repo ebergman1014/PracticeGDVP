@@ -13,6 +13,7 @@ using Moq;
 using System.Web;
 using CardShop.Auth;
 using System.Data.Objects;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Text;
 

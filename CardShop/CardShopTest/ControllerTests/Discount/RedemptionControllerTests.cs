@@ -7,6 +7,7 @@ using Moq;
 using CardShop.Models;
 using CardShop.Daos;
 using CardShopTest.TestHelper;
+using System.Data.Entity;
 
 namespace CardShopTest.ControllerTests
 {
@@ -52,7 +53,7 @@ namespace CardShopTest.ControllerTests
         {
             redemptionController.discountService = discountService.Object;
 
-            discountService.Setup(m => m.GetAllUsers()).Returns(idbSetUser.Object.ToList);
+            //discountService.Setup(m => m.GetAllUsers()).Returns(idbSetUser.Object.ToList);
 
             Assert.IsInstanceOfType(redemptionController.Redeem(), typeof(ViewResult));
             discountService.Verify(m => m.GetAllUsers());
