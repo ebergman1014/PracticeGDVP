@@ -53,17 +53,26 @@ namespace CardShop.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            if (file.ContentLength > 0)
+            if (file != null)
             {
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                file.SaveAs(path);
+                if (file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    file.SaveAs(path);
 
-                uploadService = new UploadService();
-                uploadService.LoadFromFile(path);
-
+                    uploadService = new UploadService();
+                    List<BaseballCard> savedCards = uploadService.LoadFromFile(path);
+                    TempData["cards"] = savedCards.Count + " cards added.";
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            else
+            {
+                TempData["error"] = "Please select a file.";
+                return View("Upload");
+            }
+            
         }
 
         //

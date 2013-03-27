@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -17,8 +18,9 @@ namespace CardShop.Service
             this.dbContext = PracticeGDVPDao.GetInstance();
         }
 
-        public void LoadFromFile(string filename)
+        public List<BaseballCard> LoadFromFile(string filename)
         {
+            BaseballCard card;
             List<BaseballCard> allCards = new List<BaseballCard>();
 
             if (File.Exists(filename))
@@ -32,32 +34,41 @@ namespace CardShop.Service
                             string line = reader.ReadLine();
                             if (!String.IsNullOrEmpty(line))
                             {
-                                BaseballCard card = new BaseballCard();
+                                card  = new BaseballCard();
 
-                                string[] lineArray = Regex.Split(line, ", ");
+                                string[] lineArray = Regex.Split(line, ",");
 
-                                // validate?
-
-                                card.Player = lineArray[0];
-                                card.Team = lineArray[1];
-                                card.Cost = Convert.ToInt32(lineArray[2]);
-                                allCards.Add(card);
+                                try
+                                {
+                                    card.Player = lineArray[0];
+                                    card.Team = lineArray[1];
+                                    card.Cost = Convert.ToDecimal(lineArray[2]);
+                                    allCards.Add(card);
+                                }
+                                catch (FormatException ex)
+                                {
+                                    Debug.WriteLine(ex.Message);
+                                }
                             }
                         }
                     }
                 }
-                SaveImport(allCards);
+                return SaveImport(allCards);
             }
+            return null;
         }
 
-        private void SaveImport(List<BaseballCard> allCards)
+        private List<BaseballCard> SaveImport(List<BaseballCard> allCards)
         {
+            List<BaseballCard> savedCards = new List<BaseballCard>();
             foreach (var card in allCards)
             {
                 dbContext.BaseballCards().Add(card);
+                savedCards.Add(card);
             }
 
             dbContext.SaveChanges();
+            return savedCards;
         }
     }
 }

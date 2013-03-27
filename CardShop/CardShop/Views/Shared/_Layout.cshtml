@@ -29,7 +29,8 @@
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             <li>@Html.ActionLink("Discount", "Index", "Discount")</li>
                             @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){
-                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>                              
+                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>   
+                                <li>@Html.ActionLink("Card Management", "Index", "BaseballCard")</li>                           
                             }
 <li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>
                             <li>@Html.ActionLink("Rules", "Index", "Rule")</li>

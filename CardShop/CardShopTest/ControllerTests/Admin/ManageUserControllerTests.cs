@@ -12,6 +12,9 @@ using System.Web.Security;
 
 namespace CardShopTest.ControllerTests.Admin
 {
+    /// <summary>
+    /// Tests for the service layer of ManageUser
+    /// </summary>
     [TestClass]
     public class ManageUserControllerTests
     {
