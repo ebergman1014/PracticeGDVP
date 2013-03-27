@@ -18,37 +18,39 @@ namespace CardShopTest.ControllerTests.Admin
         ManageUserController manageUserController;
         bool isSuccess;
         private const int USER_FOUR = 4;
-        User userTest;
+        User userTest = ListOfUsers.GetListOfUsers(USER_FOUR)[0];
+
+        Mock<IManageUserService> mockManageUserService = new Mock<IManageUserService>();
 
         [TestInitialize]
         public void Setup()
         {
             manageUserController = new ManageUserController();
-            userTest = ListOfUsers.GetListOfUsers(USER_FOUR)[0];
+            manageUserController.manageUserService = mockManageUserService.Object;
         }
 
         [TestMethod]
         public void ManageUserIndexTest()
         {
-            // A mock, you willl see this everywhere!
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
 
             // Verifying 
             Assert.IsInstanceOfType(manageUserController.Index(), typeof(ViewResult));
-            mock.Verify(mockObject => mockObject.GetAllUsers(out isSuccess));
+            mockManageUserService.Verify(mockObject => mockObject.GetAllUsers(out isSuccess));
 
         }
 
         [TestMethod]
-        public void ManageUserDetailsTest()
+        public void ManageUserDetailsFailTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
             // No object made, so will be a null user
             Assert.IsInstanceOfType(manageUserController.Details(USER_FOUR), typeof(HttpNotFoundResult));
 
-            mock.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
+        }
+
+        [TestMethod]
+        public void ManageUserDetailsPassTest()
+        {
+            mockManageUserService.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
             Assert.IsInstanceOfType(manageUserController.Details(USER_FOUR), typeof(ViewResult));
         }
 
@@ -56,98 +58,100 @@ namespace CardShopTest.ControllerTests.Admin
         [TestMethod]
         public void ManageUserCreateTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
             Assert.IsInstanceOfType(manageUserController.Create(), typeof(ViewResult));
-            mock.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
+            mockManageUserService.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
         }
 
         [TestMethod]
-        public void ManageUserCreateUserTest()
+        public void ManageUserCreateUserPassTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
-
             Assert.IsInstanceOfType(manageUserController.Create(userTest), typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        public void ManageUserCreateUserFailTest()
+        {
 
             manageUserController.ModelState.AddModelError("bad", new Exception());
             Assert.IsInstanceOfType(manageUserController.Create(userTest), typeof(ViewResult));
+
         }
 
         [TestMethod]
-        public void ManageUserEditTest()
+        public void ManageUserEditFailTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
 
-            mock.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns((User)null);
+            mockManageUserService.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns((User)null);
             Assert.IsInstanceOfType(manageUserController.Edit(USER_FOUR), typeof(HttpNotFoundResult));
-
-            mock.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
-            Assert.IsInstanceOfType(manageUserController.Edit(USER_FOUR), typeof(ViewResult));
-            mock.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
+            Assert.IsFalse(isSuccess);
         }
 
         [TestMethod]
-        public void ManageUserEditUserTest()
+        public void ManageUserEditPassTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
 
-            mock.Setup(mockObject => mockObject.EditUser(userTest, out isSuccess)).Returns(new User());
+            mockManageUserService.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
+            Assert.IsInstanceOfType(manageUserController.Edit(USER_FOUR), typeof(ViewResult));
+            mockManageUserService.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
+        }
+
+        [TestMethod]
+        public void ManageUserEditUserPassTest()
+        {
+
+            mockManageUserService.Setup(mockObject => mockObject.EditUser(userTest, out isSuccess)).Returns(new User());
             Assert.IsInstanceOfType(manageUserController.Edit(userTest), typeof(RedirectToRouteResult));
+        }
 
+        [TestMethod]
+        public void ManageUserEditUserFailTest()
+        {
             manageUserController.ModelState.AddModelError("bad", new Exception());
             Assert.IsInstanceOfType(manageUserController.Edit(userTest), typeof(ViewResult));
-
-            mock.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
-
+            Assert.IsFalse(isSuccess);
+            mockManageUserService.Verify(mockObject => mockObject.GetRoleView(out isSuccess));
 
         }
 
         [TestMethod]
-        public void ManageUserDeleteTest()
+        public void ManageUserDeletePassTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
 
-            mock.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
+            mockManageUserService.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns(userTest);
             Assert.IsInstanceOfType(manageUserController.Delete(USER_FOUR), typeof(ViewResult));
 
-            mock.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns((User)null);
-            Assert.IsInstanceOfType(manageUserController.Delete(USER_FOUR), typeof(HttpNotFoundResult));
         }
 
+        [TestMethod]
+        public void ManageUserDeleteFailTest()
+        {
+            mockManageUserService.Setup(mockObject => mockObject.GetUser(USER_FOUR, out isSuccess)).Returns((User)null);
+            Assert.IsInstanceOfType(manageUserController.Delete(USER_FOUR), typeof(HttpNotFoundResult));
+        }
         [TestMethod]
         public void ManageUserDeleteConfirmedTest()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
 
             Assert.IsInstanceOfType(manageUserController.DeleteConfirmed(USER_FOUR), typeof(RedirectToRouteResult));
 
-            mock.Verify(mockObject => mockObject.DeleteUser(USER_FOUR, out isSuccess));
+            mockManageUserService.Verify(mockObject => mockObject.DeleteUser(USER_FOUR, out isSuccess));
 
         }
 
         [TestMethod]
         public void ManageUserActAsUser()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
             Assert.IsInstanceOfType(manageUserController.ActAsUser(USER_FOUR), typeof(RedirectToRouteResult));
 
-            mock.Verify(mockObject => mockObject.ActAsUser(USER_FOUR, out isSuccess));
+            mockManageUserService.Verify(mockObject => mockObject.ActAsUser(USER_FOUR, out isSuccess));
         }
 
         [TestMethod]
         public void ManageUserStopActingAsUser()
         {
-            var mock = new Mock<IManageUserService>();
-            manageUserController.manageUserService = mock.Object;
             Assert.IsInstanceOfType(manageUserController.StopActingAsUser(), typeof(RedirectToRouteResult));
 
-            mock.Verify(mockObject => mockObject.StopActingAsUser(out isSuccess));
+            mockManageUserService.Verify(mockObject => mockObject.StopActingAsUser(out isSuccess));
         }
     }
 }

@@ -20,6 +20,8 @@ namespace CardShop.Controllers
     {
         public IManageUserService manageUserService { get; set; }
         public IMembership membership { get; set; }
+
+
         //
         // GET: /ManageUser/
         public ActionResult Index()
