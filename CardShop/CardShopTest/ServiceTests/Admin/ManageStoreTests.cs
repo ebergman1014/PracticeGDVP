@@ -5,10 +5,10 @@ using CardShop.Models;
 using CardShopTest.TestHelper;
 using Moq;
 using System.Linq.Expressions;
-using CardShop.Daos;
 using System.Collections.Generic;
 using CardShop.Utilities;
 using System.Linq;
+using System.Data.Entity;
 
 namespace CardShopTest.ServiceTests
 {
@@ -20,7 +20,7 @@ namespace CardShopTest.ServiceTests
         Store storeTwo;
         List<Store> stores = StoreTest.CreateStores(2);
 
-        Mock<IPracticeGDVPDao> mockDbContext = new Mock<IPracticeGDVPDao>();
+        Mock<CardShop.Daos.IPracticeGDVPDao> mockDbContext = new Mock<CardShop.Daos.IPracticeGDVPDao>();
         Mock<IDbSet<Store>> mockDbSet = new Mock<IDbSet<Store>>();
 
         [TestInitialize]
@@ -62,7 +62,7 @@ namespace CardShopTest.ServiceTests
         {
 
             mockDbContext.Setup(mock => mock.Stores()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(mock => mock.Where(It.IsAny<Expression<Func<Store, bool>>>())).Returns(mockDbSet.Object);
+            mockDbSet.Setup(m => m.Where(It.IsAny<Expression<Func<Store,bool>>>())).Returns(mockDbSet.Object);
             mockDbSet.Setup(m => m.ToList()).Returns(stores);
 
             Assert.IsTrue(adminService.OwnedStore(1).StoreId != 0);
