@@ -18,15 +18,23 @@ namespace CardShop.Controllers
 {
     public class RuleController : Controller
     {
-        private DefaultContext db = new DefaultContext();
-        public RuleService ruleService = new RuleService();
+        IPracticeGDVPDao db { get; set; }
+        RuleService ruleService { get; set; }
+
+        public RuleController()
+        {
+            db = PracticeGDVPDao.GetInstance();
+            ruleService = new RuleService();
+        }
+
+        
 
         //
         // GET: /Rule/
 
         public ActionResult Index()
         {
-            return View(db.RuleSets.ToList());
+            return View(db.RuleSets().ToList());
         }
 
         //
@@ -34,7 +42,7 @@ namespace CardShop.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets.Find(id);
+            Models.RuleSet ruleset = db.RuleSets().Find(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -65,7 +73,7 @@ namespace CardShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets.Find(id);
+            Models.RuleSet ruleset = db.RuleSets().Find(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -88,7 +96,7 @@ namespace CardShop.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets.Find(id);
+            Models.RuleSet ruleset = db.RuleSets().Find(id);
             if (ruleset == null)
             {
                 return HttpNotFound();
@@ -102,8 +110,8 @@ namespace CardShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Models.RuleSet ruleset = db.RuleSets.Find(id);
-            db.RuleSets.Remove(ruleset);
+            Models.RuleSet ruleset = db.RuleSets().Find(id);
+            db.RuleSets().Remove(ruleset);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
