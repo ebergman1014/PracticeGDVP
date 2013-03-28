@@ -1,0 +1,36 @@
+﻿@model CardShop.Models.StoreInventory
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>StoreInventory</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BaseballCard.Player)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BaseballCard.Player)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Store.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Store.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Quantity)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Quantity)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.StoreInventoryId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

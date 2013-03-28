@@ -11,23 +11,24 @@ using System.Workflow.ComponentModel.Compiler;
 using System.Workflow.ComponentModel.Serialization;
 using System.Xml;
 using CardShop.Models;
+using CardShop.Service;
 
 namespace CardShop.ViewModels
 {
     public class RulesetDetails
     {
         public CardShop.Models.RuleSet rulesetWrapper { get; set; }
-        public System.Workflow.Activities.Rules.RuleSet ruleset { get; set; }
-        public ICollection<Rule> rules { get; set; }
         public List<RuleObject> rulesDisplay { get; set; }
 
         public RulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
         {
+            RuleService ruleService = new RuleService();
             this.rulesetWrapper = rulesetWrapper;
+
             if (rulesetWrapper.RuleSet1 != null)
             {
-                this.ruleset = DeserializeRuleSet(rulesetWrapper.RuleSet1);
-                this.rules = ruleset.Rules;
+                System.Workflow.Activities.Rules.RuleSet ruleset = ruleService.DeserializeRules(rulesetWrapper.RuleSet1);
+                ICollection<Rule> rules = ruleset.Rules;
                 this.rulesDisplay = SetUpRulesDisplay(rules);
             }
         }
@@ -36,40 +37,7 @@ namespace CardShop.ViewModels
         {
         }
 
-        public System.Workflow.Activities.Rules.RuleSet DeserializeRuleSet(string rules)
-        {
-            WorkflowMarkupSerializer serializer = new WorkflowMarkupSerializer();
-            System.Workflow.Activities.Rules.RuleSet ruleset = (System.Workflow.Activities.Rules.RuleSet)serializer.Deserialize(XmlReader.Create(new StringReader(rules)));
-            return ruleset;
-        }
-
-        public string SerializeRuleSet(System.Workflow.Activities.Rules.RuleSet ruleset)
-        {
-            WorkflowMarkupSerializer serializer = new WorkflowMarkupSerializer();
-            StringBuilder ruleDefinition = new StringBuilder();
-
-            if (ruleset != null)
-            {
-                try
-                {
-                    StringWriter stringWriter = new StringWriter(ruleDefinition);
-                    XmlTextWriter writer = new XmlTextWriter(stringWriter);
-                    serializer.Serialize(writer, ruleset);
-                    writer.Flush();
-                    writer.Close();
-                    stringWriter.Flush();
-                    stringWriter.Close();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
-
-            return ruleDefinition.ToString();
-        }
-
-        public List<RuleObject> SetUpRulesDisplay(ICollection<System.Workflow.Activities.Rules.Rule> rules)
+        private List<RuleObject> SetUpRulesDisplay(ICollection<System.Workflow.Activities.Rules.Rule> rules)
         {
             List<RuleObject> rulesDisplay = new List<RuleObject>();
 

@@ -15,6 +15,7 @@
         <legend>RuleSet</legend>
 
         @Html.HiddenFor(model => model.rulesetWrapper.RuleSetId)
+        @Html.HiddenFor(model => model.rulesetWrapper.RuleSet1)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.rulesetWrapper.Name)
@@ -62,14 +63,6 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.rulesetWrapper.ActivityName)
             @Html.ValidationMessageFor(model => model.rulesetWrapper.ActivityName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.rulesetWrapper.ModifiedDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.rulesetWrapper.ModifiedDate)
-            @Html.ValidationMessageFor(model => model.rulesetWrapper.ModifiedDate)
         </div>
 
         <div>
@@ -132,8 +125,6 @@
                 </div>
             }
         </div>
-
-        <input type="hidden" id="rulesObject" name="rulesObject" />
 
         <input type="button" id="newRule" value="Add Rule"/>
 

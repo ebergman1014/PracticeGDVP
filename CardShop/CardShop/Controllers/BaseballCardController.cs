@@ -14,16 +14,22 @@ namespace CardShop.Controllers
 {
     public class BaseballCardController : Controller
     {
-        private DefaultContext db = new DefaultContext();
-        //public IUploadService uploadService { get; set; }
-        public UploadService uploadService { get; set; }
+        IPracticeGDVPDao db { get; set; }
+        UploadService uploadService { get; set; }
+
+        public BaseballCardController()
+        {
+            db = PracticeGDVPDao.GetInstance();
+            uploadService = new UploadService();
+        }
+
 
         //
         // GET: /BaseballCard/
 
         public ActionResult Index()
         {
-            return View(db.BaseballCards.ToList());
+            return View(db.BaseballCards().ToList());
         }
 
         //
@@ -31,7 +37,7 @@ namespace CardShop.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            BaseballCard baseballcard = db.BaseballCards.Find(id);
+            BaseballCard baseballcard = db.BaseballCards().Find(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -39,6 +45,14 @@ namespace CardShop.Controllers
             return View(baseballcard);
         }
 
+        //
+        // GET: /BaseballCard/Browse
+
+        public ActionResult Browse()
+        {
+            return View("Browse");        
+        }
+        
         //
         // GET: /BaseballCard/Upload
 
@@ -53,17 +67,25 @@ namespace CardShop.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
-            if (file.ContentLength > 0)
+            if (file != null)
             {
-                var fileName = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
-                file.SaveAs(path);
+                if (file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    file.SaveAs(path);
 
-                uploadService = new UploadService();
-                uploadService.LoadFromFile(path);
-
+                    List<BaseballCard> savedCards = uploadService.LoadFromFile(path);
+                    TempData["cards"] = savedCards.Count + " cards added.";
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+            else
+            {
+                TempData["error"] = "Please select a file.";
+                return View("Upload");
+            }
+            
         }
 
         //
@@ -82,7 +104,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.BaseballCards.Add(baseballcard);
+                db.BaseballCards().Add(baseballcard);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -95,7 +117,7 @@ namespace CardShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            BaseballCard baseballcard = db.BaseballCards.Find(id);
+            BaseballCard baseballcard = db.BaseballCards().Find(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -123,7 +145,7 @@ namespace CardShop.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            BaseballCard baseballcard = db.BaseballCards.Find(id);
+            BaseballCard baseballcard = db.BaseballCards().Find(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -137,8 +159,8 @@ namespace CardShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            BaseballCard baseballcard = db.BaseballCards.Find(id);
-            db.BaseballCards.Remove(baseballcard);
+            BaseballCard baseballcard = db.BaseballCards().Find(id);
+            db.BaseballCards().Remove(baseballcard);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

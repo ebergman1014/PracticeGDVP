@@ -21,15 +21,28 @@ namespace CardShop.Controllers
     public class AccountController : Controller, IAccountController
     {
 
-        IPracticeGDVPDao db { get; set; }
+        private IPracticeGDVPDao dbContext { get; set; }
+        private IWebSecurity WebSecurity { get; set; }
+
+        #region Constructors
+
+        public AccountController(IWebSecurity webSecurity)
+        {
+            WebSecurity = webSecurity;
+        }
 
         public AccountController()
+            : this(new WebSecurityWrapper())
         {
-            db = PracticeGDVPDao.GetInstance();
+            
+            dbContext = PracticeGDVPDao.GetInstance();
         }
         //
         // GET: /Account/Login
 
+        #endregion
+
+        #region Login/Logoff/Register Methods
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -47,7 +60,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                UserAuth.Current.User = db.Users().Where(u => u.UserName == model.UserName).ToList()[0];
+                //UserAuth.Current.User = dbContext.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -63,9 +76,8 @@ namespace CardShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-
             WebSecurity.Logout(); 
-            UserAuth.Current.Logout();
+            //UserAuth.Current.Logout();
             return RedirectToAction("Index", "Home");
         }
 
@@ -132,36 +144,9 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
-        //
-        // POST: /Account/Disassociate
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
-        {
-            string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-            ManageMessageId? message = null;
-
-            // Only disassociate the account if the currently logged in user is the owner
-            if (ownerAccount == User.Identity.Name)
-            {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-                {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-                    {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
-                    }
-                }
-            }
-
-            return RedirectToAction("Manage", new { Message = message });
-        }
-
+        #region Manage Methods
         //
         // GET: /Account/Manage
 
@@ -239,134 +224,66 @@ namespace CardShop.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Password Reset Methods
         //
-        // POST: /Account/ExternalLogin
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-        }
-
-        //
-        // GET: /Account/ExternalLoginCallback
+        // GET: /Account/PasswordReset
 
         [AllowAnonymous]
-        public ActionResult ExternalLoginCallback(string returnUrl)
-        {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-            if (!result.IsSuccessful)
-            {
-                return RedirectToAction("ExternalLoginFailure");
-            }
-
-            if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
-            {
-                return RedirectToLocal(returnUrl);
-            }
-
-            if (User.Identity.IsAuthenticated)
-            {
-                // If the current user is logged in add the new account
-                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return RedirectToLocal(returnUrl);
-            }
-            else
-            {
-                // User is new, ask for their desired membership name
-                string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
-            }
-        }
-
-        //
-        // POST: /Account/ExternalLoginConfirmation
-
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
-        {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
-            {
-                return RedirectToAction("Manage");
-            }
-
-            if (ModelState.IsValid)
-            {
-                // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
-                {
-                    User user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Check if user already exists
-                    if (user == null)
-                    {
-                        // Insert name into the profile table
-                        db.UserProfiles.Add(new User { UserName = model.UserName });
-                        db.SaveChanges();
-
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-
-                        return RedirectToLocal(returnUrl);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
-                }
-            }
-
-            ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
-            ViewBag.ReturnUrl = returnUrl;
-            return View(model);
-        }
-
-        //
-        // GET: /Account/ExternalLoginFailure
-
-        [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
+        public ActionResult PasswordReset()
         {
             return View();
         }
 
+        //
+        // POST: /Account/PasswordToken
+        [HttpPost]
         [AllowAnonymous]
-        [ChildActionOnly]
-        public ActionResult ExternalLoginsList(string returnUrl)
+        public ActionResult PasswordToken(PasswordReset resetModel)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
-        }
-
-        [ChildActionOnly]
-        public ActionResult RemoveExternalLogins()
-        {
-            ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-            List<ExternalLogin> externalLogins = new List<ExternalLogin>();
-            foreach (OAuthAccount account in accounts)
+            string ViewName = "";
+            bool userExist = dbContext.Users().Any(u => u.UserName == resetModel.UserName);
+            if (userExist)
             {
-                AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
+                ViewName = "PasswordResetFinal";
+                // This token isn't used properly
+                resetModel.ResetToken = WebSecurity.GeneratePasswordResetToken(resetModel.UserName);
 
-                externalLogins.Add(new ExternalLogin
-                {
-                    Provider = account.Provider,
-                    ProviderDisplayName = clientData.DisplayName,
-                    ProviderUserId = account.ProviderUserId,
-                });
+                // here we would want to send the token to the users email to navigate back to the site confirming they are real.
+                // or we would redirect them to a QuestionandAwnser page to fill out security questions.
+            }
+            else
+            {
+                ViewName = "PasswordUpdate";
+                resetModel.Message = "I'm sorry we did not find account information linked to that User name. Please contact System admin";
             }
 
-            ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            return PartialView("_RemoveExternalLoginsPartial", externalLogins);
+            return View(ViewName, resetModel);
+
         }
+
+        //
+        //POST: /Account/PasswordUpdate
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PasswordUpdate(PasswordReset model)
+        {
+            bool updatedPassword = WebSecurity.ResetPassword(model.ResetToken, model.NewPassword);
+            if (updatedPassword)
+            {
+                model.Message = "Your password was succesfully updated";
+            }
+            else
+            {
+                model.Message = "Your Password has failed to be reset. Please contact system administrator.";
+            }
+            return View(model);
+        }
+
+
+        #endregion
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
@@ -386,23 +303,6 @@ namespace CardShop.Controllers
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
-        }
-
-        internal class ExternalLoginResult : ActionResult
-        {
-            public ExternalLoginResult(string provider, string returnUrl)
-            {
-                Provider = provider;
-                ReturnUrl = returnUrl;
-            }
-
-            public string Provider { get; private set; }
-            public string ReturnUrl { get; private set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
-            }
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)

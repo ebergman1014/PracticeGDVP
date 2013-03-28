@@ -72,7 +72,7 @@ namespace CardShop.Controllers
         /// <author>CommanderPaul and masterchief117</author>
         public DiscountController()
         {
-            discountService = new DiscountService();
+            discountService = DiscountService.GetInstance();
         }
     }
 }

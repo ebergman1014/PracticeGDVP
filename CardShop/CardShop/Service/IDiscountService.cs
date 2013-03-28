@@ -28,7 +28,17 @@ namespace CardShop.Service
         /// </summary>
         /// <returns> returns List<CardShop.Models.User> </returns>
         UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess);
-        
+
+        /// <summary>
+        /// Validate a UserDiscount
+        /// </summary>
+        /// <param name="couponList"></param>
+        /// <param name="isSuccess"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        UserDiscount ValidateCoupon
+            (List<UserDiscount> couponList, out bool isSuccess, out String error);
+
         /// <summary>
         /// Create and save Coupon to DB
         /// </summary>

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -124,10 +125,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.2.0.20710.0\lib\net40\WebMatrix.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.20710.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
-    </Reference>
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.2.0.20710.0\lib\net40\WebMatrix.WebData.dll</HintPath>
@@ -174,7 +171,12 @@
     <Compile Include="Auth\AuthorizeUser.cs" />
     <Compile Include="Auth\ContextWrapper.cs" />
     <Compile Include="Auth\IHttpContext.cs" />
+    <Compile Include="Controllers\Admin\ManageInventoryController.cs" />
+    <Compile Include="Models\IWebSecurity.cs" />
+    <Compile Include="Models\WebSecurityWrapper.cs" />
+    <Compile Include="Service\Admin\IManageInventoryService.cs" />
     <Compile Include="Service\IUploadService.cs" />
+    <Compile Include="Service\RuleService.cs" />
     <Compile Include="Service\UploadService.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />
@@ -198,9 +200,6 @@
     <Compile Include="Controllers\Discount\DiscountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Discount\IDiscountController.cs" />
-    <Compile Include="Daos\DefaultContext.cs" />
-    <Compile Include="Daos\DbSetWrapper.cs" />
-    <Compile Include="Daos\IDbSet.cs" />
     <Compile Include="Daos\IPracticeGDVPDao.cs" />
     <Compile Include="Daos\PracticeGDVPDao.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -276,6 +275,7 @@
     <Compile Include="Service\DiscountService.cs" />
     <Compile Include="Service\Admin\IManageStoreService.cs" />
     <Compile Include="Service\IDiscountService.cs" />
+    <Compile Include="Utilities\SessionObjects.cs" />
     <Compile Include="Utilities\UserDiscountUtility.cs" />
     <Compile Include="Utilities\IUserDiscountUtility.cs" />
     <Compile Include="ViewModels\RuleDisplayObjects.cs" />
@@ -432,12 +432,20 @@
     <Content Include="Views\ManageUser\Delete.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\ErrDocs\403.cshtml" />
+    <Content Include="Views\Account\PasswordReset.cshtml" />
     <Content Include="Views\BaseballCard\Index.cshtml" />
     <Content Include="Views\BaseballCard\Details.cshtml" />
     <Content Include="Views\BaseballCard\Create.cshtml" />
     <Content Include="Views\BaseballCard\Edit.cshtml" />
     <Content Include="Views\BaseballCard\Delete.cshtml" />
     <Content Include="Views\BaseballCard\Upload.cshtml" />
+    <Content Include="Views\Account\PasswordResetFinal.cshtml" />
+    <Content Include="Views\Account\PasswordUpdate.cshtml" />
+    <Content Include="Views\ManageInventory\Index.cshtml" />
+    <Content Include="Views\ManageInventory\Details.cshtml" />
+    <Content Include="Views\ManageInventory\Add.cshtml" />
+    <Content Include="Views\ManageInventory\Edit.cshtml" />
+    <Content Include="Views\ManageInventory\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
@@ -485,7 +493,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>54856</DevelopmentServerPort>
+          <DevelopmentServerPort>56185</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

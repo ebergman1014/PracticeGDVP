@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CardShop.Models;
+using System.Data.Entity;
 using CardShop.Daos;
+using System.Data.Entity;
 
 namespace CardShop.Service
 {
@@ -40,10 +42,11 @@ namespace CardShop.Service
             Store store = new Store();
             store.UserId = ownerId;
             // createList of stores
-            var storeOwned = context.Stores().Where(s => s.UserId == ownerId).ToList();
-            if (storeOwned.Count > 0)
+           // IDbSet<Store> storeOwned = context.Stores();
+            List<Store> stores = GetStores(ownerId);
+            if (stores.Count > 0)
             {
-                store = storeOwned[0];
+                store = stores[0];
             }
             return store;
         }
@@ -56,6 +59,15 @@ namespace CardShop.Service
         {
             context = PracticeGDVPDao.GetInstance();
 
+        }
+        /// <summary>
+        /// virtual Method for Lambda expression to get all stores
+        /// </summary>
+        /// <param name="ownerId"></param>
+        /// <returns></returns>
+        public virtual List<Store> GetStores(int ownerId)
+        {
+            return context.Stores().Where<Store>(s => s.UserId == ownerId).ToList();
         }
     }
 }

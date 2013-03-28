@@ -24,8 +24,7 @@ namespace CardShop.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            return View(adminService.OwnedStore(Convert.ToInt32(
-            membership.GetUserId())));
+            return View(adminService.OwnedStore(UserAuth.Current.ActingUser.UserId));
         }
 
         [HttpPost]
@@ -33,7 +32,7 @@ namespace CardShop.Controllers
         public ActionResult Index(Store storeToChange)
         {
             bool success;
-            Store store = adminService.EditStore(adminService.OwnedStore(membership.GetUserId()), storeToChange, out success);
+            Store store = adminService.EditStore(adminService.OwnedStore(UserAuth.Current.ActingUser.UserId), storeToChange, out success);
             return Json(new {DiscountRate = store.DiscountRate, Name = store.Name, StoreId = store.StoreId, Success = success});
         }
 

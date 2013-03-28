@@ -14,14 +14,10 @@ namespace CardShop.Controllers
         ActionResult LogOff();
         ActionResult Register();
         ActionResult Register(RegisterModel model);
-        ActionResult Disassociate(string provider, string providerUserId);
         ActionResult Manage(CardShop.Controllers.AccountController.ManageMessageId? message);
         ActionResult Manage(LocalPasswordModel model);
-        ActionResult ExternalLogin(string provider, string returnUrl);
-        ActionResult ExternalLoginCallback(string returnUrl);
-        ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl);
-        ActionResult ExternalLoginFailure();
-        ActionResult ExternalLoginsList(string returnUrl);
-        ActionResult RemoveExternalLogins();
+        ActionResult PasswordReset();
+        ActionResult PasswordToken(PasswordReset resetModel);
+        ActionResult PasswordUpdate(PasswordReset model);
     }
 }
