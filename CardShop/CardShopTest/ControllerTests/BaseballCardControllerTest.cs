@@ -47,7 +47,7 @@ namespace CardShopTest.ControllerTests
             var result = Controller.Index() as ViewResult;
             Assert.IsNotNull(result);
 
-            Assert.AreEqual(viewName, result.ViewData["ReturnUrl"]);
+            Assert.AreEqual(viewName, result.ViewName);
         }
     }
 }
