@@ -5,6 +5,7 @@ using CardShop.Utilities;
 using Moq;
 using System.Web;
 using CardShop.Models;
+using System.Security.Principal;
 
 namespace CardShopTest.AuthTests
 {
@@ -15,6 +16,8 @@ namespace CardShopTest.AuthTests
         Mock<IFactory> factory;
         Mock<IHttpContext> context;
         Mock<ISession> session;
+        Mock<IPrincipal> principal;
+        Mock<IIdentity> identity;
         User user = new User();
         User actingAs = new User();
 
@@ -24,6 +27,10 @@ namespace CardShopTest.AuthTests
             context = new Mock<IHttpContext>();
             factory = new Mock<IFactory>();
             session = new Mock<ISession>();
+            principal = new Mock<IPrincipal>();
+            identity = new Mock<IIdentity>();
+            principal.SetupGet(p => p.Identity).Returns(identity.Object);
+            context.SetupGet(c => c.User).Returns(principal.Object);
             context.SetupGet(c => c.Session).Returns(session.Object);
             session.SetupGet(s => s["__UserAuth"]).Returns(auth);
             Factory.Instance = factory.Object;
@@ -88,7 +95,7 @@ namespace CardShopTest.AuthTests
         [TestMethod]
         public void TestGetUserAuthFromContext()
         {
-
+            identity.SetupGet(i => i.IsAuthenticated).Returns(false);
             factory.Setup(f => f.Create<ContextWrapper, IHttpContext>(context)).Returns(context.Object);
             Assert.AreSame(auth, UserAuth.GetUserAuth(context.Object));
         }
@@ -96,7 +103,7 @@ namespace CardShopTest.AuthTests
         [TestMethod]
         public void TestGetUserAuthFromCurrentContext()
         {
-
+            identity.SetupGet(i => i.IsAuthenticated).Returns(false);
             factory.Setup(f => f.Create<ContextWrapper, IHttpContext>(HttpContext.Current)).Returns(context.Object);
             Assert.AreSame(auth, UserAuth.Current);
         }

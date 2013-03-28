@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Security.Principal;
 
-namespace CardShop.Models
+namespace CardShop.Auth
 {
     public interface IWebSecurity
     {
+
+        int CurrentUserId { get; }
+        String CurrentUserName { get; }
+
         bool Login(string userName, string password, bool persistCookie = false);
         void Logout();
         string CreateUserAndAccount(string userName, string password, object propertyValues = null, bool requireConfirmationToken = false);

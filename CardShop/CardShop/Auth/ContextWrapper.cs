@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.SessionState;
+using System.Security.Principal;
 
 namespace CardShop.Auth
 {
@@ -31,6 +32,18 @@ namespace CardShop.Auth
         {
             Session = Factory.Instance.Create<SessionWrapper, ISession>(context.Session);
             this.context = context;
+        }
+
+        public IPrincipal User
+        {
+            get
+            {
+                return context.User;
+            }
+            set
+            {
+                context.User = value;
+            }
         }
     }
 }

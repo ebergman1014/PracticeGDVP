@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
 using CardShop.Controllers;
 using CardShop.Models;
+using CardShop.Auth;
 using CardShop.Filters;
 using Moq;
 using System.Web;
