@@ -42,7 +42,7 @@ namespace CardShop.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets().Find(id);
+            Models.RuleSet ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -73,7 +73,7 @@ namespace CardShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets().Find(id);
+            Models.RuleSet ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -85,7 +85,7 @@ namespace CardShop.Controllers
         // POST: /Rule/Edit/5
 
         [HttpPost]
-        public ActionResult CompileRules(RulesetDetails rulesetDetails)
+        public ActionResult Edit(RulesetDetails rulesetDetails)
         {
             ruleService.Edit(rulesetDetails.rulesetWrapper);
             return RedirectToAction("Index");
@@ -96,12 +96,12 @@ namespace CardShop.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Models.RuleSet ruleset = db.RuleSets().Find(id);
+            Models.RuleSet ruleset = ruleService.Details(id);
             if (ruleset == null)
-            {
                 return HttpNotFound();
-            }
-            return View(ruleset);
+
+            RulesetDetails model = new RulesetDetails(ruleset);
+            return View(model);
         }
 
         //
@@ -110,16 +110,8 @@ namespace CardShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Models.RuleSet ruleset = db.RuleSets().Find(id);
-            db.RuleSets().Remove(ruleset);
-            db.SaveChanges();
+            ruleService.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

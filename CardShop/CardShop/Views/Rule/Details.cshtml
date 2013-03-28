@@ -12,8 +12,6 @@
 </div>
 
 <div>
-    <h2>Rules</h2>
-
     @foreach (var rule in Model.rulesDisplay)
     {
         <div>
@@ -25,43 +23,38 @@
             Value:
                 @rule.Condition.value
         
-            <h5>Then Actions</h5>
-            @foreach (var action in rule.ThenActions)
-            {
-                <<text>Field: @action.field</text><br />
-                <<text>Value: @action.value</text>
-            }
-        
-            <h5>Else Actions</h5>
-            @foreach (var action in rule.ElseActions)
-            {
-                <<text>Field: @action.field</text><br />
-                <<text>Value: @action.value</text>
-            }
+            <div>
+                <h5>Then Actions</h5>
+                @foreach (var action in rule.ThenActions)
+                {
+                    <text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()
+                }
+            </div>
+
+            <div>
+                <h5>Else Actions</h5>
+                @foreach (var action in rule.ElseActions)
+                {
+                    <text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()
+                }
+            </div>
         </div>
     }
 </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.rulesetWrapper.AssemblyPath)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.rulesetWrapper.AssemblyPath)
-    </div>
+<h5>Assembly Path</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.AssemblyPath)
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.rulesetWrapper.ActivityName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.rulesetWrapper.ActivityName)
-    </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.rulesetWrapper.ModifiedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.rulesetWrapper.ModifiedDate)
-    </div>
+<h5>Activity Name</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.ActivityName)
+
+
+<h5>Last Modified</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.ModifiedDate)
+
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.rulesetWrapper.RuleSetId }) |
