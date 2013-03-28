@@ -25,7 +25,7 @@ namespace CardShopTest.ServiceTests
         private Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
         private Mock<IDbSet<UserDiscount>> mockDbset = new Mock<IDbSet<UserDiscount>>();
         private Mock<DiscountService> mockUserDiscount = new Mock<DiscountService>();
-
+        
 
         // objects used
         private UserDiscount coupon = User_DiscountTest.CreateCoupon();
@@ -69,12 +69,10 @@ namespace CardShopTest.ServiceTests
         [TestMethod]
         public void DiscountServicesValidateCoupon()
         {
-
             List<UserDiscount> testList = new List<UserDiscount>();
             testList.Add(userDiscount);
 
             Assert.AreSame(userDiscount, discountService.ValidateCoupon(testList, out isSuccess, out error));
-
         }
 
 
@@ -83,9 +81,19 @@ namespace CardShopTest.ServiceTests
         {
             // used mockUserDiscoutn for virtual method, to access lambda expression
             mockUserDiscount.Setup(m => m.GetCouponList(coupon)).Returns(couponList);
-            Assert.AreSame(coupon, mockUserDiscount.Object.RedeemCoupon(coupon, out isSuccess));
+           // Assert.AreSame(coupon, mockUserDiscount.Object.RedeemCoupon(coupon, out isSuccess));
+            //Assert.IsTrue(isSuccess);
+            //Assert.IsTrue(coupon.Reedemed);
+        }
+
+        [TestMethod]
+        public void DiscountServiceGetCoupon()
+        {
+            mockUserDiscount.Setup(m => m.RedeemCoupon(coupon, out isSuccess)).Returns(coupon); //  mock RedeemCoupon
+            mockUserDiscount.Setup(m => m.getCouponListByUserIdAndCouponCode(USER4, DISCOUNTCODE4)).Returns(couponList);   //  mock getCouponListByUserIdAndCouponCode
+
+            Assert.AreSame(coupon, mockUserDiscount.Object.GetCoupon(USER4, DISCOUNTCODE4, out isSuccess, out error));
             Assert.IsTrue(isSuccess);
-            Assert.IsTrue(coupon.Reedemed);
         }
     }
 }
