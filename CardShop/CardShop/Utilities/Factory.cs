@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
 
 namespace CardShop.Utilities
@@ -40,6 +41,20 @@ namespace CardShop.Utilities
                 types[i] = args[i].GetType(); //Get the types of all the arguments. Needed to find the right constructor.
             }
             ConstructorInfo constructor = typeof(TEntity).GetConstructor(types); //Get the constructor with the specified argument types.
+            if (constructor == null)
+            {
+                StringBuilder sb = new StringBuilder("Could not find constructor ");
+                sb.Append(typeof(TEntity).Name).Append("(");
+                for(int i=0;i<types.Length;i++){
+                    if(i>0){
+                        sb.Append(", ");
+                    }
+                    sb.Append(types[i].Name);
+                }
+                sb.Append(") - Is the constructor public?");                
+                Exception ex = new Exception(sb.ToString());
+                throw ex;
+            }
             return (XEntity)constructor.Invoke(args);   //Attempt to invoke the constructor.
         }
 

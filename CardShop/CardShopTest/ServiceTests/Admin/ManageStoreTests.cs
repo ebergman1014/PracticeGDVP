@@ -7,7 +7,7 @@ using Moq;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using CardShop.Utilities;
-using System.Linq;
+//using System.Linq;
 using System.Data.Entity;
 
 namespace CardShopTest.ServiceTests
@@ -60,12 +60,9 @@ namespace CardShopTest.ServiceTests
         [TestMethod]
         public void StoreOwnedGoodTest()
         {
-
-            mockDbContext.Setup(mock => mock.Stores()).Returns(mockDbSet.Object);
-            mockDbSet.Setup(m => m.Where(It.IsAny<Expression<Func<Store,bool>>>())).Returns(mockDbSet.Object);
-            mockDbSet.Setup(m => m.ToList()).Returns(stores);
-
-            Assert.IsTrue(adminService.OwnedStore(1).StoreId != 0);
+            var adminService = new Mock<ManageStoreService>();
+            adminService.Setup(m => m.GetStores(1)).Returns(stores);
+            Assert.IsTrue(adminService.Object.OwnedStore(1).StoreId != 0);
         }
     }
 }

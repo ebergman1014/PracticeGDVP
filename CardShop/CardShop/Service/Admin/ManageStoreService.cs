@@ -43,7 +43,7 @@ namespace CardShop.Service
             store.UserId = ownerId;
             // createList of stores
            // IDbSet<Store> storeOwned = context.Stores();
-            List<Store> stores = ((IDbSet<Store>)context.Stores().Where(s => s.UserId == ownerId)).ToList();
+            List<Store> stores = GetStores(ownerId);
             if (stores.Count > 0)
             {
                 store = stores[0];
@@ -59,6 +59,15 @@ namespace CardShop.Service
         {
             context = PracticeGDVPDao.GetInstance();
 
+        }
+        /// <summary>
+        /// virtual Method for Lambda expression to get all stores
+        /// </summary>
+        /// <param name="ownerId"></param>
+        /// <returns></returns>
+        public virtual List<Store> GetStores(int ownerId)
+        {
+            return context.Stores().Where<Store>(s => s.UserId == ownerId).ToList();
         }
     }
 }
