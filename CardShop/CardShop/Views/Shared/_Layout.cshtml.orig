@@ -24,7 +24,7 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Browse","Index","BaseballCard")</li>
+                            <li>@Html.ActionLink("Browse","Browse","BaseballCard")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){ 
@@ -37,6 +37,12 @@
                                 <li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>
                                 <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
                             }
+<<<<<<< HEAD
+@*<li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>*@
+                            <li>@Html.ActionLink("Report", "Report", "Report")</li>
+                            <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
+=======
+>>>>>>> 7092259deb2f30743f55a890f7abc2f5b98387fc
                         </ul>
                     </nav>
                 </div>
