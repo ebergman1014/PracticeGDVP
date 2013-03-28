@@ -24,7 +24,7 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Browse","Browse","BaseballCard")</li>
+                            <li>@Html.ActionLink("Browse","Index","BaseballCard")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                             @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){ 
