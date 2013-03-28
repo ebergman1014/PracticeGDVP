@@ -40,6 +40,16 @@ namespace CardShop.Models
             return WebSecurity.CreateAccount(userName, password, requireConfirmationToken);
         }
 
+        public bool ResetPassword(string passwordResetToken, string newPassword)
+        {
+            return WebSecurity.ResetPassword(passwordResetToken, newPassword);
+        }
+
+        public string GeneratePasswordResetToken(string userName, int tokenExpirationInMinutesFromNow = 1440)
+        {
+            return WebSecurity.GeneratePasswordResetToken(userName, tokenExpirationInMinutesFromNow);
+        }
+
         public IPrincipal CurrentUser
         {
             get { return HttpContext.Current.User; }

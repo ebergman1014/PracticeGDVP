@@ -9,7 +9,6 @@ namespace CardShopTest.TestHelper
     [TestClass]
     public class TestUtils
     {
-        [TestMethod]
         internal static AuthorizationContext CreateAuthorizationContext()
         {
             AuthorizationContext context = new AuthorizationContext();

@@ -14,6 +14,7 @@ using System.Web.Routing;
 using CardShop;
 using Microsoft.Web.WebPages.OAuth;
 using System.Web.Security;
+using Microsoft.CSharp;
 
 namespace CardShopTest.ControllerTests
 {
@@ -23,7 +24,6 @@ namespace CardShopTest.ControllerTests
         private AccountController Controller { get; set; }
         private RouteCollection Routes { get; set; }
         private Mock<IWebSecurity> WebSecurity { get; set; }
-        private Mock<IOAuthWebSecurity> OAuthWebSecurity { get; set; }
         private Mock<HttpResponseBase> Response { get; set; }
         private Mock<HttpRequestBase> Request { get; set; }
         private Mock<HttpContextBase> Context { get; set; }
@@ -33,8 +33,7 @@ namespace CardShopTest.ControllerTests
 
         public AccountControllerTests()
         {
-            WebSecurity = new Mock<IWebSecurity>(MockBehavior.Strict);
-            OAuthWebSecurity = new Mock<IOAuthWebSecurity>(MockBehavior.Strict);
+            WebSecurity = new Mock<IWebSecurity>(MockBehavior.Default);
 
             Identity = new Mock<IIdentity>(MockBehavior.Strict);
             User = new Mock<IPrincipal>(MockBehavior.Strict);
@@ -55,7 +54,7 @@ namespace CardShopTest.ControllerTests
             Context.SetupGet(x => x.Request).Returns(Request.Object);
             Context.SetupGet(x => x.Response).Returns(Response.Object);
 
-            Controller = new AccountController(WebSecurity.Object, OAuthWebSecurity.Object);
+            Controller = new AccountController(WebSecurity.Object);
             Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
             Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
         }
@@ -67,15 +66,15 @@ namespace CardShopTest.ControllerTests
             var result = Controller.Login(returnUrl) as ViewResult;
             Assert.IsNotNull(result);
 
-            Assert.AreEqual(returnUrl, Controller.ViewBag.ReturnUrl);
+            Assert.AreEqual(returnUrl, result.ViewData["ReturnUrl"]);
         }
 
         [TestMethod]
         public void Login_UserCanLogin()
         {
             string returnUrl = "/Home/Index";
-            string userName = "user";
-            string password = "password";
+            string userName = "bbob";
+            string password = "321";
 
             WebSecurity.Setup(s => s.Login(userName, password, false)).Returns(true);
             var model = new LoginModel
@@ -130,22 +129,36 @@ namespace CardShopTest.ControllerTests
         {
             string userName = "user";
             string password = "passweord";
+            string firstName = "Builder";
+            string lastName = "Bob";
+            string roleId = "1";
+            string email = null;
 
-            WebSecurity.Setup(s => s.CreateUserAndAccount(userName, password, null, false)).Returns(userName);
+            WebSecurity.Setup(s => s.CreateUserAndAccount(userName, password, new
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                RoleId = roleId
+            }
+            , false)).Returns(userName);
             WebSecurity.Setup(s => s.Login(userName, password, false)).Returns(true);
 
             var model = new RegisterModel
             {
                 UserName = userName,
                 Password = password,
-                ConfirmPassword = password
+                ConfirmPassword = password,
+                FirstName = firstName,
+                LastName = lastName,
+                Email = null,
+                RoleId = roleId
             };
 
             var result = Controller.Register(model) as RedirectToRouteResult;
             Assert.IsNotNull(result);
 
-            WebSecurity.Verify(s => s.CreateUserAndAccount(userName, password, null, false), Times.Exactly(1));
-            WebSecurity.Verify(s => s.Login(userName, password, false), Times.Exactly(1));
+            WebSecurity.Verify();
         }
 
         [TestMethod]
@@ -153,6 +166,9 @@ namespace CardShopTest.ControllerTests
         {
             string userName = "user";
             string password = "passweord";
+            string firstName = "Builder";
+            string lastName = "Bob";
+            string roleId = "1";
 
             WebSecurity.Setup(s => s.CreateUserAndAccount(userName, password, null, false)).Returns(userName);
             WebSecurity.Setup(s => s.Login(userName, password, false)).Throws(
@@ -162,7 +178,10 @@ namespace CardShopTest.ControllerTests
             {
                 UserName = userName,
                 Password = password,
-                ConfirmPassword = password
+                ConfirmPassword = password,
+                FirstName = firstName,
+                LastName = lastName,
+                RoleId = roleId
             };
 
             var result = Controller.Register(model) as ViewResult;
@@ -170,56 +189,5 @@ namespace CardShopTest.ControllerTests
 
             Assert.IsFalse(Controller.ModelState.IsValid);
         }
-
-        [TestMethod]
-        public void Disassociate_UserCanRemoveOAuthProvider()
-        {
-            string provider = "twitter";
-            string providerId = "Id";
-            string userName = "user";
-            int userId = 100;
-            var accounts = new List<OAuthAccount>
-            {
-                new OAuthAccount(provider, providerId)
-            };
-
-            OAuthWebSecurity.Setup(o => o.GetUserName(provider, providerId)).Returns(userName);
-            Identity.SetupGet(i => i.Name).Returns(userName);
-            WebSecurity.Setup(s => s.GetUserId(userName)).Returns(userId);
-            OAuthWebSecurity.Setup(o => o.HasLocalAccount(userId)).Returns(true);
-            OAuthWebSecurity.Setup(o => o.GetAccountsFromUserName(userName)).Returns(accounts);
-            OAuthWebSecurity.Setup(o => o.DeleteAccount(provider, providerId)).Returns(true);
-
-            var result = Controller.Disassociate(provider, providerId) as RedirectToRouteResult;
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result.RouteValues["Message"]);
-
-            OAuthWebSecurity.Verify(o => o.DeleteAccount(provider, providerId), Times.Exactly(1));
-        }
-
-        [TestMethod]
-        public void Disassociate_RedirectsIfDoesNotMatchLoggedInUser()
-        {
-            string provider = "twitter";
-            string providerId = "Id";
-            string userName = "user";
-            int userId = 100;
-            var accounts = new List<OAuthAccount>
-            {
-                new OAuthAccount(provider, providerId)
-            };
-
-            OAuthWebSecurity.Setup(o => o.GetUserName(provider, providerId)).Returns(userName);
-            Identity.SetupGet(i => i.Name).Returns("differentUser");
-            OAuthWebSecurity.Setup(o => o.DeleteAccount(provider, providerId)).Returns(false);
-
-            var result = Controller.Disassociate(provider, providerId) as RedirectToRouteResult;
-            Assert.IsNotNull(result);
-            Assert.IsNull(result.RouteValues["Message"]); // Message should never be set
-
-            // DeleteAccount should not have been called
-            OAuthWebSecurity.Verify(o => o.DeleteAccount(provider, providerId), Times.Never());
-        }
-
     }
 }

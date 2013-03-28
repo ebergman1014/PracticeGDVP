@@ -21,22 +21,20 @@ namespace CardShop.Controllers
     public class AccountController : Controller, IAccountController
     {
 
-        IPracticeGDVPDao dbContext { get; set; }
+        private IPracticeGDVPDao dbContext { get; set; }
         private IWebSecurity WebSecurity { get; set; }
 
         #region Constructors
-
-        public AccountController()
-            : this(new WebSecurityWrapper())
-        { }
 
         public AccountController(IWebSecurity webSecurity)
         {
             WebSecurity = webSecurity;
         }
-       
+
         public AccountController()
+            : this(new WebSecurityWrapper())
         {
+            
             dbContext = PracticeGDVPDao.GetInstance();
         }
         //
@@ -62,7 +60,7 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
-                UserAuth.Current.User = dbContext.Users().Where(u => u.UserName == model.UserName).ToList()[0];
+                //UserAuth.Current.User = dbContext.Users().Where(u => u.UserName == model.UserName).ToList()[0];
                 return RedirectToLocal(returnUrl);
             }
 
@@ -79,7 +77,7 @@ namespace CardShop.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout(); 
-            UserAuth.Current.Logout();
+            //UserAuth.Current.Logout();
             return RedirectToAction("Index", "Home");
         }
 
