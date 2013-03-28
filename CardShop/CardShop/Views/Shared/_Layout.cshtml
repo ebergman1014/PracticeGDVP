@@ -16,7 +16,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink("Your Logo Here", "Index", "Home")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -24,16 +24,19 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("Browse","Browse","BaseballCard")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                            <li>@Html.ActionLink("Discount", "Index", "Discount")</li>
-                            @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){
-                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>   
-                                <li>@Html.ActionLink("Card Management", "Index", "BaseballCard")</li>                           
+                            @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){ 
+                                <li>@Html.ActionLink("Card Management", "Index", "BaseballCard")</li>     
+                                <li>@Html.ActionLink("Discount", "Index", "Discount")</li>                      
                             }
-<li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>
-                            <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
+                            @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin))
+                            {
+                                <li>@Html.ActionLink("Admin", "Index", "Admin")</li> 
+                                <li><a href="http://pc20181/ReportServer/Pages/ReportViewer.aspx?%2fAuditingLogs2%2fAuditReport&rs:Command=Render">Reports</a></li>
+                                <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
+                            }
                         </ul>
                     </nav>
                 </div>
@@ -48,7 +51,7 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+                    <p>&copy; @DateTime.Now.Year - Baseball Cards</p>
                 </div>
             </div>
         </footer>
