@@ -18,12 +18,12 @@ namespace CardShop.Service
 {
     public class RuleService
     {
-        public IPracticeGDVPDao db { get; set; }
+        public IPracticeGDVPDao dbContext { get; set; }
         public System.Workflow.Activities.Rules.RuleSet templateRuleset { get; set; }
 
         public RuleService()
         {
-            this.db = PracticeGDVPDao.GetInstance();
+            this.dbContext = PracticeGDVPDao.GetInstance();
             this.templateRuleset = SetUpTemplate();
         }
 
@@ -49,8 +49,8 @@ namespace CardShop.Service
 
             rulesetWrapper.RuleSet1 = CompileRuleset(ruleset, rulesObject);
 
-            db.RuleSets().Add(rulesetWrapper);
-            db.SaveChanges();
+            dbContext.RuleSets().Add(rulesetWrapper);
+            dbContext.SaveChanges();
 
             return rulesetWrapper;
         }
@@ -66,9 +66,11 @@ namespace CardShop.Service
             rulesetWrapper.ModifiedDate = DateTime.Now;
 
             //db.Entry(rulesetWrapper).State = EntityState.Modified;
-            Models.RuleSet dbRuleset = db.RuleSets().Where(p => p.RuleSetId == rulesetWrapper.RuleSetId).FirstOrDefault();
+            Models.RuleSet dbRuleset = dbContext.RuleSets().Where(p => p.RuleSetId == rulesetWrapper.RuleSetId).FirstOrDefault();
             dbRuleset = rulesetWrapper;
-            db.SaveChanges();
+            dbContext.Entry(dbRuleset).CurrentValues.SetValues(rulesetWrapper);
+            //db.Entry(dbRuleset).State = EntityState.Modified;
+            dbContext.SaveChanges();
 
             return rulesetWrapper;
         }
@@ -112,7 +114,7 @@ namespace CardShop.Service
 
             ruleset.Rules.Clear();
 
-            foreach (var ruleObj in rulesObject)
+            foreach (RuleObject ruleObj in rulesObject)
             {
                 System.Workflow.Activities.Rules.Rule thisRule = SetUpRule(rule, action, ruleObj);
                 ruleset.Rules.Add(thisRule);
@@ -132,14 +134,14 @@ namespace CardShop.Service
 
             thisRule.Condition = SetRuleCondition((RuleExpressionCondition)thisRule.Condition, ruleObj.Condition);
 
-            foreach (var actionObj in ruleObj.ThenActions)
+            foreach (ActionObject actionObj in ruleObj.ThenActions)
             {
                 RuleStatementAction thisAction = (RuleStatementAction)action.Clone();
                 thisAction = SetRuleAction(thisAction, actionObj);
                 thisRule.ThenActions.Add(thisAction);
             }
 
-            foreach (var actionObj in ruleObj.ElseActions)
+            foreach (ActionObject actionObj in ruleObj.ElseActions)
             {
                 RuleStatementAction thisAction = (RuleStatementAction)action.Clone();
                 thisAction = SetRuleAction(thisAction, actionObj);

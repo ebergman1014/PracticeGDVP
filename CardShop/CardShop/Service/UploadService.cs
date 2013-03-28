@@ -34,7 +34,7 @@ namespace CardShop.Service
                             string line = reader.ReadLine();
                             if (!String.IsNullOrEmpty(line))
                             {
-                                card  = new BaseballCard();
+                                card = new BaseballCard();
 
                                 string[] lineArray = Regex.Split(line, ",");
 
@@ -61,7 +61,7 @@ namespace CardShop.Service
         private List<BaseballCard> SaveImport(List<BaseballCard> allCards)
         {
             List<BaseballCard> savedCards = new List<BaseballCard>();
-            foreach (var card in allCards)
+            foreach (BaseballCard card in allCards)
             {
                 dbContext.BaseballCards().Add(card);
                 savedCards.Add(card);
