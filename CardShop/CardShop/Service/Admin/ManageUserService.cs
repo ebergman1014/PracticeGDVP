@@ -85,18 +85,7 @@ namespace CardShop.Service.Admin
             return user;
 
         }
-        /// <summary>
-        /// Keep to singletons, when we can..
-        /// </summary>
-        /// <returns> Singleton of ManageUserService()</returns>
-        public static IManageUserService GetInstance()
-        {
-            if (manageUserService == null)
-            {
-                manageUserService = new ManageUserService();
-            }
-            return manageUserService;
-        }
+
         /// <summary>
         /// Get RoleView, for @HTML select list
         /// </summary>

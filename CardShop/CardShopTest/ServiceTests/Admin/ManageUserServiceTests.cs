@@ -50,6 +50,9 @@ namespace CardShopTest.ServiceTests.Admin
         [TestInitialize]
         public void Setup()
         {
+            // set service
+            manageUserService = new ManageUserService();
+
             // set our field object to the mock object
             mockIPracticeGDVPDao = new Mock<IPracticeGDVPDao>();
             mockDbSetUser = new Mock<IDbSet<User>>();
@@ -60,9 +63,7 @@ namespace CardShopTest.ServiceTests.Admin
 
             // set Factory
             Factory.Instance = mockStoreFactory.Object;
-            mockStoreFactory.Setup(f => f.Create<PracticeGDVPDao,IPracticeGDVPDao>()).Returns(mockIPracticeGDVPDao.Object);
-            // set service
-            manageUserService = (ManageUserService)ManageUserService.GetInstance();
+            mockStoreFactory.Setup(f => f.Create<PracticeGDVPDao, IPracticeGDVPDao>()).Returns(mockIPracticeGDVPDao.Object);
 
             // set mock for Entities
             manageUserService.context = mockIPracticeGDVPDao.Object;
@@ -246,11 +247,11 @@ namespace CardShopTest.ServiceTests.Admin
             mockStoreFactory.Setup(m => m.Create<Store>()).Returns(store);
 
             mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
-           // return empty list, user currently owns no stores!
+            // return empty list, user currently owns no stores!
             mockManageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>());
             // object expected
             Assert.AreSame(store, mockManageUserService.Object.CreateStore(userTest));
-            
+
             // verify all methods are called 
             mockIPracticeGDVPDao.Verify(m => m.SaveChanges());
             mockDbSetStore.Verify(m => m.Add(store));
