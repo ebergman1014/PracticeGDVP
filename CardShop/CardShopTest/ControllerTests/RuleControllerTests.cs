@@ -19,7 +19,7 @@ namespace CardShopTest.ControllerTests
         private RuleController Controller { get; set; }
         private Mock<CardShop.Models.RuleSet> RulesetWrapper { get; set; }
         private Mock<RuleSet> Ruleset { get; set; }
-        private RulesetDetails RulesetDetails { get; set; }
+        private Mock<RulesetDetails> RulesetDetails { get; set; }
         private Mock<HttpRequestBase> Request { get; set; }
         private Mock<HttpResponseBase> Response { get; set; }
 
@@ -48,7 +48,7 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void Create_Post()
         {
-            var result = Controller.Create(RulesetDetails);
+            //var result = Controller.Create(RulesetDetails);
         }
     }
 }

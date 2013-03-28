@@ -50,9 +50,9 @@ namespace CardShop.Controllers
 
         public ActionResult Browse()
         {
-            return View("Browse");        
+            return View("Browse");
         }
-        
+
         //
         // GET: /BaseballCard/Upload
 
@@ -85,7 +85,7 @@ namespace CardShop.Controllers
                 TempData["error"] = "Please select a file.";
                 return View("Upload");
             }
-            
+
         }
 
         //
@@ -133,7 +133,13 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(baseballcard).State = EntityState.Modified;
+                BaseballCard EditedCard = db.BaseballCards().Find(baseballcard.BaseballCardId);
+
+                EditedCard.Player = baseballcard.Player;
+                EditedCard.Team = baseballcard.Team;
+                EditedCard.Cost = baseballcard.Cost;
+                //db.Entry(baseballcard).State = EntityState.Modified;
+                db.Entry(EditedCard);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
