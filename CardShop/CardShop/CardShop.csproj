@@ -172,8 +172,8 @@
     <Compile Include="Auth\ContextWrapper.cs" />
     <Compile Include="Auth\IHttpContext.cs" />
     <Compile Include="Controllers\Admin\ManageInventoryController.cs" />
-    <Compile Include="Models\IWebSecurity.cs" />
-    <Compile Include="Models\WebSecurityWrapper.cs" />
+    <Compile Include="Auth\IWebSecurity.cs" />
+    <Compile Include="Auth\WebSecurityWrapper.cs" />
     <Compile Include="Service\Admin\IManageInventoryService.cs" />
     <Compile Include="Service\IUploadService.cs" />
     <Compile Include="Service\RuleService.cs" />
@@ -205,8 +205,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Auth\IMembership.cs" />
-    <Compile Include="Auth\MembershipWrapper.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\BaseballCard.cs">
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
