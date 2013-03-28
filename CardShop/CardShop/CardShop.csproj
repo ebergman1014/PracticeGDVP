@@ -444,6 +444,7 @@
     <Content Include="Views\ManageInventory\Add.cshtml" />
     <Content Include="Views\ManageInventory\Edit.cshtml" />
     <Content Include="Views\ManageInventory\Delete.cshtml" />
+    <Content Include="Views\BaseballCard\Browse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
