@@ -86,9 +86,11 @@ namespace CardShop.Controllers
             {
                 return HttpNotFound();
             }
-            var selectList = new List<SelectListItem>();
+            // create a select list for if "IsActive"
+            List<SelectListItem> selectList = new List<SelectListItem>();
             selectList.Add(new SelectListItem { Text = "True", Value = bool.TrueString });
             selectList.Add(new SelectListItem { Text = "False", Value = bool.FalseString });
+            // stuff ViewBag
             ViewBag.IsActive = new SelectList(selectList, "Value", "Text", user.IsActive);
             ViewBag.RoleId = new SelectList(manageUserService.GetRoleView(out isSuccess), "RoleId", "RoleName", user.RoleId);
             return View(user);

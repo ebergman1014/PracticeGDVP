@@ -5,7 +5,6 @@ using CardShop.Daos;
 using System.Linq;
 using System.Linq.Expressions;
 using CardShop.Models;
-
 using CardShop.Service.Admin;
 using CardShopTest.TestHelper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,14 +38,14 @@ namespace CardShopTest.ServiceTests.Admin
         Mock<IDbSet<Store>> mockDbSetStore;
         Mock<IDbSet<webpages_Roles>> mockDbSetWebpageRoles;
         Mock<IFactory> mockStoreFactory;
+        Mock<ManageUserService> mockManageUserService;
 
-        //        private DbQuery<User> users = new DbQueryTest<User>();
+        // Objects needed for various tests
         private List<User> listOfUsersTest = ListOfUsers.GetListOfUsers(USER_FOUR);
-
         private Store store = StoreTest.CreateStores(1)[0];
-
-
         private User userTest = ListOfUsers.GetListOfUsers(USER_FOUR)[FIRST_USER];
+        // for the out parameters
+        bool isSuccess;
 
         [TestInitialize]
         public void Setup()
@@ -57,163 +56,219 @@ namespace CardShopTest.ServiceTests.Admin
             mockDbSetStore = new Mock<IDbSet<Store>>();
             mockDbSetWebpageRoles = new Mock<IDbSet<webpages_Roles>>();
             mockStoreFactory = new Mock<IFactory>();
+            mockManageUserService = new Mock<ManageUserService>();
+
+            // set Factory
             Factory.Instance = mockStoreFactory.Object;
             mockStoreFactory.Setup(f => f.Create<PracticeGDVPDao,IPracticeGDVPDao>()).Returns(mockIPracticeGDVPDao.Object);
+            // set service
             manageUserService = (ManageUserService)ManageUserService.GetInstance();
-            manageUserService.db = mockIPracticeGDVPDao.Object;
+
+            // set mock for Entities
+            manageUserService.context = mockIPracticeGDVPDao.Object;
+
+            // success is false
+            isSuccess = false;
         }
 
-
+        /// <summary>
+        /// ManageUserService.DeleteUser() success
+        /// </summary>
         [TestMethod]
         public void DeleteUserPassTest()
         {
-
-            bool isSuccess;
+            // set mocks
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns(userTest);
+            // expected object returned and success
             Assert.AreEqual<User>(manageUserService.DeleteUser(USER_FOUR, out isSuccess), userTest);
-            mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
             Assert.IsTrue(isSuccess);
+            // verify all methods are called.
+            mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
         }
-
+        /// <summary>
+        /// ManageUserService.DeleteUser() fail
+        /// </summary>
         [TestMethod]
         public void DeleteUserFailTest()
         {
-            bool isSuccess;
+
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users().Find(USER_FOUR)).Returns((User)null);
             Assert.AreEqual<User>(manageUserService.DeleteUser(USER_FOUR, out isSuccess), null);
             Assert.IsFalse(isSuccess);
         }
-
-
-
         /// <summary>
-        ///  NEEDS FIXIN
+        /// ManageUserService.GetAllUser() success!
         /// </summary>
-        public void GetAllUsersTest()
+        [TestMethod]
+        public void GetAllUsersPassTest()
+        {
+            // needed for Lambda expression
+            mockManageUserService.Setup(m => m.GetAllUsersList()).Returns(listOfUsersTest);
+            // assert object is of type exptec and success!
+            Assert.AreSame(listOfUsersTest, mockManageUserService.Object.GetAllUsers(out isSuccess));
+            Assert.IsTrue(isSuccess);
+
+        }
+        /// <summary>
+        /// ManageUserService.GetAllUsers fail!!
+        /// </summary>
+        [TestMethod]
+        public void GetAllUsersFailTest()
         {
 
-            bool isSuccess;
+            // expect empty list on fail
+            listOfUsersTest = new List<User>();
+            // needed to test Lambda expression
+            mockManageUserService.Setup(m => m.GetAllUsersList()).Returns(listOfUsersTest);
+            // verify object is of expected type, and fail
+            Assert.AreSame(listOfUsersTest, mockManageUserService.Object.GetAllUsers(out isSuccess));
+            Assert.IsFalse(isSuccess);
 
-            mockIPracticeGDVPDao.Setup(m => m.Users()).Returns(mockDbSetUser.Object);
-            mockDbSetUser.Setup(m => m.Include(It.IsAny<String>())).Returns((DbQuery<User>)mockDbSetUser.Object);
-
-            manageUserService.GetAllUsers(out isSuccess);
         }
-
+        /// <summary>
+        /// ManageUserService.GetUser(), pass
+        /// </summary>
         [TestMethod]
         public void GetUserGoodTest()
         {
-            bool isSuccess;
-
+            // set objects
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
             mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns(userTest);
-
+            // expected result and success!
             Assert.AreSame(manageUserService.GetUser(USER_FOUR, out isSuccess), userTest);
             Assert.IsTrue(isSuccess);
 
         }
+        /// <summary>
+        /// ManageUserService.GetUser(), fail
+        /// </summary>
         [TestMethod]
         public void GetUserBadTest()
         {
-
-            bool isSuccess;
+            // set objects
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
             mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
-
+            // expected return and fail
             Assert.AreSame(manageUserService.GetUser(USER_FOUR, out isSuccess), null);
             Assert.IsFalse(isSuccess);
         }
-
+        /// <summary>
+        /// Create a User. Only success ;-)
+        /// </summary>
         [TestMethod]
         public void CreateUserTest()
         {
-
-            bool isSuccess;
+            // mock methods
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
             mockDbSetUser.Setup(mockObject => mockObject.Add(userTest)).Returns((User)userTest);
-
+            // verify success and object is expected object
             Assert.AreSame(manageUserService.CreateUser(userTest, out isSuccess), userTest);
             Assert.IsTrue(isSuccess);
-
+            // verify all methods are called
             mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
 
         }
-
+        /// <summary>
+        /// ManageUserService.GetRoleView() does return success (it cannot fails!!).
+        /// famous last words. HA.
+        /// </summary>
         [TestMethod]
         public void GetRoleViewTest()
         {
-
-            bool isSuccess;
+            // mock method call
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.webpages_Roles()).Returns(mockDbSetWebpageRoles.Object);
+            // returns expected type and succes is true
             Assert.IsInstanceOfType(manageUserService.GetRoleView(out isSuccess), typeof(IEnumerable));
             Assert.IsTrue(isSuccess);
-
+            // verify all methods are called
             mockIPracticeGDVPDao.Verify(mockObject => mockObject.webpages_Roles());
         }
-
+        /// <summary>
+        /// ManageUserService.EditUser() fail
+        /// </summary>
         [TestMethod]
         public void EditUserFailTest()
         {
-            bool isSuccess;
+            // mock bad inputs. Returns a (User)null
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
             mockDbSetUser.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns((User)null);
-            Assert.IsInstanceOfType(manageUserService.EditUser(userTest, out isSuccess), typeof(User));
+            // verify expected result
+            Assert.AreSame(manageUserService.EditUser(userTest, out isSuccess), userTest);
+            // verify success is false.
             Assert.IsFalse(isSuccess);
 
         }
-
+        /// <summary>
+        /// ManageUserService.EditUser() succesful
+        /// </summary>
         [TestMethod]
         public void EditUserPassTest()
         {
-            bool isSuccess;
+            // mock the outputs
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
+            // return the userTest (which is a full User) on context.Users().Find(User.UserId)
             mockDbSetUser.Setup(mockObject => mockObject.Find(userTest.UserId)).Returns(userTest);
-            Assert.IsInstanceOfType(manageUserService.EditUser(userTest, out isSuccess), typeof(User));
+            // verify object returned is same as expected
+            Assert.AreSame(manageUserService.EditUser(userTest, out isSuccess), userTest);
+            // verify success
             Assert.IsTrue(isSuccess);
+            // verify all methods are called
             mockIPracticeGDVPDao.Verify(mockObject => mockObject.SaveChanges());
         }
 
-
+        /// <summary>
+        /// ManageUserService.CreateStore() fail
+        /// </summary>
         [TestMethod]
         public void CreateStoreStoreOwnerFailTest()
         {
+            // set RoleId to "Store owner"
             userTest.RoleId = 2;
-            var manageUserService = new Mock<ManageUserService>();
             mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
-            manageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>() { store });
-
-            Assert.AreSame(null, manageUserService.Object.CreateStore(userTest));
+            // return a list, that contains store. So user is already an owner of a store!
+            mockManageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>() { store });
+            // verify expected object is null!
+            Assert.AreSame(null, mockManageUserService.Object.CreateStore(userTest));
 
         }
+        /// <summary>
+        /// ManageUserService.CreateStore() succesful
+        /// </summary>
         [TestMethod]
         public void CreateStoreStoreOwnerPassTest()
         {
             store = new Store();
             userTest.RoleId = 2;
-            var manageUserService = new Mock<ManageUserService>();
-            manageUserService.Object.db = mockIPracticeGDVPDao.Object;
+
+            // set the entity
+            mockManageUserService.Object.context = mockIPracticeGDVPDao.Object;
+            // return new store object on factory create
             mockStoreFactory.Setup(m => m.Create<Store>()).Returns(store);
 
-
             mockIPracticeGDVPDao.Setup(m => m.Stores()).Returns(mockDbSetStore.Object);
-           
-            manageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>());
-            //
-
-            Assert.AreSame(store, manageUserService.Object.CreateStore(userTest));
+           // return empty list, user currently owns no stores!
+            mockManageUserService.Setup(m => m.FindStore(userTest)).Returns(new List<Store>());
+            // object expected
+            Assert.AreSame(store, mockManageUserService.Object.CreateStore(userTest));
+            
+            // verify all methods are called 
             mockIPracticeGDVPDao.Verify(m => m.SaveChanges());
             mockDbSetStore.Verify(m => m.Add(store));
+            // verify new store stored contains same UserId
             Assert.AreEqual(userTest.UserId, store.UserId);
         }
-
+        /// <summary>
+        /// ManageUserService.ActAsUser() mocks a fail result
+        /// </summary>
         [TestMethod]
         public void ActAsUserFailTest()
         {
-            bool isSuccess;
+            // mock the necessary objects
             mockIPracticeGDVPDao.Setup(mockObject => mockObject.Users()).Returns(mockDbSetUser.Object);
             mockDbSetUser.Setup(mockObject => mockObject.Find(USER_FOUR)).Returns((User)null);
-
+            // run test
             manageUserService.ActAsUser(USER_FOUR, out isSuccess);
+            // verify a false result
             Assert.IsFalse(isSuccess);
         }
 

@@ -24,29 +24,38 @@ namespace CardShopTest.ControllerTests
     [TestClass]
     public class ManageStoreControllerTests
     {
+        // session to test
         ManageStoreController manageStoreController;
+
+        // mocks
         Mock<IPracticeGDVPDao> dao;
         Mock<IFactory> factory;
         Mock<IUserAuth> auth;
         Mock<IHttpContext> context;
         Mock<ISession> session;
+
+        // global 
         List<Store> stores;
         Store storeOne;
         Store storeTwo;
 
         [TestInitialize]
         public void Setup() {
+            // set mocks
             dao = new Mock<IPracticeGDVPDao>();
             factory = new Mock<IFactory>();
             auth = new Mock<IUserAuth>();
             context = new Mock<IHttpContext>();
             session = new Mock<ISession>();
+            // set factory
             factory.Setup(f => f.Create<PracticeGDVPDao, IPracticeGDVPDao>()).Returns(dao.Object);
             factory.Setup(f => f.Create<ContextWrapper,IHttpContext>(HttpContext.Current)).Returns(context.Object);
             context.SetupGet(c => c.Session).Returns(session.Object);
             session.SetupGet(s => s["__UserAuth"]).Returns(auth.Object);
             Factory.Instance = factory.Object;
+            // create instance of controller
             manageStoreController = new ManageStoreController();
+            // set stores
             stores = StoreTest.CreateStores(2);
             storeOne = stores[0];
             storeTwo = stores[1];
@@ -55,13 +64,13 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void ManageStoreIndexTest()
         {
-            var mock = new Mock<IManageStoreService>();
-            manageStoreController.adminService = mock.Object;
+            var mockManageStoreService = new Mock<IManageStoreService>();
+            manageStoreController.adminService = mockManageStoreService.Object;
             User user = new User() { UserId = 1 };
             auth.SetupGet(a => a.ActingUser).Returns(user);
-            mock.Setup(mockObject => mockObject.OwnedStore(1)).Returns(new Store());
+            mockManageStoreService.Setup(mockObject => mockObject.OwnedStore(1)).Returns(new Store());
             Assert.IsInstanceOfType(manageStoreController.Index(), typeof(ActionResult));
-            mock.Verify(mockObject => mockObject.OwnedStore(1));
+            mockManageStoreService.Verify(mockObject => mockObject.OwnedStore(1));
         }
 
         /// <summary>
@@ -79,9 +88,7 @@ namespace CardShopTest.ControllerTests
             auth.SetupGet(a => a.ActingUser).Returns(user);
             mock.Setup(m => m.OwnedStore(2)).Returns(storeOne);
             mock.Setup(m => m.EditStore(storeOne, storeTwo, out isSuccess)).Returns(new Store());
-            //set field in adminController
             
-
             Assert.IsInstanceOfType(manageStoreController.
                 Index(storeTwo), typeof(JsonResult));
         }

@@ -60,6 +60,11 @@ namespace CardShop.Service
             context = PracticeGDVPDao.GetInstance();
 
         }
+        /// <summary>
+        /// virtual Method for Lambda expression to get all stores
+        /// </summary>
+        /// <param name="ownerId"></param>
+        /// <returns></returns>
         public virtual List<Store> GetStores(int ownerId)
         {
             return context.Stores().Where<Store>(s => s.UserId == ownerId).ToList();
