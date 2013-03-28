@@ -1,8 +1,10 @@
-﻿using CardShop.Models;
+﻿using CardShop.Daos;
+using CardShop.Models;
 using CardShop.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 
 namespace CardShop.Auth
@@ -89,6 +91,25 @@ namespace CardShop.Auth
             HttpContext.Current.Session.Add("__UserAuth",  new UserAuth());
         }
 
+        public bool Login(IPrincipal principal)
+        {
+            User = FindUser(principal);
+            return IsLoggedIn();
+        }
+
+
+        public virtual User FindUser(IPrincipal principal)
+        {
+            User result = null;
+            if(principal.Identity.IsAuthenticated){
+                List<User> users = PracticeGDVPDao.GetInstance().Users().Where(u => u.UserName == principal.Identity.Name).ToList();
+                if(users.Count > 0){
+                    result = users[0];
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         /// Logs out the current user.
         /// </summary>
@@ -110,6 +131,8 @@ namespace CardShop.Auth
             if (context != null)
             {
                 result = (IUserAuth)context.Session["__UserAuth"];
+                result.Login(context.User);
+                //result.Login(); //This may or may not work, since it derives from the current HttpContext, instead of the one provided.
             }
             return result;
         }

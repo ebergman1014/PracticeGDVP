@@ -52,8 +52,18 @@ namespace CardShop.Service
             error = null;
             isSuccess = false;
 
-            List<UserDiscount> couponList = null;
+            //  attempt to find list of coupons
+            List<UserDiscount> couponList = getCouponListByUserIdAndCouponCode(userId, discountCode);
 
+            //  check for exists, expired, or used, or not yet active
+            //  and set success and error, then return resultant UserDiscount
+            return ValidateCoupon(couponList, out isSuccess, out error);
+        }
+
+
+        public virtual List<UserDiscount> getCouponListByUserIdAndCouponCode(int userId, String discountCode)
+        {
+            List<UserDiscount> couponList = null;
             using (var ctx = dbContext)
             {
                 //  get coupon by id and coupon code
@@ -64,16 +74,20 @@ namespace CardShop.Service
                                                       &&
                                                       cup.UserId == userId
                                                   select cup;
-
                 couponList = coupon.ToList();
 
             }
-
-            //  got to method to check for exists, expired, or used, or not yet active
-            //  and set success and error, then return resultant UserDiscount
-            return ValidateCoupon(couponList, out isSuccess, out error);
+            return couponList;
         }
 
+
+        /// <summary>
+        /// Checks coupon to see if it is valid
+        /// </summary>
+        /// <param name="couponList"></param>
+        /// <param name="isSuccess"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
         public UserDiscount ValidateCoupon
             (List<UserDiscount> couponList, out bool isSuccess, out String error)
         {
@@ -115,7 +129,7 @@ namespace CardShop.Service
         /// </summary>
         /// <returns>UserDisount</returns>
         /// <author>Paul Wroe</author>
-        public UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess)
+        public virtual UserDiscount RedeemCoupon(UserDiscount coupon, out bool isSuccess)
         {
             isSuccess = false;
             
@@ -132,6 +146,11 @@ namespace CardShop.Service
             return coupon;
         }
 
+        /// <summary>
+        /// Returns a matching UserDiscount from the database
+        /// </summary>
+        /// <param name="coupon"></param>
+        /// <returns></returns>
         public virtual List<UserDiscount> GetCouponList(UserDiscount coupon)
         {
             return dbContext.UserDiscounts().Where(p => p.UserDiscountId == coupon.UserDiscountId).ToList();
@@ -160,6 +179,7 @@ namespace CardShop.Service
             }
             return coupon;
         }
+        
         /// <summary>
         /// No-Args constructor, creates new CouponUtility();
         /// </summary>

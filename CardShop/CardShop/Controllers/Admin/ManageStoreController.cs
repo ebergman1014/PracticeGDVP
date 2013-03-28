@@ -13,11 +13,9 @@ namespace CardShop.Controllers
     public class ManageStoreController : Controller, IManageStoreController
     {
         public IManageStoreService adminService { get; set; }
-        public IMembership membership { get; set; }
 
         public ManageStoreController(){
                 adminService = new ManageStoreService();
-                membership = MembershipWrapper.getInstance();
         }
 
         [HttpGet]
