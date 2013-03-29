@@ -14,6 +14,7 @@ namespace CardShop.Models
         public int UserDiscountId { get; set; }
         [Required]
         [Display(Name = "Discount Rate")]
+        [Range(1,100)]
         public decimal DiscountRate { get; set; }
         [Required]
         [Display(Name = "Start Date")]

@@ -1,71 +1,61 @@
-﻿@model CardShop.Models.RuleSet
+﻿@model CardShop.ViewModels.RulesetDetails
 
 @{
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div>
+    <h2>
+        @Model.rulesetWrapper.Name
+    </h2>
+    Version @Model.rulesetWrapper.MajorVersion.@Model.rulesetWrapper.MinorVersion
+</div>
 
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>RuleSet</legend>
+<h3>Are you sure you want to delete this ruleset?</h3>
+<div>
+    @foreach (var rule in Model.rulesDisplay)
+    {
+        <div>
+            <h3><b>@rule.Name</b></h3>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
+            <h5>Conditions</h5>
+            Field:
+                @rule.Condition.field<br />
+            Value:
+                @rule.Condition.value
+        
+            <div>
+                <h5>Then Actions</h5>
+                @foreach (var action in rule.ThenActions)
+                {
+                    <text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()
+                }
+            </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.MajorVersion)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.MajorVersion)
-    </div>
+            <div>
+                <h5>Else Actions</h5>
+                @foreach (var action in rule.ElseActions)
+                {
+                    <text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()
+                }
+            </div>
+        </div>
+    }
+</div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.MinorVersion)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.MinorVersion)
-    </div>
+<h5>Assembly Path</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.AssemblyPath)
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.RuleSet1)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.RuleSet1)
-    </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Status)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Status)
-    </div>
+<h5>Activity Name</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.ActivityName)
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.AssemblyPath)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AssemblyPath)
-    </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ActivityName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ActivityName)
-    </div>
+<h5>Last Modified</h5>
+@Html.DisplayFor(model => model.rulesetWrapper.ModifiedDate)
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ModifiedDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ModifiedDate)
-    </div>
-</fieldset>
 @using (Html.BeginForm()) {
     <p>
         <input type="submit" value="Delete" /> |
