@@ -5,7 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Web.Mvc;
 using System.Web;
 using System.Web.Routing;
+using System.Collections.Generic;
 using CardShop;
+using CardShop.Models;
+using CardShop.Daos;
+using System.Data.Entity;
 
 namespace CardShopTest.ControllerTests
 {
@@ -44,10 +48,12 @@ namespace CardShopTest.ControllerTests
         public void IndexRedirect()
         {
             string viewName = "/BaseballCard/Upload";
-            var result = Controller.Index() as ViewResult;
-            Assert.IsNotNull(result);
 
-            Assert.AreEqual(viewName, result.ViewName);
+            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
+            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
+            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
+
+            Assert.IsInstanceOfType(  Controller.Index(), typeof(ViewResult));
         }
     }
 }
