@@ -25,6 +25,11 @@ namespace CardShopTest.ControllerTests
 
         public BaseballCardControllerTest()
         {
+        }
+
+        [TestInitialize]
+        public void Setup()
+        {
             Routes = new RouteCollection();
             RouteConfig.RegisterRoutes(Routes);
 
@@ -42,18 +47,20 @@ namespace CardShopTest.ControllerTests
             Controller = new BaseballCardController();
             Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
             Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
+
         }
 
         [TestMethod]
         public void IndexRedirect()
         {
-            string viewName = "/BaseballCard/Upload";
 
             Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
             Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
+
+            Controller.db = mockContext.Object;
             mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
 
-            Assert.IsInstanceOfType(  Controller.Index(), typeof(ViewResult));
+            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
         }
     }
 }
