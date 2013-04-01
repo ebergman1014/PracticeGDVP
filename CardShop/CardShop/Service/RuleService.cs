@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,8 @@ namespace CardShop.Service
 {
     public class RuleService
     {
+        #region Properties and Constructors
+
         public IPracticeGDVPDao dbContext { get; set; }
         public System.Workflow.Activities.Rules.RuleSet templateRuleset { get; set; }
 
@@ -27,13 +30,9 @@ namespace CardShop.Service
             this.templateRuleset = SetUpTemplate();
         }
 
-        private System.Workflow.Activities.Rules.RuleSet SetUpTemplate()
-        {
-            Models.RuleSet rulesetWrapper = new Models.RuleSet();
-            rulesetWrapper.RuleSet1 = "<RuleSet Description=\"{p1:Null}\" Name=\"Template\" ChainingBehavior=\"Full\" xmlns:p1=\"http://schemas.microsoft.com/winfx/2006/xaml\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/workflow\">   <RuleSet.Rules>    <Rule Priority=\"0\" ReevaluationBehavior=\"Always\" Description=\"{p1:Null}\" Active=\"True\" Name=\"Test1\"><Rule.Condition><RuleExpressionCondition Name=\"{p1:Null}\"><RuleExpressionCondition.Expression><ns0:CodeBinaryOperatorExpression Operator=\"ValueEquality\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeBinaryOperatorExpression.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">1</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeBinaryOperatorExpression.Right><ns0:CodeBinaryOperatorExpression.Left><ns0:CodeFieldReferenceExpression FieldName=\"TestId\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeBinaryOperatorExpression.Left></ns0:CodeBinaryOperatorExpression></RuleExpressionCondition.Expression></RuleExpressionCondition></Rule.Condition><Rule.ThenActions><RuleStatementAction><RuleStatementAction.CodeDomStatement><ns0:CodeAssignStatement LinePragma=\"{p1:Null}\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeAssignStatement.Left><ns0:CodeFieldReferenceExpression FieldName=\"Field\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeAssignStatement.Left><ns0:CodeAssignStatement.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">1</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeAssignStatement.Right></ns0:CodeAssignStatement></RuleStatementAction.CodeDomStatement></RuleStatementAction><RuleStatementAction><RuleStatementAction.CodeDomStatement><ns0:CodeAssignStatement LinePragma=\"{p1:Null}\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeAssignStatement.Left><ns0:CodeFieldReferenceExpression FieldName=\"Discount\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeAssignStatement.Left><ns0:CodeAssignStatement.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">50</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeAssignStatement.Right></ns0:CodeAssignStatement></RuleStatementAction.CodeDomStatement></RuleStatementAction></Rule.ThenActions></Rule></RuleSet.Rules></RuleSet>";
-            System.Workflow.Activities.Rules.RuleSet ruleset = DeserializeRules(rulesetWrapper.RuleSet1);
-            return ruleset;
-        }
+        #endregion
+
+        #region CRUD Main Methods
 
         public Models.RuleSet Create(Models.RuleSet rulesetWrapper)
         {
@@ -61,19 +60,48 @@ namespace CardShop.Service
             List<RuleObject> rulesObject = DeserializeJSONRulesObject(rules);
 
             string serializedRules = CompileRuleset(templateRuleset, rulesObject);
-            rulesetWrapper.RuleSet1 = serializedRules;
 
-            rulesetWrapper.ModifiedDate = DateTime.Now;
-
-            //db.Entry(rulesetWrapper).State = EntityState.Modified;
             Models.RuleSet dbRuleset = dbContext.RuleSets().Where(p => p.RuleSetId == rulesetWrapper.RuleSetId).FirstOrDefault();
-            dbRuleset = rulesetWrapper;
-            dbContext.Entry(dbRuleset).CurrentValues.SetValues(rulesetWrapper);
-            //db.Entry(dbRuleset).State = EntityState.Modified;
+            dbRuleset.ActivityName = rulesetWrapper.ActivityName;
+            dbRuleset.AssemblyPath = rulesetWrapper.AssemblyPath;
+            dbRuleset.MajorVersion = rulesetWrapper.MajorVersion;
+            dbRuleset.MinorVersion = rulesetWrapper.MinorVersion;
+            dbRuleset.ModifiedDate = DateTime.Now;
+            dbRuleset.Name = rulesetWrapper.Name;
+            dbRuleset.RuleSet1 = serializedRules;
+            dbRuleset.Status = rulesetWrapper.Status;
+
+            //dbRuleset = rulesetWrapper;
+            //dbContext.Entry(dbRuleset).CurrentValues.SetValues(rulesetWrapper);
+            //dbContext.Entry(dbRuleset).State = EntityState.Modified;
+
             dbContext.SaveChanges();
 
             return rulesetWrapper;
         }
+
+        public Models.RuleSet Details(int id)
+        {
+            Models.RuleSet ruleset = dbContext.RuleSets().Find(id);
+            if (ruleset != null)
+                return ruleset;
+
+            return null;
+        }
+
+        public void Delete(int id)
+        {
+            Models.RuleSet ruleset = dbContext.RuleSets().Find(id);
+            if (ruleset != null)
+            {
+                dbContext.RuleSets().Remove(ruleset);
+                dbContext.SaveChanges();
+            }
+        }
+
+        #endregion
+
+        #region Serialization Methods
 
         public System.Workflow.Activities.Rules.RuleSet DeserializeRules(string rules)
         {
@@ -105,6 +133,25 @@ namespace CardShop.Service
             }
 
             return ruleDefinition.ToString();
+        }
+
+        private List<RuleObject> DeserializeJSONRulesObject(string JSON)
+        {
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<RuleObject> rulesObject = serializer.Deserialize<List<RuleObject>>(JSON);
+            return rulesObject;
+        }
+
+        #endregion
+
+        #region Ruleset Compilation
+
+        private System.Workflow.Activities.Rules.RuleSet SetUpTemplate()
+        {
+            Models.RuleSet rulesetWrapper = new Models.RuleSet();
+            rulesetWrapper.RuleSet1 = "<RuleSet Description=\"{p1:Null}\" Name=\"Template\" ChainingBehavior=\"Full\" xmlns:p1=\"http://schemas.microsoft.com/winfx/2006/xaml\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/workflow\">   <RuleSet.Rules>    <Rule Priority=\"0\" ReevaluationBehavior=\"Always\" Description=\"{p1:Null}\" Active=\"True\" Name=\"Test1\"><Rule.Condition><RuleExpressionCondition Name=\"{p1:Null}\"><RuleExpressionCondition.Expression><ns0:CodeBinaryOperatorExpression Operator=\"ValueEquality\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeBinaryOperatorExpression.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">1</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeBinaryOperatorExpression.Right><ns0:CodeBinaryOperatorExpression.Left><ns0:CodeFieldReferenceExpression FieldName=\"TestId\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeBinaryOperatorExpression.Left></ns0:CodeBinaryOperatorExpression></RuleExpressionCondition.Expression></RuleExpressionCondition></Rule.Condition><Rule.ThenActions><RuleStatementAction><RuleStatementAction.CodeDomStatement><ns0:CodeAssignStatement LinePragma=\"{p1:Null}\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeAssignStatement.Left><ns0:CodeFieldReferenceExpression FieldName=\"Field\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeAssignStatement.Left><ns0:CodeAssignStatement.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">1</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeAssignStatement.Right></ns0:CodeAssignStatement></RuleStatementAction.CodeDomStatement></RuleStatementAction><RuleStatementAction><RuleStatementAction.CodeDomStatement><ns0:CodeAssignStatement LinePragma=\"{p1:Null}\" xmlns:ns0=\"clr-namespace:System.CodeDom;Assembly=System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\"><ns0:CodeAssignStatement.Left><ns0:CodeFieldReferenceExpression FieldName=\"Discount\"><ns0:CodeFieldReferenceExpression.TargetObject><ns0:CodeThisReferenceExpression /></ns0:CodeFieldReferenceExpression.TargetObject></ns0:CodeFieldReferenceExpression></ns0:CodeAssignStatement.Left><ns0:CodeAssignStatement.Right><ns0:CodePrimitiveExpression><ns0:CodePrimitiveExpression.Value><ns1:String xmlns:ns1=\"clr-namespace:System;Assembly=mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\">50</ns1:String></ns0:CodePrimitiveExpression.Value></ns0:CodePrimitiveExpression></ns0:CodeAssignStatement.Right></ns0:CodeAssignStatement></RuleStatementAction.CodeDomStatement></RuleStatementAction></Rule.ThenActions></Rule></RuleSet.Rules></RuleSet>";
+            System.Workflow.Activities.Rules.RuleSet ruleset = DeserializeRules(rulesetWrapper.RuleSet1);
+            return ruleset;
         }
 
         private string CompileRuleset(System.Workflow.Activities.Rules.RuleSet ruleset, List<RuleObject> rulesObject)
@@ -177,11 +224,7 @@ namespace CardShop.Service
             return action;
         }
 
-        private List<RuleObject> DeserializeJSONRulesObject(string JSON)
-        {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
-            List<RuleObject> rulesObject = serializer.Deserialize<List<RuleObject>>(JSON);
-            return rulesObject;
-        }
+        #endregion
+
     }
 }

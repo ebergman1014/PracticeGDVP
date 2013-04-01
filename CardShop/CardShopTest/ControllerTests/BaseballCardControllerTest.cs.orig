@@ -7,9 +7,14 @@ using System.Web;
 using System.Web.Routing;
 using System.Collections.Generic;
 using CardShop;
+<<<<<<< HEAD
+using CardShop.Daos;
+using CardShop.Models;
+=======
 using CardShop.Models;
 using CardShop.Daos;
 using System.Data.Entity;
+>>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
 
 namespace CardShopTest.ControllerTests
 {
@@ -53,17 +58,15 @@ namespace CardShopTest.ControllerTests
 
         }
 
-        // broken test. need to either set up a virutal function or not test.
+<<<<<<< HEAD
+        [TestMethod]
         public void UploadRedirect()
         {
+            string viewName = "Upload";
+            ViewResult result = Controller.Upload() as ViewResult;
+            Assert.IsNotNull(result);
 
-            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
-            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
-
-            Controller.db = mockContext.Object;
-            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
-
-            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
+            Assert.AreEqual(viewName, result.ViewName);
         }
 
         [TestMethod]
@@ -72,8 +75,19 @@ namespace CardShopTest.ControllerTests
             string viewName = "Browse";
             ViewResult result = Controller.Browse() as ViewResult;
             Assert.IsNotNull(result);
+=======
+        // broken test. need to either set up a virutal function or not test.
+        public void IndexRedirect()
+        {
+>>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
 
-            Assert.AreEqual(viewName, result.ViewName);
+            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
+            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
+
+            Controller.db = mockContext.Object;
+            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
+
+            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
         }
 
         [TestMethod]

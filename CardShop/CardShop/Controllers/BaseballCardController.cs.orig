@@ -15,7 +15,11 @@ namespace CardShop.Controllers
     public class BaseballCardController : Controller
     {
         public IPracticeGDVPDao db { get; set; }
+<<<<<<< HEAD
+        UploadService uploadService { get; set; }
+=======
         public UploadService uploadService { get; set; }
+>>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
 
         public BaseballCardController()
         {
