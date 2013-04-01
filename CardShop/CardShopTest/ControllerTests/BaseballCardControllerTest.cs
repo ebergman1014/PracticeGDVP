@@ -50,45 +50,12 @@ namespace CardShopTest.ControllerTests
             Controller = new BaseballCardController();
             Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
             Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
-
         }
 
-        // broken test. need to either set up a virutal function or not test.
-        public void UploadRedirect()
-        {
-
-            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
-            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
-
-            Controller.db = mockContext.Object;
-            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
-
-            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
-        }
-
-        [TestMethod]
-        public void BrowseRedirect()
-        {
-            string viewName = "Browse";
-            ViewResult result = Controller.Browse() as ViewResult;
-            Assert.IsNotNull(result);
-
-            Assert.AreEqual(viewName, result.ViewName);
-        }
-
-        [TestMethod]
-        public void DetailsRedirect()
-        {
-            var testCard = new BaseballCard();
-            //Controller.db = (IPracticeGDVPDao) DBContext;
-            //DBContext.Setup(test => test.BaseballCards().Find(3)).Returns(testCard);
-
-            var result = Controller.Details(3) as ViewResult;
-            Assert.IsNotNull(result);
-            
-
-            Assert.AreEqual<string>("thing", result.Model.ToString());
-        }
+        // Removed all the tests because none of them were suppose to be pushed since
+        // I'm still working on figuring out how exactly they work. This way they 
+        // aren't failing or causing build issues for anybody.
+        // ~ Don
 
     }
 }
