@@ -16,11 +16,6 @@ namespace CardShop.Models
         // as long as the property is public and of type DbSet<T>
         public DbSet<BaseballCard> cards { get; set; }
 
-        public int BaseballCardId { get; set; }
-        public string Player { get; set; }
-        public string Team { get; set; }
-        public decimal Cost { get; set; }
-
         public List<BaseballCard> GetAllCards()
         {
             return cards.ToList<BaseballCard>();
