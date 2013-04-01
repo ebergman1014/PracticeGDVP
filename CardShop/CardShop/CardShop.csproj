@@ -40,6 +40,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.2.1.505.2\lib\NET35\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -174,10 +183,13 @@
     <Compile Include="Controllers\Admin\ManageInventoryController.cs" />
     <Compile Include="Auth\IWebSecurity.cs" />
     <Compile Include="Auth\WebSecurityWrapper.cs" />
+    <Compile Include="Models\IBaseballCardRepository.cs" />
+    <Compile Include="Models\BaseballCardRepository.cs" />
     <Compile Include="Service\Admin\IManageInventoryService.cs" />
     <Compile Include="Service\IUploadService.cs" />
     <Compile Include="Service\RuleService.cs" />
     <Compile Include="Service\UploadService.cs" />
+    <Compile Include="Utilities\ControllerFactory.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />
     <Compile Include="Auth\IUserAuth.cs" />

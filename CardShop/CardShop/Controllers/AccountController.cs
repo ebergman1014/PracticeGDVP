@@ -65,7 +65,7 @@ namespace CardShop.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError("", "The user name or password provided is incorrect.");
+            ModelState.AddModelError("error", "The user name or password provided is incorrect.");
             return View(model);
         }
 
@@ -137,7 +137,7 @@ namespace CardShop.Controllers
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
+                    ModelState.AddModelError("error", ErrorCodeToString(e.StatusCode));
                 }
             }
 

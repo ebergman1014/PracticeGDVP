@@ -88,6 +88,29 @@ namespace CardShopTest.ControllerTests
             Assert.IsNotNull(result);
             Assert.AreEqual(returnUrl, result.Url);
         }
+        
+        [TestMethod]
+        public void Login_UserCanLoginInvalidState()
+        {
+            string returnUrl = "/Home/Index";
+            string userName = "bbob";
+            string password = "321";
+            string error = "The user name or password provided is incorrect.";
+
+            Controller.ModelState.AddModelError("error", error);
+
+            WebSecurity.Setup(s => s.Login(userName, password, false)).Returns(false);
+            var model = new LoginModel
+            {
+                UserName = userName,
+                Password = password
+            };
+
+            var result = Controller.Login(model, returnUrl) as ViewResult;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(result.ViewData.ModelState["error"].Errors[0].ErrorMessage, error);
+        }
+
 
         [TestMethod]
         public void Login_InvalidCredentialsRedisplaysLoginScreen()
@@ -105,6 +128,7 @@ namespace CardShopTest.ControllerTests
 
             var result = Controller.Login(model, returnUrl) as ViewResult;
             Assert.IsNotNull(result);
+            Assert.IsFalse(result.ViewData.ModelState.IsValid);
         }
 
         [TestMethod]
