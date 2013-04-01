@@ -7,9 +7,14 @@ using System.Web;
 using System.Web.Routing;
 using System.Collections.Generic;
 using CardShop;
+<<<<<<< HEAD
+using CardShop.Daos;
+using CardShop.Models;
+=======
 using CardShop.Models;
 using CardShop.Daos;
 using System.Data.Entity;
+>>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
 
 namespace CardShopTest.ControllerTests
 {
@@ -45,17 +50,59 @@ namespace CardShopTest.ControllerTests
             Context.SetupGet(x => x.Request).Returns(Request.Object);
             Context.SetupGet(x => x.Response).Returns(Response.Object);
 
- DBContext = new Mock<PracticeGDVPDao>(MockBehavior.Strict);
+            DBContext = new Mock<PracticeGDVPDao>(MockBehavior.Strict);
 
             Controller = new BaseballCardController();
             Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
             Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
+
         }
 
-        // Removed all the tests because none of them were suppose to be pushed since
-        // I'm still working on figuring out how exactly they work. This way they 
-        // aren't failing or causing build issues for anybody.
-        // ~ Don
+<<<<<<< HEAD
+        [TestMethod]
+        public void UploadRedirect()
+        {
+            string viewName = "Upload";
+            ViewResult result = Controller.Upload() as ViewResult;
+            Assert.IsNotNull(result);
+
+            Assert.AreEqual(viewName, result.ViewName);
+        }
+
+        [TestMethod]
+        public void BrowseRedirect()
+        {
+            string viewName = "Browse";
+            ViewResult result = Controller.Browse() as ViewResult;
+            Assert.IsNotNull(result);
+=======
+        // broken test. need to either set up a virutal function or not test.
+        public void IndexRedirect()
+        {
+>>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
+
+            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
+            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
+
+            Controller.db = mockContext.Object;
+            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
+
+            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void DetailsRedirect()
+        {
+            var testCard = new BaseballCard();
+            //Controller.db = (IPracticeGDVPDao) DBContext;
+            //DBContext.Setup(test => test.BaseballCards().Find(3)).Returns(testCard);
+
+            var result = Controller.Details(3) as ViewResult;
+            Assert.IsNotNull(result);
+            
+
+            Assert.AreEqual<string>("thing", result.Model.ToString());
+        }
 
     }
 }

@@ -14,8 +14,8 @@ namespace CardShop.Controllers
 {
     public class BaseballCardController : Controller
     {
-        IPracticeGDVPDao db { get; set; }
-        UploadService uploadService { get; set; }
+        public IPracticeGDVPDao db { get; set; }
+        public UploadService uploadService { get; set; }
         IBaseballCardRepository m_repository;
 
         //public BaseballCardController()
@@ -62,7 +62,7 @@ namespace CardShop.Controllers
         ////
         //// GET: /BaseballCard/Upload
 
-        //public ActionResult Upload()
+  //public ActionResult Upload()
         //{
         //    return View();
         //}
