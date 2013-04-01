@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardShop", "CardShop\CardSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardShopTest", "CardShopTest\CardShopTest.csproj", "{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logger", "Logger\Logger.csproj", "{863DE872-2B73-46CF-960E-2604047BB5A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{863DE872-2B73-46CF-960E-2604047BB5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{863DE872-2B73-46CF-960E-2604047BB5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{863DE872-2B73-46CF-960E-2604047BB5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{863DE872-2B73-46CF-960E-2604047BB5A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
