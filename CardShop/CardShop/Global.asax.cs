@@ -1,5 +1,4 @@
-﻿using CardShop.Auth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using CardShop.Utilities;
+using CardShop.Auth;
 
 namespace CardShop
 {
@@ -24,6 +25,9 @@ namespace CardShop
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            // Use our custom controller factory to create the appropriate controller
+            ControllerBuilder.Current.SetControllerFactory(new ControllerFactory());
         }
         void Session_Start(object sender, EventArgs e)
         {

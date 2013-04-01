@@ -35,9 +35,9 @@ namespace CardShopTest.ControllerTests
             Context.SetupGet(x => x.Request).Returns(Request.Object);
             Context.SetupGet(x => x.Response).Returns(Response.Object);
 
-            Controller = new BaseballCardController();
-            Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
-            Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
+            //Controller = new BaseballCardController();
+            //Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
+            //Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
         }
 
         [TestMethod]
