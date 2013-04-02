@@ -23,9 +23,23 @@ namespace CardShopTest.ControllerTests
             var mockFishRepository = new Mock<IBaseballCardRepository>();
 
             List<BaseballCard> mockCards = new List<BaseballCard>();
-            mockCards.Add(new BaseballCard() { BaseballCardId = 0, Cost = new Decimal(2.50), Player = "Cole Hammels", Team = "Phillies" });
-            mockCards.Add(new BaseballCard() { BaseballCardId = 0, Cost = new Decimal(2.50), Player = "Cole Hammels", Team = "Phillies" });
-            mockCards.Add(new BaseballCard() { BaseballCardId = 0, Cost = new Decimal(2.50), Player = "Cole Hammels", Team = "Phillies" });
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
+
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
+
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
 
             // Setup mock behavior for the GetAllFish() method in our repository
             mockFishRepository.Setup(x => x.GetAllCards()).Returns(mockCards);
@@ -40,6 +54,12 @@ namespace CardShopTest.ControllerTests
             // Test the view model contains a list of fish
             Assert.IsNotNull(fish, "The list of cards does not exist");
             Assert.IsTrue(fish.Count == mockCards.Count);
+        }
+
+        [TestMethod]
+        public void TestDetailsViewNameReturn()
+        {
+
         }
     }
 }
