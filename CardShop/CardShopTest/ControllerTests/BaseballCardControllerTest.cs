@@ -47,6 +47,7 @@ namespace CardShopTest.ControllerTests
             // Setup mock behavior for the GetAllFish() method in our repository
             mockCardRepository.Setup(x => x.GetAllCards()).Returns(mockCards);
             mockCardRepository.Setup(x => x.GetBaseballCard(1)).Returns(mockCards[1]);
+            mockCardRepository.Setup(x => x.Update(new BaseballCard() { BaseballCardId = 1, Player = "Heman has teh Powerz", Team = "shera" }));
         }
 
 
@@ -163,21 +164,31 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void TestEditPostValidBaseballCard()
         {
-            Assert.Fail("Fail Test First", new NotImplementedException());
             BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
-            int baseballCardId = -1;
 
-            HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
+            BaseballCard baseballCard = new BaseballCard() { BaseballCardId = 1, Player = "Heman has teh Powerz", Team = "shera" };
+
+            RedirectToRouteResult result = controller.Edit(baseballCard) as RedirectToRouteResult;
+            Assert.IsNotNull(result);
+            
+            BaseballCard bballCard = mockCardRepository.Object.GetAllCards()[1];
+            Assert.AreEqual(bballCard.Player, baseballCard.Player);
+
         }
 
         [TestMethod]
         public void TestEditPostInvalidModelState()
         {
+            string message = "There has been an error, please try again or contact System Administrator.";
             BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
-            controller.ModelState.AddModelError("error", "error occured");
-            int baseballCardId = -1;
+            controller.ModelState.AddModelError("error", message);
+            BaseballCard baseballCard = null;
 
-            HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
+            ViewResult result = controller.Edit(baseballCard) as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.ViewData.ModelState.IsValid);
+            Assert.IsTrue(result.ViewData.ModelState["error"].Errors.Count > 1);
         }
 
         [TestMethod]
@@ -208,12 +219,7 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void TestDeletePostValidBaseballCard()
         {
-            Assert.Fail("Fail Test First", new NotImplementedException());
-            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
-            int baseballCardId = 1;
-
-            HttpNotFoundResult result = controller.DeleteConfirmed(baseballCardId) as HttpNotFoundResult;
-
+            Assert.Fail("Not Implemented Yet, should we delete cards?");
         }
     }
 }

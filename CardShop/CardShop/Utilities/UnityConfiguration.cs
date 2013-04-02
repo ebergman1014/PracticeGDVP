@@ -21,10 +21,7 @@ namespace CardShop.Utilities
         private static void RegisterTypes(IUnityContainer container)
         {
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
-            //container.LoadConfiguration(section);
-            container.RegisterType<IBaseballCardService, BaseballCardService>(new TransientLifetimeManager());
-            container.RegisterType<IRuleService, RuleService>(new TransientLifetimeManager());
-
+            container.LoadConfiguration(section);
         }
     }
 }
