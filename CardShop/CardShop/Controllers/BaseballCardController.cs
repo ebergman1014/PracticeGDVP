@@ -16,18 +16,18 @@ namespace CardShop.Controllers
     public class BaseballCardController : Controller
     {
         public UploadService uploadService { get; set; }
-        private IBaseballCardService baseballCardRepository;
+        private IBaseballCardService baseballCardService;
 
         public BaseballCardController(IBaseballCardService service)
         {
-            baseballCardRepository = service;
+            baseballCardService = service;
         }
 
         //
         // GET: /BaseballCard/
         public ActionResult Index()
         {
-            return View(baseballCardRepository.GetAllCards());
+            return View(baseballCardService.GetAllCards());
         }
 
         //
@@ -35,7 +35,7 @@ namespace CardShop.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            BaseballCard baseballcard = baseballCardRepository.GetBaseballCard(id);
+            BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -102,8 +102,8 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                baseballCardRepository.Create(baseballcard);
-                baseballCardRepository.SaveChanges();
+                baseballCardService.Create(baseballcard);
+                baseballCardService.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -115,7 +115,7 @@ namespace CardShop.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            BaseballCard baseballcard = baseballCardRepository.GetBaseballCard(id);
+            BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -131,14 +131,14 @@ namespace CardShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                BaseballCard EditedCard = baseballCardRepository.GetBaseballCard(baseballcard.BaseballCardId);
+                BaseballCard EditedCard = baseballCardService.GetBaseballCard(baseballcard.BaseballCardId);
 
                 EditedCard.Player = baseballcard.Player;
                 EditedCard.Team = baseballcard.Team;
                 EditedCard.Cost = baseballcard.Cost;
                 //db.Entry(baseballcard).State = EntityState.Modified;
-                baseballCardRepository.Update(EditedCard);
-                baseballCardRepository.SaveChanges();
+                baseballCardService.Update(EditedCard);
+                baseballCardService.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(baseballcard);
@@ -149,7 +149,7 @@ namespace CardShop.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            BaseballCard baseballcard = baseballCardRepository.GetBaseballCard(id);
+            BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
             if (baseballcard == null)
             {
                 return HttpNotFound();
@@ -163,9 +163,9 @@ namespace CardShop.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            BaseballCard baseballcard = baseballCardRepository.GetBaseballCard(id);
-            baseballCardRepository.Delete(baseballcard.BaseballCardId);
-            baseballCardRepository.SaveChanges();
+            BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
+            baseballCardService.Delete(baseballcard.BaseballCardId);
+            baseballCardService.SaveChanges();
             return RedirectToAction("Index");
         }
     }
