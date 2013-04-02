@@ -27,8 +27,8 @@
                 <h5>Then Actions</h5>
                 @foreach (var action in rule.ThenActions)
                 {
-                    <text>Field: </text>@action.field.ToString()<br />
-                    <text>Value: </text>@action.value.ToString()
+                    <p><text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()</p>
                 }
             </div>
 
@@ -36,8 +36,8 @@
                 <h5>Else Actions</h5>
                 @foreach (var action in rule.ElseActions)
                 {
-                    <text>Field: </text>@action.field.ToString()<br />
-                    <text>Value: </text>@action.value.ToString()
+                    <p><text>Field: </text>@action.field.ToString()<br />
+                    <text>Value: </text>@action.value.ToString()</p>
                 }
             </div>
         </div>
