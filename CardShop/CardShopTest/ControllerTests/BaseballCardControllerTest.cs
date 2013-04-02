@@ -41,45 +41,5 @@ namespace CardShopTest.ControllerTests
             Assert.IsNotNull(fish, "The list of cards does not exist");
             Assert.IsTrue(fish.Count == mockCards.Count);
         }
-
-        /// <summary>
-        /// Simple Redirect Test to see if returned viewName is correct or not.
-        /// </summary>
-        [TestMethod]
-        public void UploadRedirect()
-        {
-            string viewName = "Upload";
-            ViewResult result = Controller.Upload() as ViewResult;
-            Assert.IsNotNull(result);
-
-            Assert.AreEqual(viewName, result.ViewName);
-        }
-
-        /// <summary>
-        /// Simple Redirect Test to see if returned viewName is correct or not.
-        /// </summary>
-        [TestMethod]
-        public void BrowseRedirect()
-        {
-            string viewName = "Browse";
-            ViewResult result = Controller.Browse() as ViewResult;
-            Assert.IsNotNull(result);
-
-            Assert.AreEqual(viewName, result.ViewName);
-        }
-
-        [TestMethod]
-        public void DetailsRedirect()
-        {
-            var testCard = new BaseballCard();
-            //Controller.db = (IPracticeGDVPDao) DBContext;
-            //DBContext.Setup(test => test.BaseballCards().Find(3)).Returns(testCard);
-
-            var result = Controller.Details(3) as ViewResult;
-            Assert.IsNotNull(result);
-
-
-            Assert.AreEqual<string>("thing", result.Model.ToString());
-        }
     }
 }
