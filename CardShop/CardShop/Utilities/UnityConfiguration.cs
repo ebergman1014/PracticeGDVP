@@ -23,6 +23,8 @@ namespace CardShop.Utilities
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
             //container.LoadConfiguration(section);
             container.RegisterType<IBaseballCardService, BaseballCardService>(new TransientLifetimeManager());
+            container.RegisterType<IRuleService, RuleService>(new TransientLifetimeManager());
+
         }
     }
 }

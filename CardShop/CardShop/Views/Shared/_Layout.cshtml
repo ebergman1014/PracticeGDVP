@@ -27,6 +27,7 @@
                             <li>@Html.ActionLink("Browse","Index","BaseballCard")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
                             <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Rules", "Index", "Rule")</li>
                             @if (CardShop.Auth.UserAuth.Current.HasRole(CardShop.Auth.Role.Admin, CardShop.Auth.Role.StoreOwner)){ 
                                 <li>@Html.ActionLink("Card Management", "Index", "BaseballCard")</li>     
                                 <li>@Html.ActionLink("Discount", "Index", "Discount")</li>                      

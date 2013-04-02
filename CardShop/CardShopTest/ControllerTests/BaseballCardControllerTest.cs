@@ -26,9 +26,23 @@ namespace CardShopTest.ControllerTests
             mockCardRepository = new Mock<IBaseballCardService>();
 
             mockCards = new List<BaseballCard>();
-            mockCards.Add(new BaseballCard() { BaseballCardId = 0, Cost = new Decimal(0.50), Player = "Cole Hammels", Team = "Phillies" });
-            mockCards.Add(new BaseballCard() { BaseballCardId = 1, Cost = new Decimal(1.50), Player = "Jimmy Rollins", Team = "Phillies" });
-            mockCards.Add(new BaseballCard() { BaseballCardId = 2, Cost = new Decimal(2.50), Player = "Chase Utley", Team = "Phillies" });
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(0.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
+
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 1, 
+                Cost = new Decimal(1.50), 
+                Player = "Jimmy Rollins", 
+                Team = "Phillies" });
+
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 2, 
+                Cost = new Decimal(2.50), 
+                Player = "Chase Utley", 
+                Team = "Phillies" });
 
             // Setup mock behavior for the GetAllFish() method in our repository
             mockCardRepository.Setup(x => x.GetAllCards()).Returns(mockCards);

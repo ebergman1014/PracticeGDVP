@@ -1,13 +1,9 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Workflow.Activities.Rules;
 using System.Workflow.ComponentModel.Serialization;
@@ -17,14 +13,15 @@ using CardShop.ViewModels;
 
 namespace CardShop.Service
 {
-    public class RuleService
+    public class RuleService : IRuleService
     {
         #region Properties and Constructors
 
         public IPracticeGDVPDao dbContext { get; set; }
         public System.Workflow.Activities.Rules.RuleSet templateRuleset { get; set; }
+        //public DbSet<Ruleset> cards { get; set; }
 
-        public RuleService()
+        public RuleService() 
         {
             this.dbContext = PracticeGDVPDao.GetInstance();
             this.templateRuleset = SetUpTemplate();
@@ -33,6 +30,10 @@ namespace CardShop.Service
         #endregion
 
         #region CRUD Main Methods
+        public List<Models.RuleSet> GetAllRulesets()
+        {
+            return dbContext.RuleSets().ToList();
+        }
 
         public Models.RuleSet Create(Models.RuleSet rulesetWrapper)
         {
@@ -225,6 +226,5 @@ namespace CardShop.Service
         }
 
         #endregion
-
     }
 }

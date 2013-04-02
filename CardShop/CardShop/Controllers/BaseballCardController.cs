@@ -32,7 +32,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Details/5
-
         public ActionResult Details(int id = 0)
         {
             BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
@@ -45,7 +44,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Browse
-
         public ActionResult Browse()
         {
             return View("Browse");
@@ -53,7 +51,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Upload
-
         public ActionResult Upload()
         {
             return View();
@@ -61,7 +58,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /BaseballCard/Upload
-
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file)
         {
@@ -88,7 +84,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Create
-
         public ActionResult Create()
         {
             return View();
@@ -96,7 +91,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /BaseballCard/Create
-
         [HttpPost]
         public ActionResult Create(BaseballCard baseballcard)
         {
@@ -112,7 +106,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
             BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
@@ -125,7 +118,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /BaseballCard/Edit/5
-
         [HttpPost]
         public ActionResult Edit(BaseballCard baseballcard)
         {
@@ -146,7 +138,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /BaseballCard/Delete/5
-
         public ActionResult Delete(int id = 0)
         {
             BaseballCard baseballcard = baseballCardService.GetBaseballCard(id);
@@ -159,7 +150,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /BaseballCard/Delete/5
-
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {

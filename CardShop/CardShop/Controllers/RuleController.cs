@@ -10,7 +10,6 @@ using CardShop.Daos;
 using CardShop.ViewModels;
 using System.Workflow.Activities.Rules.Design;
 using System.Web.Script.Serialization;
-using System.Workflow.Activities.Rules;
 using System.CodeDom;
 using CardShop.Service;
 
@@ -18,31 +17,27 @@ namespace CardShop.Controllers
 {
     public class RuleController : Controller
     {
-        IPracticeGDVPDao db { get; set; }
-        RuleService ruleService { get; set; }
+        //IPracticeGDVPDao db { get; set; }
+        private IRuleService ruleService;
 
-        public RuleController()
+        public RuleController(IRuleService service)
         {
-            db = PracticeGDVPDao.GetInstance();
-            ruleService = new RuleService();
+            //db = PracticeGDVPDao.GetInstance();
+            ruleService = service;
         }
-
-        
 
         //
         // GET: /Rule/
-
         public ActionResult Index()
         {
-            return View(db.RuleSets().ToList());
+            return View(ruleService.GetAllRulesets());
         }
 
         //
         // GET: /Rule/Details/5
-
         public ActionResult Details(int id = 0)
         {
-            Models.RuleSet ruleset = ruleService.Details(id);
+            RuleSet ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -52,7 +47,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /Rule/Create
-
         public ActionResult Create()
         {
             return View();
@@ -60,7 +54,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /Rule/Create
-
         [HttpPost]
         public ActionResult Create(RulesetDetails rulesetDetails)
         {
@@ -70,10 +63,9 @@ namespace CardShop.Controllers
 
         //
         // GET: /Rule/Edit/5
-
         public ActionResult Edit(int id = 0)
         {
-            Models.RuleSet ruleset = ruleService.Details(id);
+            RuleSet ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
@@ -83,7 +75,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /Rule/Edit/5
-
         [HttpPost]
         public ActionResult Edit(RulesetDetails rulesetDetails)
         {
@@ -93,7 +84,6 @@ namespace CardShop.Controllers
 
         //
         // GET: /Rule/Delete/5
-
         public ActionResult Delete(int id = 0)
         {
             Models.RuleSet ruleset = ruleService.Details(id);
@@ -106,7 +96,6 @@ namespace CardShop.Controllers
 
         //
         // POST: /Rule/Delete/5
-
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
