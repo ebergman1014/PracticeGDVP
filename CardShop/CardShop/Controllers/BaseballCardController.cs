@@ -136,11 +136,11 @@ namespace CardShop.Controllers
                 EditedCard.Player = baseballcard.Player;
                 EditedCard.Team = baseballcard.Team;
                 EditedCard.Cost = baseballcard.Cost;
-                //db.Entry(baseballcard).State = EntityState.Modified;
                 baseballCardRepository.Update(EditedCard);
                 baseballCardRepository.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ModelState.AddModelError("error", "There has been an error, please try again or contact System Administrator.");
             return View(baseballcard);
         }
 

@@ -69,10 +69,14 @@ namespace CardShop.Service
             base.SaveChanges();
         }
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    // Map the table name to our actual table name ("BaseballCard")
-        //    modelBuilder.Entity<BaseballCard>().ToTable("BaseballCard");
-        //}
+        /// <summary>
+        /// Override to the DBContext Method to map entity to right table.
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // Map the table name to our actual table name ("BaseballCard")
+            modelBuilder.Entity<BaseballCard>().ToTable("BaseballCard");
+        }
     }
 }
