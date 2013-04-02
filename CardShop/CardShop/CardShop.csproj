@@ -63,6 +63,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20715.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Workflow.Activities" />
     <Reference Include="System.Workflow.ComponentModel" />
     <Reference Include="System.Workflow.Runtime" />
@@ -114,10 +118,6 @@
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.0.0\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
@@ -129,6 +129,9 @@
     <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mvc4">
+      <HintPath>..\packages\Unity.Mvc4.1.1.0.0\lib\net40\Unity.Mvc4.dll</HintPath>
     </Reference>
     <Reference Include="WebMatrix.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -183,13 +186,12 @@
     <Compile Include="Controllers\Admin\ManageInventoryController.cs" />
     <Compile Include="Auth\IWebSecurity.cs" />
     <Compile Include="Auth\WebSecurityWrapper.cs" />
-    <Compile Include="Models\IBaseballCardRepository.cs" />
-    <Compile Include="Models\BaseballCardRepository.cs" />
+    <Compile Include="Service\IBaseballCardService.cs" />
+    <Compile Include="Service\BaseballCardService.cs" />
     <Compile Include="Service\Admin\IManageInventoryService.cs" />
     <Compile Include="Service\IUploadService.cs" />
     <Compile Include="Service\RuleService.cs" />
     <Compile Include="Service\UploadService.cs" />
-    <Compile Include="Utilities\ControllerFactory.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />
     <Compile Include="Auth\IUserAuth.cs" />
@@ -272,6 +274,7 @@
       <DependentUpon>BaseballCardModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\UnityConfiguration.cs" />
     <Compile Include="Views\Shared\Audit.aspx.cs">
       <DependentUpon>Audit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

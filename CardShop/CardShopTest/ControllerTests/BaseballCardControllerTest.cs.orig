@@ -7,102 +7,225 @@ using System.Web;
 using System.Web.Routing;
 using System.Collections.Generic;
 using CardShop;
-<<<<<<< HEAD
-using CardShop.Daos;
-using CardShop.Models;
-=======
 using CardShop.Models;
 using CardShop.Daos;
 using System.Data.Entity;
->>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
+using CardShop.Service;
 
 namespace CardShopTest.ControllerTests
 {
     [TestClass]
     public class BaseballCardControllerTest
     {
-        private BaseballCardController Controller { get; set; }
-        private RouteCollection Routes { get; set; }
-        private Mock<PracticeGDVPDao> DBContext { get; set; }
-        private Mock<HttpResponseBase> Response { get; set; }
-        private Mock<HttpRequestBase> Request { get; set; }
-        private Mock<HttpContextBase> Context { get; set; }
-        private Mock<ControllerContext> ControllerContext { get; set; }
-
-        public BaseballCardControllerTest()
-        {
-        }
+        Mock<IBaseballCardService> mockCardRepository;
+        List<BaseballCard> mockCards;
 
         [TestInitialize]
-        public void Setup()
+        public void InitializeTest()
         {
-            Routes = new RouteCollection();
-            RouteConfig.RegisterRoutes(Routes);
+            mockCardRepository = new Mock<IBaseballCardService>();
 
-            Request = new Mock<HttpRequestBase>(MockBehavior.Strict);
-            Request.SetupGet(x => x.ApplicationPath).Returns("/");
-            Request.SetupGet(x => x.Url).Returns(new Uri("http://localhost/a", UriKind.Absolute));
-            Request.SetupGet(x => x.ServerVariables).Returns(new System.Collections.Specialized.NameValueCollection());
+            mockCards = new List<BaseballCard>();
+            mockCards.Add(new BaseballCard() { BaseballCardId = 0, Cost = new Decimal(0.50), Player = "Cole Hammels", Team = "Phillies" });
+            mockCards.Add(new BaseballCard() { BaseballCardId = 1, Cost = new Decimal(1.50), Player = "Jimmy Rollins", Team = "Phillies" });
+            mockCards.Add(new BaseballCard() { BaseballCardId = 2, Cost = new Decimal(2.50), Player = "Chase Utley", Team = "Phillies" });
 
-            Response = new Mock<HttpResponseBase>(MockBehavior.Strict);
-
-            Context = new Mock<HttpContextBase>(MockBehavior.Strict);
-            Context.SetupGet(x => x.Request).Returns(Request.Object);
-            Context.SetupGet(x => x.Response).Returns(Response.Object);
-
-            DBContext = new Mock<PracticeGDVPDao>(MockBehavior.Strict);
-
-            Controller = new BaseballCardController();
-            Controller.ControllerContext = new ControllerContext(Context.Object, new RouteData(), Controller);
-            Controller.Url = new UrlHelper(new RequestContext(Context.Object, new RouteData()), Routes);
-
+            // Setup mock behavior for the GetAllFish() method in our repository
+            mockCardRepository.Setup(x => x.GetAllCards()).Returns(mockCards);
+            mockCardRepository.Setup(x => x.GetBaseballCard(1)).Returns(mockCards[1]);
         }
+
+
+        [TestMethod]
+        public void TestIndexHasListOfBaseballCards()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+           
+            ViewResult result = controller.Index() as ViewResult;
+            List<BaseballCard> cards = (List<BaseballCard>)result.ViewData.Model;
 
 <<<<<<< HEAD
-        [TestMethod]
-        public void UploadRedirect()
-        {
-            string viewName = "Upload";
-            ViewResult result = Controller.Upload() as ViewResult;
-            Assert.IsNotNull(result);
+            List<BaseballCard> mockCards = new List<BaseballCard>();
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
 
-            Assert.AreEqual(viewName, result.ViewName);
-        }
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
 
-        [TestMethod]
-        public void BrowseRedirect()
-        {
-            string viewName = "Browse";
-            ViewResult result = Controller.Browse() as ViewResult;
-            Assert.IsNotNull(result);
+            mockCards.Add(new BaseballCard() { 
+                BaseballCardId = 0, 
+                Cost = new Decimal(2.50), 
+                Player = "Cole Hammels", 
+                Team = "Phillies" });
 =======
-        // broken test. need to either set up a virutal function or not test.
-        public void IndexRedirect()
+            // Test the view model contains a list of fish
+            Assert.IsNotNull(cards, "The list of cards does not exist");
+            Assert.IsTrue(cards.Count == mockCards.Count);
+        }
+>>>>>>> e6dd5a92a882c34b959ea1528803dc5e33cb0bf7
+
+        [TestMethod]
+        public void TestDetailsGetValidBaseballCard()
         {
->>>>>>> f84dd8ac5f484fe86a5075fb5294bd54e923dcea
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = 1;
 
-            Mock<IPracticeGDVPDao> mockContext = new Mock<IPracticeGDVPDao>();
-            Mock<IDbSet<BaseballCard>> mockDbSet = new Mock<IDbSet<BaseballCard>>();
+            ViewResult result = controller.Details(baseballCardId) as ViewResult;
+            BaseballCard card = (BaseballCard)result.ViewData.Model;
 
-            Controller.db = mockContext.Object;
-            mockContext.Setup(m => m.BaseballCards()).Returns(mockDbSet.Object);
-
-            Assert.IsInstanceOfType(Controller.Index(), typeof(ViewResult));
+            // Test the view model contains a list of fish
+            Assert.IsNotNull(card, "The card does not exist");
+            Assert.IsTrue(card.Player == mockCards[1].Player);
         }
 
         [TestMethod]
-        public void DetailsRedirect()
+        public void TestDetailsGetInvalidBaseballCard()
         {
-            var testCard = new BaseballCard();
-            //Controller.db = (IPracticeGDVPDao) DBContext;
-            //DBContext.Setup(test => test.BaseballCards().Find(3)).Returns(testCard);
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = -1;
 
-            var result = Controller.Details(3) as ViewResult;
+            HttpNotFoundResult result = controller.Details(baseballCardId) as HttpNotFoundResult;
+
             Assert.IsNotNull(result);
-            
-
-            Assert.AreEqual<string>("thing", result.Model.ToString());
         }
 
+        [TestMethod]
+        public void TestBrowseGet()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+
+            ViewResult result = controller.Browse() as ViewResult;
+
+            Assert.AreEqual(result.ViewName, "Browse");
+        }
+
+        [TestMethod]
+        public void TestUploadGet()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+
+            ViewResult result = controller.Upload() as ViewResult;
+
+            Assert.AreEqual(result.ViewName, "");
+        }
+
+        [TestMethod]
+        public void TestUploadValid()
+        {
+            Assert.Fail("Fail Test First", new NotImplementedException());
+        }
+
+        [TestMethod]
+        public void TestUploadPostInvalid()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+
+            ViewResult result = controller.Upload(null) as ViewResult;
+
+            Assert.AreEqual(result.ViewName, "Upload");
+            Assert.IsNotNull(result.TempData["error"]);
+        }
+
+        [TestMethod]
+        public void TestCreateGet()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+
+            ViewResult result = controller.Create() as ViewResult;
+
+            Assert.AreEqual(result.ViewName, "");
+        }
+
+        [TestMethod]
+        public void TestEditGetValidBaseballCard()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = 1;
+
+            ViewResult result = controller.Edit(baseballCardId) as ViewResult;
+            BaseballCard card = (BaseballCard)result.ViewData.Model;
+
+            // Test the view model contains a list of fish
+            Assert.IsNotNull(card, "The card does not exist");
+            Assert.IsTrue(card.Player == mockCards[1].Player);
+        }
+
+        [TestMethod]
+        public void TestEditGetInvalidBaseballCard()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = -1;
+
+            HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestEditPostValidBaseballCard()
+        {
+            Assert.Fail("Fail Test First", new NotImplementedException());
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = -1;
+
+            HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
+        }
+
+        [TestMethod]
+        public void TestEditPostInvalidModelState()
+        {
+            Assert.Fail("Fail Test First", new NotImplementedException());
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = -1;
+
+            HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
+        }
+
+        [TestMethod]
+        public void TestDeleteGetValidBaseballCard()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = 1;
+
+            ViewResult result = controller.Delete(baseballCardId) as ViewResult;
+            BaseballCard card = (BaseballCard)result.ViewData.Model;
+
+            // Test the view model contains a list of fish
+            Assert.IsNotNull(card, "The card does not exist");
+            Assert.IsTrue(card.Player == mockCards[1].Player);
+        }
+
+        [TestMethod]
+<<<<<<< HEAD
+        public void TestDetailsViewNameReturn()
+        {
+=======
+        public void TestDeleteGetInvalidBaseballCard()
+        {
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = -1;
+
+            HttpNotFoundResult result = controller.Delete(baseballCardId) as HttpNotFoundResult;
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void TestDeletePostValidBaseballCard()
+        {
+            Assert.Fail("Fail Test First", new NotImplementedException());
+            BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            int baseballCardId = 1;
+
+            HttpNotFoundResult result = controller.DeleteConfirmed(baseballCardId) as HttpNotFoundResult;
+>>>>>>> e6dd5a92a882c34b959ea1528803dc5e33cb0bf7
+
+        }
     }
 }
