@@ -159,8 +159,8 @@ namespace CardShopTest.ControllerTests
         [TestMethod]
         public void TestEditPostInvalidModelState()
         {
-            Assert.Fail("Fail Test First", new NotImplementedException());
             BaseballCardController controller = new BaseballCardController(mockCardRepository.Object);
+            controller.ModelState.AddModelError("error", "error occured");
             int baseballCardId = -1;
 
             HttpNotFoundResult result = controller.Edit(baseballCardId) as HttpNotFoundResult;
