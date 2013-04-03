@@ -16,6 +16,7 @@ namespace CardShop.Controllers
     public class BaseballCardController : Controller
     {
         public UploadService uploadService { get; set; }
+        
         private IBaseballCardService baseballCardService;
 
         public BaseballCardController(IBaseballCardService service)

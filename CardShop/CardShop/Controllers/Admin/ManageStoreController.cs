@@ -7,15 +7,16 @@ using CardShop.Service;
 using CardShop.Models;
 using System.Web.Security;
 using CardShop.Auth;
+using Microsoft.Practices.Unity;
 namespace CardShop.Controllers
 {
     [AuthorizeUser(Role.StoreOwner, Role.Admin)]
     public class ManageStoreController : Controller, IManageStoreController
     {
+        [Dependency]
         public IManageStoreService adminService { get; set; }
 
         public ManageStoreController(){
-                adminService = new ManageStoreService();
         }
 
         [HttpGet]
