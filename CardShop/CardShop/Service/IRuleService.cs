@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CardShop.Models;
+using CardShop.ViewModels;
 
 namespace CardShop.Service
 {
@@ -33,7 +34,7 @@ namespace CardShop.Service
         /// </summary>
         /// <param name="id">The Id of the ruleset requested.</param>
         /// <returns></returns>
-        Models.RuleSet Details(int id);
+        RulesetDetails Details(int id);
 
         /// <summary>
         /// Removes the ruleset with the matching Id if it exists.

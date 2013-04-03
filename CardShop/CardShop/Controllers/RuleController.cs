@@ -17,12 +17,10 @@ namespace CardShop.Controllers
 {
     public class RuleController : Controller
     {
-        //IPracticeGDVPDao db { get; set; }
         private IRuleService ruleService;
 
         public RuleController(IRuleService service)
         {
-            //db = PracticeGDVPDao.GetInstance();
             ruleService = service;
         }
 
@@ -31,18 +29,6 @@ namespace CardShop.Controllers
         public ActionResult Index()
         {
             return View(ruleService.GetAllRulesets());
-        }
-
-        //
-        // GET: /Rule/Details/5
-        public ActionResult Details(int id = 0)
-        {
-            RuleSet ruleset = ruleService.Details(id);
-            if (ruleset == null)
-                return HttpNotFound();
-
-            RulesetDetails model = new RulesetDetails(ruleset);
-            return View(model);
         }
 
         //
@@ -65,12 +51,12 @@ namespace CardShop.Controllers
         // GET: /Rule/Edit/5
         public ActionResult Edit(int id = 0)
         {
-            RuleSet ruleset = ruleService.Details(id);
+            RulesetDetails ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
-            RulesetDetails model = new RulesetDetails(ruleset);
-            return View(model);
+            //model = new RulesetDetails(ruleset);
+            return View(ruleset);
         }
 
         //
@@ -83,15 +69,27 @@ namespace CardShop.Controllers
         }
 
         //
-        // GET: /Rule/Delete/5
-        public ActionResult Delete(int id = 0)
+        // GET: /Rule/Details/5
+        public ActionResult Details(int id = 0)
         {
-            Models.RuleSet ruleset = ruleService.Details(id);
+            RulesetDetails ruleset = ruleService.Details(id);
             if (ruleset == null)
                 return HttpNotFound();
 
-            RulesetDetails model = new RulesetDetails(ruleset);
-            return View(model);
+            //model = new RulesetDetails(ruleset);
+            return View(ruleset);
+        }
+
+        //
+        // GET: /Rule/Delete/5
+        public ActionResult Delete(int id = 0)
+        {
+            RulesetDetails ruleset = ruleService.Details(id);
+            if (ruleset == null)
+                return HttpNotFound();
+
+            //model = new RulesetDetails(ruleset);
+            return View(ruleset);
         }
 
         //
