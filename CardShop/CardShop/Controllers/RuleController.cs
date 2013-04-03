@@ -112,7 +112,7 @@ namespace CardShop.Controllers
         // POST: /Rule/Upload
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file)
+        public string Upload(HttpPostedFileBase file)
         {
             if (file != null)
             {
@@ -123,10 +123,14 @@ namespace CardShop.Controllers
                     file.SaveAs(path);
 
                     List<Models.RuleSet> savedRulesets = ruleService.Upload(path);
-                    TempData["rules"] = savedRulesets.Count + " rules added.";
+
+                    JavaScriptSerializer jss = new JavaScriptSerializer();
+                    string savedRulesetsJSON = jss.Serialize(savedRulesets);
+
+                    return savedRulesetsJSON;
                 }
             }
-            return RedirectToAction("Index");
+            return null;
         }
     }
 }

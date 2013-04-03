@@ -11,16 +11,12 @@
     <div id="error" style="color:red"></div>
 
     <input type="file" name="file" id="file" /><br />
-    <input type="submit" />
+    <input type="button" id="button" value="Submit"/>
 </form>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#form').submit(function () {
-            if ($(this).find('#file').val() == '') {
-                $('#error').html('Please select a file.');
-                return false;
-            }
-        });
-    });
-</script>
+<div id="savedRules" style="color:blue; padding-top:20px;"></div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.form-upload.js")
+}
