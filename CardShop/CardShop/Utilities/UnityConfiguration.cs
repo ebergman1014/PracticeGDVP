@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
+using CardShop.Controllers;
 using CardShop.Service;
+using CardShop.Service.Admin;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.Configuration;
 using Unity.Mvc4;
@@ -22,6 +24,13 @@ namespace CardShop.Utilities
         {
             UnityConfigurationSection section = (UnityConfigurationSection)ConfigurationManager.GetSection("unity");
             container.LoadConfiguration(section);
+
+            // create bean programatically instead of using xml
+            container.RegisterInstance((IDiscountService)new DiscountService());
+            container.RegisterInstance((IManageUserService)new ManageUserService());
+            container.RegisterInstance((IManageStoreService)new ManageStoreService());
         }
+
+
     }
 }

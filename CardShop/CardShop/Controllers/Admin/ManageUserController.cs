@@ -12,12 +12,14 @@ using CardShop.Service.Admin;
 using CardShop.Auth;
 using CardShop.Daos;
 using CardShop.Utilities;
+using Microsoft.Practices.Unity;
 
 namespace CardShop.Controllers
 {
     [AuthorizeUser]
     public class ManageUserController : Controller, IManageUserController
     {
+        [Dependency]
         public IManageUserService manageUserService { get; set; }
 
 
@@ -144,7 +146,7 @@ namespace CardShop.Controllers
 
         public ManageUserController()
         {
-            manageUserService = Factory.Instance.Create<ManageUserService>();
+            
         }
 
         [HttpGet, ActionName("ActAsUser")]
