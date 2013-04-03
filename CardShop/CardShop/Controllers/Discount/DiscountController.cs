@@ -6,11 +6,13 @@ using System.Web.Mvc;
 using CardShop.Service;
 using CardShop.Models;
 using System.Web.Services;
+using Microsoft.Practices.Unity;
 
 namespace CardShop.Controllers
 {
     public class DiscountController : Controller, IDiscountController
     {
+        [Dependency]
         public IDiscountService discountService { get; set; }
         /// <summary>
         /// Default page for Discount.
@@ -72,7 +74,7 @@ namespace CardShop.Controllers
         /// <author>CommanderPaul and masterchief117</author>
         public DiscountController()
         {
-            discountService = DiscountService.GetInstance();
+            //discountService = DiscountService.GetInstance();
         }
     }
 }

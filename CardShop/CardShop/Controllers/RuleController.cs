@@ -12,6 +12,7 @@ using System.Workflow.Activities.Rules.Design;
 using System.Web.Script.Serialization;
 using System.CodeDom;
 using CardShop.Service;
+using System.IO;
 
 namespace CardShop.Controllers
 {
@@ -98,6 +99,35 @@ namespace CardShop.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ruleService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        //
+        // GET: /Rule/Upload
+
+        public ActionResult Upload()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Rule/Upload
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            if (file != null)
+            {
+                if (file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                    file.SaveAs(path);
+
+                    List<Models.RuleSet> savedRulesets = ruleService.Upload(path);
+                    TempData["rules"] = savedRulesets.Count + " rules added.";
+                }
+            }
             return RedirectToAction("Index");
         }
     }

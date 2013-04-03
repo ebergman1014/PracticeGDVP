@@ -6,18 +6,20 @@ using System.Web.Mvc;
 using CardShop.Service;
 using CardShop.Models;
 using System.Web.Services;
+using Microsoft.Practices.Unity;
 
 namespace CardShop.Controllers
 {
     public class RedemptionController : Controller
     {
         // Fields
+        [Dependency]
         public IDiscountService discountService { get; set; }
 
         // Constructor
         public RedemptionController()
         {
-            this.discountService = DiscountService.GetInstance();
+            //this.discountService = DiscountService.GetInstance();
         }
 
         //

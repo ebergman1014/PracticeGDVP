@@ -1,9 +1,13 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Workflow.Activities.Rules;
 using System.Workflow.ComponentModel.Serialization;
@@ -102,6 +106,66 @@ namespace CardShop.Service
                 dbContext.RuleSets().Remove(ruleset);
                 dbContext.SaveChanges();
             }
+        }
+
+        #endregion
+
+        #region Batch Upload
+
+        public List<Models.RuleSet> Upload(string filename)
+        {
+            Models.RuleSet ruleset;
+            List<Models.RuleSet> allRulesets = new List<Models.RuleSet>();
+
+            if (File.Exists(filename))
+            {
+                using (FileStream file = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    using (var reader = new StreamReader(file))
+                    {
+                        while (!reader.EndOfStream)
+                        {
+                            string line = reader.ReadLine();
+                            if (!String.IsNullOrEmpty(line))
+                            {
+                                ruleset = new Models.RuleSet();
+                                string[] lineArray = Regex.Split(line, "; ");
+
+                                try
+                                {
+                                    ruleset.Name = lineArray[0];
+                                    ruleset.ActivityName = lineArray[1];
+                                    ruleset.AssemblyPath = lineArray[2];
+                                    ruleset.RuleSet1 = lineArray[3];
+                                    ruleset.MajorVersion = 1;
+                                    ruleset.MinorVersion = 0;
+                                    ruleset.ModifiedDate = DateTime.Now;
+
+                                    allRulesets.Add(ruleset);
+                                }
+                                catch (FormatException ex)
+                                {
+                                    Debug.WriteLine(ex.Message);
+                                }
+                            }
+                        }
+                    }
+                }
+                return SaveImport(allRulesets);
+            }
+            return null;
+        }
+
+        private List<Models.RuleSet> SaveImport(List<Models.RuleSet> rulesets)
+        {
+            List<Models.RuleSet> savedRulesets = new List<Models.RuleSet>();
+            foreach (Models.RuleSet ruleset in rulesets)
+            {
+                dbContext.RuleSets().Add(ruleset);
+                savedRulesets.Add(ruleset);
+            }
+            dbContext.SaveChanges();
+            return savedRulesets;
         }
 
         #endregion

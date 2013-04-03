@@ -461,6 +461,7 @@
     <Content Include="Views\ManageInventory\Edit.cshtml" />
     <Content Include="Views\ManageInventory\Delete.cshtml" />
     <Content Include="Views\BaseballCard\Browse.cshtml" />
+    <Content Include="Views\Rule\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\uploads\" />
