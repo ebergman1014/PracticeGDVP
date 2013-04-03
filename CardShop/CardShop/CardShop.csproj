@@ -190,7 +190,8 @@
     <Compile Include="Service\BaseballCardService.cs" />
     <Compile Include="Service\Admin\IManageInventoryService.cs" />
     <Compile Include="Service\IUploadService.cs" />
-    <Compile Include="Service\RuleService.cs" />
+    <Compile Include="Service\Rules\RuleEngineService.cs" />
+    <Compile Include="Service\Rules\RuleService.cs" />
     <Compile Include="Service\UploadService.cs" />
     <Compile Include="Utilities\IFactory.cs" />
     <Compile Include="Auth\ISession.cs" />

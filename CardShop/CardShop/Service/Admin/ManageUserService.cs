@@ -177,6 +177,12 @@ namespace CardShop.Service.Admin
                 // create store properties
                 newStore.Name = owner.LastName + "'s";
                 newStore.UserId = owner.UserId;
+
+                newStore.DiscountRate = 0;
+                RuleEngineService ruleEngineService = new RuleEngineService();
+                System.Workflow.Activities.Rules.RuleSet ruleset = ruleEngineService.GetRulesByName("TestStore");
+                ruleEngineService.RunRules<Store>(newStore, ruleset);
+
                 context.Stores().Add(newStore);
                 // save changes to objects tied to the context
                 context.SaveChanges();

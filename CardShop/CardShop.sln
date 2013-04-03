@@ -5,6 +5,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardShop", "CardShop\CardSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardShopTest", "CardShopTest\CardShopTest.csproj", "{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalRuleSetLibrary", "ExternalRuleSetLibrary\ExternalRuleSetLibrary.csproj", "{04D3CAD9-7CFC-4ED1-971A-15526CEF6C00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalRuleSetService", "ExternalRuleSetService\ExternalRuleSetService.csproj", "{39062704-7861-4352-A86D-57F85F6A8AC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalRuleSetTool", "ExternalRuleSetTool\ExternalRuleSetTool.csproj", "{C9E7255D-464F-4A65-B398-F78E8F405697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolicyFromServiceActivity", "PolicyFromServiceActivity\PolicyFromServiceActivity.csproj", "{AEA39831-19FC-4E43-8DAE-663EF515DEAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleSetToolkitUsageSample", "RuleSetToolkitUsageSample\RuleSetToolkitUsageSample.csproj", "{A8CC6484-5CBA-4CEF-82EB-272B49301FC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +29,26 @@ Global
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F31CBC29-9E13-49BC-BF0D-6185894AE2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D3CAD9-7CFC-4ED1-971A-15526CEF6C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D3CAD9-7CFC-4ED1-971A-15526CEF6C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D3CAD9-7CFC-4ED1-971A-15526CEF6C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D3CAD9-7CFC-4ED1-971A-15526CEF6C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39062704-7861-4352-A86D-57F85F6A8AC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39062704-7861-4352-A86D-57F85F6A8AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39062704-7861-4352-A86D-57F85F6A8AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39062704-7861-4352-A86D-57F85F6A8AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9E7255D-464F-4A65-B398-F78E8F405697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E7255D-464F-4A65-B398-F78E8F405697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E7255D-464F-4A65-B398-F78E8F405697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E7255D-464F-4A65-B398-F78E8F405697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA39831-19FC-4E43-8DAE-663EF515DEAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA39831-19FC-4E43-8DAE-663EF515DEAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA39831-19FC-4E43-8DAE-663EF515DEAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA39831-19FC-4E43-8DAE-663EF515DEAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8CC6484-5CBA-4CEF-82EB-272B49301FC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8CC6484-5CBA-4CEF-82EB-272B49301FC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8CC6484-5CBA-4CEF-82EB-272B49301FC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8CC6484-5CBA-4CEF-82EB-272B49301FC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
