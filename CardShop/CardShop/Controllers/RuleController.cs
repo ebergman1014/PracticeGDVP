@@ -36,7 +36,7 @@ namespace CardShop.Controllers
         // GET: /Rule/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         //
@@ -44,6 +44,7 @@ namespace CardShop.Controllers
         [HttpPost]
         public ActionResult Create(RulesetDetails rulesetDetails)
         {
+            //This needs some form of confirmation
             ruleService.Create(rulesetDetails.rulesetWrapper);
             return RedirectToAction("Index");
         }
@@ -56,7 +57,6 @@ namespace CardShop.Controllers
             if (ruleset == null)
                 return HttpNotFound();
 
-            //model = new RulesetDetails(ruleset);
             return View(ruleset);
         }
 
@@ -77,7 +77,6 @@ namespace CardShop.Controllers
             if (ruleset == null)
                 return HttpNotFound();
 
-            //model = new RulesetDetails(ruleset);
             return View(ruleset);
         }
 
@@ -89,7 +88,6 @@ namespace CardShop.Controllers
             if (ruleset == null)
                 return HttpNotFound();
 
-            //model = new RulesetDetails(ruleset);
             return View(ruleset);
         }
 

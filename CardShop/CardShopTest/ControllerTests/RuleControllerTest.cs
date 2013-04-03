@@ -15,6 +15,7 @@ namespace CardShopTest.ControllerTests
     {
 
         private Mock<IRuleService> mockRuleService;
+        private RulesetDetails testRuleDetails;
         private List<RuleSet> mockRuleSets;
         private RuleController testController;
         private const int TESTIDONE = 1;
@@ -25,8 +26,9 @@ namespace CardShopTest.ControllerTests
         public void InitializeTest()
         {
             mockRuleService = new Mock<IRuleService>();
-
+            testRuleDetails = new RulesetDetails();
             mockRuleSets = new List<RuleSet>();
+
             mockRuleSets.Add(new RuleSet()
             {
                 Name = "Test RuleSet 1",
@@ -51,11 +53,14 @@ namespace CardShopTest.ControllerTests
                 Status = 1,
             });
 
+            testRuleDetails.rulesetWrapper = mockRuleSets[0];
 
             // Setup mock behavior for the GetAllFish() method in our repository
             mockRuleService.Setup(rules => rules.GetAllRulesets()).Returns(mockRuleSets);
-            //mockRuleService.Setup(rules => rules.Details(TESTIDONE)).Returns(mockRuleSets[0]);
-            //mockRuleService.Setup(rules => rules.Update(new BaseballCard() { BaseballCardId = 1, Player = "Heman has teh Powerz", Team = "shera" }));
+            mockRuleService.Setup(rules => rules.Details(TESTIDONE)).Returns(testRuleDetails);
+
+            //testRuleDetails.rulesetWrapper = mockRuleSets[1];
+            //mockRuleService.Setup(rules => rules.Create(mockRuleSets[1])).Returns(testRuleDetails);
         }
 
         [TestMethod]
@@ -69,7 +74,26 @@ namespace CardShopTest.ControllerTests
             Assert.AreEqual(TESTIDONE, ruleSets[0].RuleSetId);
         }
 
+        [TestMethod]
+        public void TestCreateReturnView()
+        {
+            testController = new RuleController(mockRuleService.Object);
+            ViewResult result = testController.Create() as ViewResult;
 
+            Assert.IsNotNull(result, "No View was returned.");
+            Assert.AreEqual("Create", result.ViewName);
+        }
+
+        [TestMethod]
+        public void TextEditDetailsWithTestIdOne()
+        {
+            testController = new RuleController(mockRuleService.Object);
+            ViewResult result = testController.Edit(TESTIDONE) as ViewResult;
+            RulesetDetails ruleset = (RulesetDetails)result.Model;
+
+            Assert.IsNotNull(ruleset, "The rule's details weren't returned.");
+            Assert.AreEqual(TESTIDONE, ruleset.rulesetWrapper.RuleSetId);
+        }
 
     }
 }

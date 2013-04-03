@@ -13,21 +13,21 @@ namespace CardShop.Service
         /// Retrieve all the current rulesets.
         /// </summary>
         /// <returns></returns>
-        List<Models.RuleSet> GetAllRulesets();
+        List<RuleSet> GetAllRulesets();
 
         /// <summary>
         /// Create a new ruleset.
         /// </summary>
         /// <param name="rulesetWrapper"></param>
         /// <returns></returns>
-        Models.RuleSet Create(Models.RuleSet rulesetWrapper);
+        RuleSet Create(RuleSet rulesetWrapper);
 
         /// <summary>
         /// Edit an already existing ruleset.
         /// </summary>
         /// <param name="rulesetWrapper"></param>
         /// <returns></returns>
-        Models.RuleSet Edit(Models.RuleSet rulesetWrapper);
+        RuleSet Edit(RuleSet rulesetWrapper);
 
         /// <summary>
         /// Retrieve the details of the given ruleset.
@@ -41,5 +41,12 @@ namespace CardShop.Service
         /// </summary>
         /// <param name="id"></param>
         void Delete(int id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        List<RuleSet> Upload(string path);
     }
 }

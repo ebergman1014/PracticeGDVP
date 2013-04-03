@@ -24,6 +24,20 @@ namespace CardShop.ViewModels
         {
         }
 
+        public RulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
+        {
+            RuleService ruleService = new RuleService();
+            this.rulesetWrapper = rulesetWrapper;
+
+            if (rulesetWrapper.RuleSet1 != null)
+            {
+                System.Workflow.Activities.Rules.RuleSet ruleset =
+                    ruleService.DeserializeRules(rulesetWrapper.RuleSet1);
+                ICollection<Rule> rules = ruleset.Rules;
+                this.rulesDisplay = SetUpRulesDisplay(rules);
+            }
+        }
+
         private List<RuleObject> SetUpRulesDisplay(ICollection<System.Workflow.Activities.Rules.Rule> rules)
         {
             List<RuleObject> rulesDisplay = new List<RuleObject>();
