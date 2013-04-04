@@ -34,6 +34,7 @@ namespace CardShop.Service
         #endregion
 
         #region CRUD Main Methods
+
         public List<Models.RuleSet> GetAllRulesets()
         {
             return dbContext.RuleSets().ToList();
@@ -133,19 +134,28 @@ namespace CardShop.Service
 
                                 try
                                 {
+                                    string rules = lineArray[3];
+                                    DeserializeRules(rules);
+
                                     ruleset.Name = lineArray[0];
                                     ruleset.ActivityName = lineArray[1];
                                     ruleset.AssemblyPath = lineArray[2];
-                                    ruleset.RuleSet1 = lineArray[3];
+                                    ruleset.RuleSet1 = rules;
                                     ruleset.MajorVersion = 1;
                                     ruleset.MinorVersion = 0;
                                     ruleset.ModifiedDate = DateTime.Now;
 
                                     allRulesets.Add(ruleset);
                                 }
-                                catch (FormatException ex)
+
+                                catch (Exception ex)
                                 {
-                                    Debug.WriteLine(ex.Message);
+                                    if (ex is FormatException || ex is WorkflowMarkupSerializationException)
+                                    {
+                                        Debug.WriteLine(ex);
+                                        break;
+                                    }
+                                    throw;
                                 }
                             }
                         }
@@ -204,7 +214,7 @@ namespace CardShop.Service
             return ruleDefinition.ToString();
         }
 
-        private List<RuleObject> DeserializeJSONRulesObject(string JSON)
+        public List<RuleObject> DeserializeJSONRulesObject(string JSON)
         {
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             List<RuleObject> rulesObject = serializer.Deserialize<List<RuleObject>>(JSON);
@@ -224,7 +234,7 @@ namespace CardShop.Service
             return ruleset;
         }
 
-        private string CompileRuleset(RuleSet ruleset, List<RuleObject> rulesObject)
+        public string CompileRuleset(RuleSet ruleset, List<RuleObject> rulesObject)
         {
             Rule rule = ruleset.Rules.ElementAt(0).Clone();
             RuleStatementAction action = (RuleStatementAction)rule.
