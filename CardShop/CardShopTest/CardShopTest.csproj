@@ -121,6 +121,7 @@
     <Compile Include="ServiceTests\Admin\ManageUserServiceTests.cs" />
     <Compile Include="ServiceTests\DiscountServiceTest.cs" />
     <Compile Include="ServiceTests\Admin\ManageStoreTests.cs" />
+    <Compile Include="ServiceTests\RuleServiceTest.cs" />
     <Compile Include="TestHelper\Entities.cs" />
     <Compile Include="TestHelper\TestUtils.cs" />
     <Compile Include="UtilityTests\DiscountUtilityTests.cs" />

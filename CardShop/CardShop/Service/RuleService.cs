@@ -93,10 +93,7 @@ namespace CardShop.Service
             {
                 return model.getRulesetDetails(ruleset);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public void Delete(int id)
