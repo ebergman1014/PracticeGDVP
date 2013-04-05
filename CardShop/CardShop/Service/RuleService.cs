@@ -90,7 +90,7 @@ namespace CardShop.Service
             Models.RuleSet ruleset = dbContext.RuleSets().Find(id);
             if (ruleset != null)
             {
-                return model.getRulesetDetails(ruleset);
+                return model.GetRulesetDetails(ruleset);
             }
             else
             {

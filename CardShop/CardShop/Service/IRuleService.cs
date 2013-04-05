@@ -12,14 +12,14 @@ namespace CardShop.Service
         /// <summary>
         /// Retrieve all the current rulesets.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A List of all the Rulesets available.</returns>
         List<RuleSet> GetAllRulesets();
 
         /// <summary>
         /// Create a new ruleset.
         /// </summary>
         /// <param name="rulesetWrapper"></param>
-        /// <returns></returns>
+        /// <returns>The Ruleset that was just created.</returns>
         RuleSet Create(RuleSet rulesetWrapper);
 
         /// <summary>
@@ -33,20 +33,20 @@ namespace CardShop.Service
         /// Retrieve the details of the given ruleset.
         /// </summary>
         /// <param name="id">The Id of the ruleset requested.</param>
-        /// <returns></returns>
+        /// <returns>The details of the Ruleset with the given ID.</returns>
         RulesetDetails Details(int id);
-
+                
         /// <summary>
         /// Removes the ruleset with the matching Id if it exists.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The ID of the item you want to delete.</param>
         void Delete(int id);
 
         /// <summary>
-        /// 
+        /// Upload a file located on the given file path.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="path">The file path to the file to upload.</param>
+        /// <returns>The List of Rulesets that were created from the uploaded file.</returns>
         List<RuleSet> Upload(string path);
     }
 }
