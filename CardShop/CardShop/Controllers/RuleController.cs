@@ -55,8 +55,9 @@ namespace CardShop.Controllers
         {
             RulesetDetails ruleset = ruleService.Details(id);
             if (ruleset == null)
+            {
                 return HttpNotFound();
-
+            }
             return View(ruleset);
         }
 
@@ -75,7 +76,9 @@ namespace CardShop.Controllers
         {
             RulesetDetails ruleset = ruleService.Details(id);
             if (ruleset == null)
+            {
                 return HttpNotFound();
+            }
 
             return View(ruleset);
         }
@@ -86,7 +89,9 @@ namespace CardShop.Controllers
         {
             RulesetDetails ruleset = ruleService.Details(id);
             if (ruleset == null)
+            {
                 return HttpNotFound();
+            }
 
             return View(ruleset);
         }
@@ -105,7 +110,7 @@ namespace CardShop.Controllers
 
         public ActionResult Upload()
         {
-            return View();
+            return View("Upload");
         }
 
         //
