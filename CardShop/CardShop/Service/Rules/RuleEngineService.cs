@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Workflow.Activities.Rules;
+using System.Workflow.ComponentModel.Compiler;
 using CardShop.Daos;
 using CardShop.Models;
 
@@ -39,7 +39,9 @@ namespace CardShop.Service.Rules
         public System.Workflow.Activities.Rules.RuleSet GetRulesByName(string name)
         {
             if (ruleNameCache.ContainsKey(name))
+            {
                 return ruleNameCache[name];
+            }
             else
             {
                 CardShop.Models.RuleSet rulesetWrapper = dbContext.RuleSets().Where(p => p.Name == name).FirstOrDefault();
@@ -57,5 +59,6 @@ namespace CardShop.Service.Rules
                 engine.Execute(target);
             }
         }
+
     }
 }

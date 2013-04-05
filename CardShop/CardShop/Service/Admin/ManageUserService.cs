@@ -10,6 +10,7 @@ using System.Data;
 using CardShop.Auth;
 using System.Data.Objects;
 using CardShop.Utilities;
+using CardShop.Service.Rules;
 
 
 namespace CardShop.Service.Admin
@@ -173,24 +174,24 @@ namespace CardShop.Service.Admin
             if (store.Count == 0 && owner.RoleId == (int)Role.StoreOwner)
             {
                 // set newStore
-                newStore = Factory.Instance.Create<Store>();
+                newStore = new Store();
                 // create store properties
                 newStore.Name = owner.LastName + "'s";
                 newStore.UserId = owner.UserId;
-
                 newStore.DiscountRate = 0;
+
                 RuleEngineService ruleEngineService = new RuleEngineService();
                 System.Workflow.Activities.Rules.RuleSet ruleset = ruleEngineService.GetRulesByName("TestStore");
                 ruleEngineService.RunRules<Store>(newStore, ruleset);
 
-                context.Stores().Add(newStore);
+               // context.Stores().Add(newStore);
                 // save changes to objects tied to the context
                 context.SaveChanges();
             }
             return newStore;
         }
         /// <summary>
-        /// Finds all stores that is attached to the Owner.UserId == Store.UserId
+        /// Returns all stores matching a Owner's UserId (Owner.UserId == Store.UserId)
         /// </summary>
         /// <param name="owner">User who is storeOwner</param>
         /// <returns></returns>

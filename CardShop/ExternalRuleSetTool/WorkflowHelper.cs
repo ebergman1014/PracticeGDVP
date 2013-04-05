@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Workflow.Activities;
-using System.Workflow.ComponentModel;
 using System.Workflow.Activities.Rules;
 using System.Workflow.ComponentModel.Serialization;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Xml;
 using System.IO;
-using System.Workflow.ComponentModel.Compiler;
-using System.Diagnostics;
 
 namespace Microsoft.Rules.Samples.ExternalRuleSetToolkit
 {
