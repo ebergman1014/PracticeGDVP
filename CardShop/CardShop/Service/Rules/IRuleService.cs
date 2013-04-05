@@ -48,5 +48,9 @@ namespace CardShop.Service
         /// <param name="path">The file path to the file to upload.</param>
         /// <returns>The List of Rulesets that were created from the uploaded file.</returns>
         List<RuleSet> Upload(string path);
+
+        List<RuleObject> DeserializeJSONRulesObject(string ruleObj);
+
+        string CompileRuleset(System.Workflow.Activities.Rules.RuleSet ruleset, List<RuleObject> rulesObject);
     }
 }
