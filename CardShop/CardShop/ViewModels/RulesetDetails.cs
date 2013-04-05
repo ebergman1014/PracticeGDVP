@@ -51,7 +51,7 @@ namespace CardShop.ViewModels
             return rulesDisplay;
         }
 
-        public RulesetDetails getRulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
+        public RulesetDetails GetRulesetDetails(CardShop.Models.RuleSet rulesetWrapper)
         {
             RuleService ruleService = new RuleService();
             this.rulesetWrapper = rulesetWrapper;
