@@ -21,6 +21,8 @@ namespace CardShopTest.ServiceTests
         private List<CardShop.Models.RuleSet> rulesets;
         private System.Workflow.Activities.Rules.RuleSet ruleset;
         private RuleObject ruleObject;
+        private List<RuleObject> ruleObjects;
+        private RulesetDetails rulesetDetails;
 
         private Mock<IRuleService> mockRuleService;
         private Mock<IPracticeGDVPDao> mockContext;
@@ -36,6 +38,8 @@ namespace CardShopTest.ServiceTests
             rulesets = new List<CardShop.Models.RuleSet>();
             ruleset = new System.Workflow.Activities.Rules.RuleSet();
             ruleObject = new RuleObject();
+            ruleObjects = new List<RuleObject>();
+            rulesetDetails = new RulesetDetails();
 
             mockRuleService = new Mock<IRuleService>();
             mockContext = new Mock<IPracticeGDVPDao>();
@@ -43,6 +47,8 @@ namespace CardShopTest.ServiceTests
 
             ruleService.dbContext = mockContext.Object;
         }
+
+        // in progress wooooooo
 
         //[TestMethod]
         //public void GetAllRulesetsTest()
@@ -65,11 +71,11 @@ namespace CardShopTest.ServiceTests
         //    mockRuleService.Setup(mock => mock.DeserializeJSONRulesObject("")).Returns(rulesObject);
         //    mockRuleService.Setup(mock => mock.CompileRuleset(ruleset, rulesObject)).Returns("");
 
-        //    //ruleService.Create(rulesetWrapper);
+        //    ruleService.Create(rulesetWrapper);
         //}
 
         [TestMethod]
-        public void DeleteRulesetSuccessTest()
+        public void DeleteRulesetPassTest()
         {
             mockContext.Setup(mock => mock.RuleSets().Find(RULESET_THREE)).Returns(rulesetWrapper);
             ruleService.Delete(RULESET_THREE);
@@ -82,6 +88,36 @@ namespace CardShopTest.ServiceTests
         {
             mockContext.Setup(mock => mock.RuleSets().Find(RULESET_THREE)).Returns((CardShop.Models.RuleSet)null);
             ruleService.Delete(RULESET_THREE);
+            // bleh
         }
+
+        [TestMethod]
+        public void RulesetDetailsPassTest()
+        {
+            mockContext.Setup(mock => mock.RuleSets().Find(RULESET_THREE)).Returns(rulesetWrapper);
+            //mockRuleService.Setup(mock => mock.GetRulesetDetails(rulesetWrapper)).Returns(rulesetDetails);
+            //Assert.AreEqual(ruleService.Details(RULESET_THREE), rulesetDetails);
+        }
+
+        [TestMethod]
+        public void RulesetDetailsFailTest()
+        {
+            mockContext.Setup(mock => mock.RuleSets().Find(RULESET_THREE)).Returns((CardShop.Models.RuleSet)null);
+            Assert.IsNull(ruleService.Details(RULESET_THREE));
+            //mockContext.Verify();
+        }
+
+        //[TestMethod]
+        //public void EditRulesetTest()
+        //{
+        //    mockRuleService.Setup(mock => mock.DeserializeJSONRulesObject("rules")).Returns(ruleObjects);
+        //    mockRuleService.Setup(mock => mock.CompileRuleset(ruleset, ruleObjects)).Returns("rules");
+
+        //    mockContext.Setup(mock => mock.RuleSets().Find(RULESET_THREE)).Returns(rulesetWrapper);
+
+        //    Assert.AreEqual(ruleService.Edit(rulesetWrapper), rulesetWrapper);
+        //    mockRuleService.Verify();
+        //    mockContext.Verify(mock => mock.SaveChanges());
+        //}
     }
 }
