@@ -91,20 +91,6 @@ namespace CardShopTest.ControllerTests
         }
 
         [TestMethod]
-        public void TestCreateRule()
-        {
-            mockRuleService.Setup(rules => rules.Create(mockRuleSets[0])).
-                Returns(mockRuleSets[1]).Verifiable();
-
-            testController = new RuleController(mockRuleService.Object);
-            RedirectToRouteResult result = testController.Create(testRuleDetailsOne) as RedirectToRouteResult;
-            mockRuleService.Verify();
-
-            Assert.IsNotNull(result, "No RedirectResult thingy was returned.");
-           // Assert.AreEqual("Index", result.RouteValues);
-        }
-
-        [TestMethod]
         public void TestEditDetailsGET()
         {
             testController = new RuleController(mockRuleService.Object);
@@ -118,6 +104,19 @@ namespace CardShopTest.ControllerTests
             Assert.AreEqual("Test RuleSet 2", ruleset.rulesetWrapper.Name);
             Assert.AreEqual(status, ruleset.rulesetWrapper.Status);
            
+        }
+
+        [TestMethod]
+        public void TestCreateRule()
+        {
+            mockRuleService.Setup(rules => rules.Create(mockRuleSets[0])).
+                Returns(mockRuleSets[1]).Verifiable();
+
+            testController = new RuleController(mockRuleService.Object);
+            RedirectToRouteResult result = testController.Create(testRuleDetailsOne) as RedirectToRouteResult;
+
+            Assert.IsNotNull(result, "No RedirectResult thingy was returned.");
+            mockRuleService.Verify();
         }
 
         [TestMethod]
