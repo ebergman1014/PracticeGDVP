@@ -17,7 +17,6 @@ namespace CardShop.Service.Admin
 {
     public class ManageUserService : IManageUserService
     {
-        private static ManageUserService manageUserService;
         public IPracticeGDVPDao context { get; set; }
 
         /// <summary>
